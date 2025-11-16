@@ -143,7 +143,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="<?= Yii::getAlias('@web') ?>/dist/img/user2-160x160.jpg"
-                             class="img-circle elevation-2" alt="User Image">
+                             class="img-circle elevation-2" alt="4User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?= Yii::$app->user->identity->username ?? 'Alexander Pierce' ?></a>
@@ -254,6 +254,81 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                                 </li>
                             </ul>
                         </li>
+
+                        <!-- Gestão -->
+                        <li class="nav-header">Gerir</li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/users']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/users') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Users
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/experiencia']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/experiencia') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-map-marked-alt"></i>
+                                <p>
+                                    Experiência
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/categorias']) ?>" class
+                               ="nav-link <?= ($currentRoute == 'site/categorias') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-tags"></i>
+                                <p>
+                                    Categorias
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/idioma']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/idioma') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-language"></i>
+                                <p>
+                                    Idioma
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/paises']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/paises') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-flag"></i>
+                                <p>
+                                    Países
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/avaliacoes']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/avaliacoes') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-star"></i>
+                                <p>
+                                    Avaliações
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/pagamento']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/pagamento') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-credit-card"></i>
+                                <p>
+                                    Pagamento
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/comentarios']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/comentarios') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-comments"></i>
+                                <p>Comentários</p>
+                            </a>
+                        </li>
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

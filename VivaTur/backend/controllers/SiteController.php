@@ -28,7 +28,19 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => [
+                            'logout',
+                            'index',
+                            // Adicionar as novas ações aqui
+                            'users',
+                            'experiencia',
+                            'categorias',
+                            'idioma',
+                            'paises',
+                            'avaliacoes',
+                            'pagamento',
+                            'comentarios',
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -100,5 +112,69 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    /**
+     * @return string
+     */
+    public function actionUsers()
+    {
+        return $this->render('users');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionExperiencia()
+    {
+        return $this->render('experiencia');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionCategorias()
+    {
+        return $this->render('categorias');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionIdioma()
+    {
+        return $this->render('idioma');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionPaises()
+    {
+        return $this->render('paises');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionAvaliacoes()
+    {
+        return $this->render('avaliacoes');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionPagamento()
+    {
+        return $this->render('pagamento');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionComentarios()
+    {
+        return $this->render('comentarios');
     }
 }
