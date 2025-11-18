@@ -184,7 +184,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                                         <p>Dashboard v1</p>
                                     </a>
                                 </li>
-                               
+
                             </ul>
                         </li>
 
@@ -212,8 +212,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/categorias']) ?>" class
-                               ="nav-link <?= ($currentRoute == 'site/categorias') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['categoria/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'categoria/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tags"></i>
                                 <p>
                                     Categorias
@@ -230,8 +230,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/paises']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/paises') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['pais/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'pais/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-flag"></i>
                                 <p>
                                     Países
