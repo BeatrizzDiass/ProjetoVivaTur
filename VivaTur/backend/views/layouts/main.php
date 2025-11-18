@@ -184,76 +184,12 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                                         <p>Dashboard v1</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v2</p>
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </li>
 
-                        <!-- Widgets -->
-                        <li class="nav-item">
-                            <a href="<?= Url::to(['pages/widgets']) ?>"
-                               class="nav-link <?= ($currentRoute == 'pages/widgets') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Widgets
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li>
 
-                        <!-- Layout Options -->
-                        <li class="nav-item <?= (strpos($currentRoute, 'layout/') === 0) ? 'menu-open' : '' ?>">
-                            <a href="#"
-                               class="nav-link <?= (strpos($currentRoute, 'layout/') === 0) ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    Layout Options
-                                    <i class="fas fa-angle-left right"></i>
-                                    <span class="badge badge-info right">6</span>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="<?= Url::to(['layout/top']) ?>"
-                                       class="nav-link <?= ($currentRoute == 'layout/top') ? 'active' : '' ?>">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Top Navigation</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= Url::to(['layout/boxed']) ?>"
-                                       class="nav-link <?= ($currentRoute == 'layout/boxed') ? 'active' : '' ?>">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Boxed</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
 
-                        <!-- Charts -->
-                        <li class="nav-item <?= (strpos($currentRoute, 'charts/') === 0) ? 'menu-open' : '' ?>">
-                            <a href="#"
-                               class="nav-link <?= (strpos($currentRoute, 'charts/') === 0) ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-chart-pie"></i>
-                                <p>
-                                    Charts
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="<?= Url::to(['charts/chartjs']) ?>"
-                                       class="nav-link <?= ($currentRoute == 'charts/chartjs') ? 'active' : '' ?>">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>ChartJS</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
 
                         <!-- Gestão -->
                         <li class="nav-header">Gerir</li>
