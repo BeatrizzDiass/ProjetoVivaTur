@@ -9,17 +9,29 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = $name;
-
-// Configurar o Hero Header
-$this->params['showHero'] = true;
-$this->params['heroTitle'] = $name === 'Not Found' ? 'Not Found' : $name;
-$this->params['showBreadcrumb'] = true;
-$this->params['breadcrumbItems'] = [
-    ['label' => 'Home', 'url' => ['/site/index']],
-    ['label' => 'Pages', 'url' => '#'],
-    ['label' => '404', 'active' => true]
-];
 ?>
+
+<!-- Hero Header (similar to About page) -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                <h1 class="display-3 text-white animated slideInDown">
+                    <?= $name === 'Not Found' ? 'Not Found' : Html::encode($name) ?>
+                </h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="<?= Url::to(['/site/index']) ?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">
+                            <?= $name === 'Not Found' ? '404' : Html::encode($name) ?>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- 404 Start -->
 <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -42,3 +54,6 @@ $this->params['breadcrumbItems'] = [
     </div>
 </div>
 <!-- 404 End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
