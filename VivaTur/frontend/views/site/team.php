@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\Url;
+
 $this->title = "Team";
 ?>
 
@@ -7,10 +10,10 @@ $this->title = "Team";
         <div class="container py-5">
             <div class="row justify-content-center py-5">
                 <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Guides</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Travel Guides</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?= Url::to(['/site/index']) ?>">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Pages</a></li>
                             <li class="breadcrumb-item text-white active" aria-current="page">Guides</li>
                         </ol>
@@ -34,7 +37,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-1.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-1.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -50,7 +53,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-2.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-2.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -66,7 +69,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-3.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-3.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -82,7 +85,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-4.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-4.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -98,7 +101,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-2.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-2.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -114,7 +117,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-3.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-3.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -130,7 +133,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-4.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-4.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -146,7 +149,7 @@ $this->title = "Team";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-1.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-1.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -162,3 +165,7 @@ $this->title = "Team";
         </div>
     </div>
 </div>
+<!-- Team End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

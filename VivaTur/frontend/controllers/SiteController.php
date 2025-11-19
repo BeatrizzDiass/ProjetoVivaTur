@@ -256,4 +256,34 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    public function actionService()
+    {
+        return $this->render('service');
+    }
+
+    public function actionTestimonial()
+    {
+        return $this->render('testimonial');
+    }
+
+    public function actionTeam()
+    {
+        return $this->render('team');
+    }
+
+    public function actionPackage()
+    {
+        return $this->render('package');
+    }
+
+    public function actionDestination()
+    {
+        return $this->render('destination');
+    }
+
+    public function actionBooking()
+    {
+        return $this->render('booking');
+    }
 }

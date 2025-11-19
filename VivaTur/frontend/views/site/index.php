@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\Url;
+
 $this->title = "Index";
 ?>
 
@@ -29,13 +32,13 @@ $this->title = "Index";
         <div class="row g-5">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                 <div class="position-relative h-100">
-                    <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt=""
+                    <img class="img-fluid position-absolute w-100 h-100" src="<?= Url::to('@web/img/about.jpg') ?>" alt=""
                          style="object-fit: cover;">
                 </div>
             </div>
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                 <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">Welcome to <span class="text-primary">Tourist</span></h1>
+                <h1 class="mb-4">Welcome to <span class="text-primary">VivaTur</span></h1>
                 <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
                     eos. Clita erat ipsum et lorem et sit.</p>
                 <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
@@ -60,7 +63,7 @@ $this->title = "Index";
                         <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>24/7 Service</p>
                     </div>
                 </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="(['/site/about'])">Read More</a>
+                <a class="btn btn-primary py-3 px-5 mt-2" href="<?= Url::to(['/site/about']) ?>">Read More</a>
             </div>
         </div>
     </div>
@@ -80,7 +83,7 @@ $this->title = "Index";
                     <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
                         eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat
                         amet</p>
-                    <a class="btn btn-outline-light py-3 px-5 mt-2" href="(['/site/booking'])">Read More</a>
+                    <a class="btn btn-outline-light py-3 px-5 mt-2" href="<?= Url::to(['/site/booking']) ?>">Read More</a>
                 </div>
                 <div class="col-md-6">
                     <h1 class="text-white mb-4">Book A Tour</h1>
@@ -136,3 +139,6 @@ $this->title = "Index";
     </div>
 </div>
 <!-- Booking End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

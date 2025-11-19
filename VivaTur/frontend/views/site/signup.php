@@ -1,55 +1,25 @@
 <?php
-/** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
-/** @var \frontend\models\SignupForm $model */
-
-use yii\bootstrap5\Html;
+use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
 
-$this->title = 'Signup';
+$this->title = 'Sign Up';
 ?>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary fs-3" href="/">Tourist</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold px-3" href="/">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold px-3" href="/site/about">About</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold px-3" href="/site/contact">Contact</a>
-                </li>
-
-                <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                    <a class="btn btn-primary text-white fw-semibold px-4 py-2" href="/site/login">
-                        Login
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-<!-- PAGE HEADER (matches index.php style) -->
+<!-- Hero Header (similar to About page) -->
 <div class="container-fluid bg-primary py-5 mb-5 hero-header">
-    <div class="container py-5 text-center">
-        <h1 class="display-4 text-white">Create Your Account</h1>
-        <p class="text-white-50">Join us and start planning your next adventure!</p>
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Sign Up</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Sign Up</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -86,10 +56,13 @@ $this->title = 'Signup';
         </div>
 
         <div class="text-center mb-5">
-            <p>Already have an account?  
-                <a href="/site/login" class="text-primary">Login here</a>
+            <p>Already have an account?
+                <a href="login" class="text-primary">Login here</a>
             </p>
         </div>
 
     </div>
 </div>
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

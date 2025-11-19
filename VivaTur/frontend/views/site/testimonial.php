@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\Url;
+
 $this->title = "Testimonial";
 ?>
 
@@ -9,7 +12,7 @@ $this->title = "Testimonial";
                 <h1 class="display-3 text-white animated slideInDown">Testimonial</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?= Url::to(['/site/index']) ?>">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
                         <li class="breadcrumb-item text-white active" aria-current="page">Testimonial</li>
                     </ol>
@@ -17,7 +20,6 @@ $this->title = "Testimonial";
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- Navbar & Hero End -->
 
@@ -30,7 +32,7 @@ $this->title = "Testimonial";
         </div>
         <div class="owl-carousel testimonial-carousel position-relative">
             <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-1.jpg"
+                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="<?= Url::to('@web/img/testimonial-1.jpg') ?>"
                      style="width: 80px; height: 80px;">
                 <h5 class="mb-0">John Doe</h5>
                 <p>New York, USA</p>
@@ -38,7 +40,7 @@ $this->title = "Testimonial";
                     erat ipsum et lorem et sit.</p>
             </div>
             <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-2.jpg"
+                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="<?= Url::to('@web/img/testimonial-2.jpg') ?>"
                      style="width: 80px; height: 80px;">
                 <h5 class="mb-0">John Doe</h5>
                 <p>New York, USA</p>
@@ -46,7 +48,7 @@ $this->title = "Testimonial";
                     Clita erat ipsum et lorem et sit.</p>
             </div>
             <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-3.jpg"
+                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="<?= Url::to('@web/img/testimonial-3.jpg') ?>"
                      style="width: 80px; height: 80px;">
                 <h5 class="mb-0">John Doe</h5>
                 <p>New York, USA</p>
@@ -54,7 +56,7 @@ $this->title = "Testimonial";
                     Clita erat ipsum et lorem et sit.</p>
             </div>
             <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-4.jpg"
+                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="<?= Url::to('@web/img/testimonial-4.jpg') ?>"
                      style="width: 80px; height: 80px;">
                 <h5 class="mb-0">John Doe</h5>
                 <p>New York, USA</p>

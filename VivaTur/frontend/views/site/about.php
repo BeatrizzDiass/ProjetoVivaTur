@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\Url;
+
 $this->title = "About Us";
 ?>
 <div>
@@ -9,7 +12,7 @@ $this->title = "About Us";
                     <h1 class="display-3 text-white animated slideInDown">About Us</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?= Url::to(['/site/index']) ?>">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Pages</a></li>
                             <li class="breadcrumb-item text-white active" aria-current="page">About</li>
                         </ol>
@@ -28,13 +31,13 @@ $this->title = "About Us";
         <div class="row g-5">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                 <div class="position-relative h-100">
-                    <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt=""
+                    <img class="img-fluid position-absolute w-100 h-100" src="<?= Url::to('@web/img/about.jpg') ?>" alt=""
                          style="object-fit: cover;">
                 </div>
             </div>
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                 <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">Welcome to <span class="text-primary">Tourist</span></h1>
+                <h1 class="mb-4">Welcome to <span class="text-primary">VivaTur</span></h1>
                 <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
                     eos. Clita erat ipsum et lorem et sit.</p>
                 <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
@@ -78,7 +81,7 @@ $this->title = "About Us";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-1.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-1.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -94,7 +97,7 @@ $this->title = "About Us";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-2.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-2.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -110,7 +113,7 @@ $this->title = "About Us";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-3.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-3.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -126,7 +129,7 @@ $this->title = "About Us";
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                 <div class="team-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-4.jpg" alt="">
+                        <img class="img-fluid" src="<?= Url::to('@web/img/team-4.jpg') ?>" alt="">
                     </div>
                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
