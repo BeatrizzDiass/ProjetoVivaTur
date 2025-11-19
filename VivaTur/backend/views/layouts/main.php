@@ -48,6 +48,11 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <?= Html::beginForm(['/site/logout'], 'post') ?>
+                    <?= Html::submitButton('Logout', ['class' => 'btn btn-danger btn-sm']) ?>
+                    <?= Html::endForm() ?>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -194,8 +199,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                         <!-- Gestão -->
                         <li class="nav-header">Gerir</li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/users']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/users') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['user/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'user/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Users

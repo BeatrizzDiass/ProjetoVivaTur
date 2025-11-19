@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/VivaTur/console/controllers/RbacController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/views/layouts/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/views/layouts/main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/config/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/config/main.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/VivaTur/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\wamp64\bin\php\php8.1.31\php.exe">
+    <include_path>
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-faker" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-debug" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-bootstrap5" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-symfonymailer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/bootstrap" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/punycode" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/yii2-pjax" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/jquery" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/inputmask" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/composer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/browser-kit" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/mailer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/behat/gherkin" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpspec/php-diff" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/almasaeed2010/adminlte" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/lib-asserts" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/stub" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/lib-web" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/module-filesystem" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/codeception" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/cebe/markdown" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/module-yii2" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/module-asserts" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/verify" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/codeception/lib-innerbrowser" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-composer" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-gii" />
+    </include_path>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="35fnDGHKfw7WrG0zJPkWlYnD31y" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;desenvolvimento__Beatriz&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/wamp64/www/PLATSI/ProjetoVivaTur/VivaTur/backend/web&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\PLATSI\ProjetoVivaTur\VivaTur\backend\web" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\PLATSI\ProjetoVivaTur\VivaTur\backend\views" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="CodeceptionConfigurationType" factoryName="Codeception">
+      <PhpTestRunnerSettings configuration_file="$PROJECT_DIR$/VivaTur/codeception.yml" scope="ConfigurationFile" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PS-243.26053.13" />
+        <option value="bundled-php-predefined-a98d8de5180a-1ec7b7818973-com.jetbrains.php.sharedIndexes-PS-243.26053.13" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="" />
+      <created>1763509876282</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1763509876282</updated>
+      <workItem from="1763509878320" duration="7514000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

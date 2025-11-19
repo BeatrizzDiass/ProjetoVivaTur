@@ -45,6 +45,16 @@ class SiteController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
+
+                'denyCallback' => function ($rule, $action) {
+                    if (Yii::$app->user->isGuest) {
+                        Yii::$app->session->setFlash('error', 'Acesso negado. Você precisa estar autenticado para aceder à área de administração.');
+                        return $this->redirect(['site/login']); // redireciona para a ação index do controller site
+                        // Se estiver logado mas sem permissão (ex: Turista)
+                        Yii::$app->session->setFlash('error', 'Você não tem permissão para aceder à área de administração.');
+                        return Yii::$app->response->redirect(['/site/login']); // ou outra página apropriada
+                    }
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
@@ -111,7 +121,18 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        // Apaga todos os cookies do backend, mas preserva a sessão
+        $cookies = Yii::$app->response->cookies;
+        $requestCookies = Yii::$app->request->cookies;
+
+        foreach ($requestCookies as $cookie) {
+            if ($cookie->name !== Yii::$app->session->name) {
+                $cookies->remove($cookie->name);
+            }
+        }
+
+        // Redireciona para o login do backend
+        return $this->redirect(['site/login']);
     }
 
     /**
@@ -119,7 +140,11 @@ class SiteController extends Controller
      */
     public function actionUsers()
     {
-        return $this->render('users');
+        if (!Yii::$app->user->can('viewUsers')) {
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para aceder a esta página.');
+        }
+
+        return $this->render('index');
     }
 
     /**
