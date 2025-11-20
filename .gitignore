@@ -1,1 +1,3 @@
 .idea/copilot.data.migration.edit.xml
+*.xml
+.idea/workspace.xml
