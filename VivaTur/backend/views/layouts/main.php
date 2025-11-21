@@ -208,7 +208,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/experiencia']) ?>"
+                            <a href="<?= Url::to(['experiencia/index']) ?>"
                                class="nav-link <?= ($currentRoute == 'site/experiencia') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-map-marked-alt"></i>
                                 <p>
@@ -226,8 +226,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/idioma']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/idioma') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['lingua/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'lingua/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-language"></i>
                                 <p>
                                     Idioma
@@ -244,7 +244,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/avaliacoes']) ?>"
+                            <a href="<?= Url::to(['avaliacao/index']) ?>"
                                class="nav-link <?= ($currentRoute == 'site/avaliacoes') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-star"></i>
                                 <p>
@@ -253,7 +253,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/pagamento']) ?>"
+                            <a href="<?= Url::to(['metodopagamento/index']) ?>"
                                class="nav-link <?= ($currentRoute == 'site/pagamento') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-credit-card"></i>
                                 <p>
@@ -262,7 +262,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['site/comentarios']) ?>"
+                            <a href="<?= Url::to(['comentario/index']) ?>"
                                class="nav-link <?= ($currentRoute == 'site/comentarios') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>Comentários</p>
