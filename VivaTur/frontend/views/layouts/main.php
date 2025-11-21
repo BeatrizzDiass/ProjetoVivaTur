@@ -74,8 +74,10 @@ $this->beginPage()
                        class="nav-item nav-link <?= Yii::$app->controller->action->id === 'about' ? 'active' : '' ?>">About</a>
                     <a href="<?= Url::to(['/site/service']) ?>"
                        class="nav-item nav-link <?= Yii::$app->controller->action->id === 'service' ? 'active' : '' ?>">Services</a>
-                    <a href="<?= Url::to(['/site/package']) ?>"
-                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'package' ? 'active' : '' ?>">Packages</a>
+                    <a href="<?= Url::to(['/experiencia/index']) ?>"
+                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'experiencias' ? 'active' : '' ?>">Experiences</a>
+                    <a href="<?= Url::to(['/favorito/index']) ?>"
+                       class="nav-item nav-link <?= Yii::$app->controller->id === 'favorito' ? 'active' : '' ?>">Favoritos</a>
 
                     <?php
                     // Lista de páginas do dropdown
