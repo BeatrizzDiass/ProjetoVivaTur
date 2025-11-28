@@ -8,7 +8,7 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    
+
     public $css = [
         'lib/animate/animate.min.css',
         'lib/owlcarousel/assets/owl.carousel.min.css',
@@ -16,7 +16,7 @@ class AppAsset extends AssetBundle
         'css/bootstrap.min.css',
         'css/style.css',
     ];
-    
+
     public $js = [
         'lib/wow/wow.min.js',
         'lib/easing/easing.min.js',
@@ -27,11 +27,11 @@ class AppAsset extends AssetBundle
         'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js',
         'js/main.js',
     ];
-    
+
     public $depends = [
         'yii\web\YiiAsset',
     ];
-    
+
     public $jsOptions = [
         'position' => \yii\web\View::POS_END
     ];
