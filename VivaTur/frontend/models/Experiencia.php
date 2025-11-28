@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "experiencia".
  *
  * @property int $id
- * @property string $nome
+ * @property string $nome	 \
  * @property string $horaInicio
  * @property string $horaFim
  * @property string $duracao
