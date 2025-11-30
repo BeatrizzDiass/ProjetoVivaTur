@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value' => function($model) {
-                    if($model->status == 10) {  // ADICIONAR $model->
+                    if($model->status == 10) {
                         return 'Active';
                     } else {
                         return 'Inactive';
@@ -59,6 +59,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'visibleButtons' => [
                     'update' => Yii::$app->user->can('updateUsers'),
                     'delete' => Yii::$app->user->can('deleteUsers'),
+
+
                 ],
                 'urlCreator' => function ($action, User $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);

@@ -72,8 +72,8 @@ class User extends \yii\db\ActiveRecord
             ['status', 'integer'],
 
             // Regra para a password vinda do formulário
-            ['password', 'required', 'on' => 'create'], // Exige password ao criar
-            ['password', 'string', 'min' => 6], // Mínimo de 6 caracteres
+            ['password', 'required', 'on' => 'create'],
+            ['password', 'safe', 'on' => 'update'],
 
             ['role', 'string'],
         ];
