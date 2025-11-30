@@ -31,7 +31,6 @@ class SiteController extends Controller
                         'actions' => [
                             'logout',
                             'index',
-                            // Adicionar as novas ações aqui
                             'users',
                             'experiencia',
                             'categorias',
@@ -42,18 +41,20 @@ class SiteController extends Controller
                             'comentarios',
                         ],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin', 'gestor'],
                     ],
                 ],
-
                 'denyCallback' => function ($rule, $action) {
+                    // Se não estiver logado, vai para o login
                     if (Yii::$app->user->isGuest) {
-                        Yii::$app->session->setFlash('error', 'Acesso negado. Você precisa estar autenticado para aceder à área de administração.');
-                        return $this->redirect(['site/login']); // redireciona para a ação index do controller site
-                        // Se estiver logado mas sem permissão (ex: Turista)
-                        Yii::$app->session->setFlash('error', 'Você não tem permissão para aceder à área de administração.');
-                        return Yii::$app->response->redirect(['/site/login']); // ou outra página apropriada
+                        Yii::$app->session->setFlash('error', 'Por favor, faça login para continuar.');
+                        return Yii::$app->response->redirect(['site/login']);
                     }
+
+                    // Se estiver logado mas não tiver permissão
+                    Yii::$app->user->logout();
+                    Yii::$app->session->setFlash('error', 'Você não tem permissão para aceder ao backend.');
+                    return Yii::$app->response->redirect(['site/login']);
                 }
             ],
             'verbs' => [
@@ -64,7 +65,6 @@ class SiteController extends Controller
             ],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -102,6 +102,16 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+            // ✅ VERIFICAR SE TEM PERMISSÃO PARA O BACKEND
+            $userRoles = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
+
+            if (!in_array('admin', $userRoles) && !in_array('gestor', $userRoles)) {
+                Yii::$app->user->logout();
+                Yii::$app->session->setFlash('error', 'Acesso negado! Esta área é apenas para administradores e gestores de experiências');
+                return $this->refresh(); // Recarrega a página de login
+            }
+
             return $this->goBack();
         }
 
