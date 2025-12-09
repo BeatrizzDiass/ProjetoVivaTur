@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use backend\models\Paises;
-use app\models\PaisesSearch;
+use backend\models\Avaliacoes;
+use app\models\AvaliacoesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PaisesController implements the CRUD actions for Paises model.
+ * AvaliacoesController implements the CRUD actions for Avaliacoes model.
  */
-class PaisesController extends Controller
+class AvaliacoesController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class PaisesController extends Controller
     }
 
     /**
-     * Lists all Paises models.
+     * Lists all Avaliacoes models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new PaisesSearch();
+        $searchModel = new AvaliacoesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class PaisesController extends Controller
     }
 
     /**
-     * Displays a single Paises model.
+     * Displays a single Avaliacoes model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,13 +61,13 @@ class PaisesController extends Controller
     }
 
     /**
-     * Creates a new Paises model.
+     * Creates a new Avaliacoes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Paises();
+        $model = new Avaliacoes();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -83,7 +83,7 @@ class PaisesController extends Controller
     }
 
     /**
-     * Updates an existing Paises model.
+     * Updates an existing Avaliacoes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -103,7 +103,7 @@ class PaisesController extends Controller
     }
 
     /**
-     * Deletes an existing Paises model.
+     * Deletes an existing Avaliacoes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -117,15 +117,15 @@ class PaisesController extends Controller
     }
 
     /**
-     * Finds the Paises model based on its primary key value.
+     * Finds the Avaliacoes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Paises the loaded model
+     * @return Avaliacoes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Paises::findOne(['id' => $id])) !== null) {
+        if (($model = Avaliacoes::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

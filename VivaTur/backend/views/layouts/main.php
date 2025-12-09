@@ -133,7 +133,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
             <!-- Brand Logo -->
             <a href="<?= Yii::$app->homeUrl ?>" class="brand-link">
                 <img src="<?= Yii::getAlias('@web') ?>/imgs/logo.png" alt="Logo de VivaTur"
-                       class="logo">
+                     class="logo">
+                <span class="brand-text font-weight-light">VivaTur</span>
             </a>
 
             <!-- Sidebar -->
@@ -188,8 +189,6 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                         </li>
 
 
-
-
                         <!-- Gestão -->
                         <li class="nav-header">Gerir</li>
                         <li class="nav-item">
@@ -202,17 +201,17 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['experiencia/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/experiencia') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['experiencias/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'experiencias/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-map-marked-alt"></i>
                                 <p>
-                                    Experiência
+                                    Experiências
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['categoria/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'categoria/index') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['categorias/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'categorias/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tags"></i>
                                 <p>
                                     Categorias
@@ -220,8 +219,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['lingua/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'lingua/index') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['linguas/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'linguas/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-language"></i>
                                 <p>
                                     Idioma
@@ -229,8 +228,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['pais/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'pais/index') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['paises/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'paises/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-flag"></i>
                                 <p>
                                     Países
@@ -238,33 +237,35 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['avaliacao/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/avaliacoes') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['avaliacoes/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'avaliacoes/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-star"></i>
-                                <p>
-                                    Avaliações
-                                </p>
+                                <p>Avaliações</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="<?= Url::to(['metodopagamento/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/pagamento') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['metodopagamentos/index']) ?>"
+                               class="nav-link">
                                 <i class="nav-icon fas fa-credit-card"></i>
-                                <p>
-                                    Pagamento
-                                </p>
+                                <p>Pagamento</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= Url::to(['comentario/index']) ?>"
-                               class="nav-link <?= ($currentRoute == 'site/comentarios') ? 'active' : '' ?>">
+                            <a href="<?= Url::to(['comentarios/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'comentarios/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>Comentários</p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['gestores/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'gestores/index') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                <p>Gestores</p>
+                            </a>
+                        </li>
                         <li class="nav-header">Logout</li>
-
                         <li class="nav-item">
                             <?= Html::beginForm(['/site/logout'], 'post', ['class' => 'w-100']) ?>
                             <?= Html::submitButton(

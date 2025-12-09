@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Categorias;
+use backend\models\Comentarios;
 
 /**
- * CategoriaSearch represents the model behind the search form of `backend\models\Categorias`.
+ * ComentariosSearch represents the model behind the search form of `backend\models\Comentarios`.
  */
-class CategoriaSearch extends Categorias
+class ComentariosSearch extends Comentarios
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class CategoriaSearch extends Categorias
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['nome'], 'safe'],
+            [['id', 'experiencia_id', 'user_id'], 'integer'],
+            [['descricao', 'dataCriacao'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CategoriaSearch extends Categorias
      */
     public function search($params, $formName = null)
     {
-        $query = Categorias::find();
+        $query = Comentarios::find();
 
         // add conditions that should always apply here
 
@@ -60,9 +60,12 @@ class CategoriaSearch extends Categorias
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'experiencia_id' => $this->experiencia_id,
+            'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'nome', $this->nome]);
+        $query->andFilterWhere(['like', 'descricao', $this->descricao])
+            ->andFilterWhere(['like', 'dataCriacao', $this->dataCriacao]);
 
         return $dataProvider;
     }

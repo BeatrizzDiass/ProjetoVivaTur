@@ -9,6 +9,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 
+
+
 /**
  * Site controller
  */
@@ -26,32 +28,21 @@ class SiteController extends Controller
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
+                        'roles' => ['?'],  // Guests podem aceder login e error
                     ],
                     [
-                        'actions' => [
-                            'logout',
-                            'index',
-                            'users',
-                            'experiencia',
-                            'categorias',
-                            'idioma',
-                            'paises',
-                            'avaliacoes',
-                            'pagamento',
-                            'comentarios',
-                        ],
+
+                        'actions' => ['index', 'logout', 'users', 'experiencia', 'categorias', 'idioma', 'paises', 'avaliacoes', 'pagamento', 'comentarios'],
                         'allow' => true,
-                        'roles' => ['admin', 'gestor'],
+                        'roles' => ['admin', 'gestor'],  // Apenas admin e gestor
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
-                    // Se não estiver logado, vai para o login
                     if (Yii::$app->user->isGuest) {
                         Yii::$app->session->setFlash('error', 'Por favor, faça login para continuar.');
                         return Yii::$app->response->redirect(['site/login']);
                     }
 
-                    // Se estiver logado mas não tiver permissão
                     Yii::$app->user->logout();
                     Yii::$app->session->setFlash('error', 'Você não tem permissão para aceder ao backend.');
                     return Yii::$app->response->redirect(['site/login']);
@@ -84,6 +75,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         return $this->render('index');
     }
 

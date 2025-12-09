@@ -5,14 +5,14 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "categoria".
+ * This is the model class for table "paises".
  *
  * @property int $id
  * @property string $nome
  *
- * @property Experiencia[] $experiencias
+ * @property Experiencias[] $experiencias
  */
-class Categoria extends \yii\db\ActiveRecord
+class Paises extends \yii\db\ActiveRecord
 {
 
 
@@ -21,7 +21,7 @@ class Categoria extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'categorias';
+        return 'paises';
     }
 
     /**
@@ -53,7 +53,7 @@ class Categoria extends \yii\db\ActiveRecord
      */
     public function getExperiencias()
     {
-        return $this->hasMany(Experiencia::class, ['categoria_id' => 'id']);
+        return $this->hasMany(Experiencias::class, ['pais_id' => 'id']);
     }
 
 }

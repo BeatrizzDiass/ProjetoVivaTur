@@ -16,6 +16,11 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
+use backend\models\Categoria;
+use backend\models\Pais;
+
+
+
 /**
  * Site controller
  */
@@ -75,8 +80,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $categorias = Categoria::find()->all();
+
+        $paises = Pais::find()->all();
+
+        return $this->render('index', [
+            'categorias' => $categorias,
+            'paises' => $paises,
+        ]);
     }
+
 
     /**
      * Logs in a user.

@@ -7,9 +7,9 @@ use yii\data\ActiveDataProvider;
 use backend\models\Categorias;
 
 /**
- * CategoriaSearch represents the model behind the search form of `backend\models\Categorias`.
+ * CategoriasSearch represents the model behind the search form of `backend\models\Categorias`.
  */
-class CategoriaSearch extends Categorias
+class CategoriasSearch extends Categorias
 {
     /**
      * {@inheritdoc}
