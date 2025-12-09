@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Categorias;
+use backend\models\Avaliacoes;
 
 /**
- * CategoriaSearch represents the model behind the search form of `backend\models\Categorias`.
+ * AvaliacoesSearch represents the model behind the search form of `backend\models\Avaliacoes`.
  */
-class CategoriaSearch extends Categorias
+class AvaliacoesSearch extends Avaliacoes
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class CategoriaSearch extends Categorias
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['nome'], 'safe'],
+            [['id', 'experiencia_id'], 'integer'],
+            [['estrela'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CategoriaSearch extends Categorias
      */
     public function search($params, $formName = null)
     {
-        $query = Categorias::find();
+        $query = Avaliacoes::find();
 
         // add conditions that should always apply here
 
@@ -60,9 +60,10 @@ class CategoriaSearch extends Categorias
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'experiencia_id' => $this->experiencia_id,
         ]);
 
-        $query->andFilterWhere(['like', 'nome', $this->nome]);
+        $query->andFilterWhere(['like', 'estrela', $this->estrela]);
 
         return $dataProvider;
     }

@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Categorias;
+use backend\models\Linguas;
 
 /**
- * CategoriaSearch represents the model behind the search form of `backend\models\Categorias`.
+ * LinguasSearch represents the model behind the search form of `backend\models\Linguas`.
  */
-class CategoriaSearch extends Categorias
+class LinguasSearch extends Linguas
 {
     /**
      * {@inheritdoc}
@@ -41,7 +41,7 @@ class CategoriaSearch extends Categorias
      */
     public function search($params, $formName = null)
     {
-        $query = Categorias::find();
+        $query = Linguas::find();
 
         // add conditions that should always apply here
 

@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use backend\models\Paises;
-use app\models\PaisesSearch;
+use backend\models\Comentarios;
+use app\models\ComentariosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PaisesController implements the CRUD actions for Paises model.
+ * ComentariosController implements the CRUD actions for Comentarios model.
  */
-class PaisesController extends Controller
+class ComentariosController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class PaisesController extends Controller
     }
 
     /**
-     * Lists all Paises models.
+     * Lists all Comentarios models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new PaisesSearch();
+        $searchModel = new ComentariosSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,30 +48,31 @@ class PaisesController extends Controller
     }
 
     /**
-     * Displays a single Paises model.
+     * Displays a single Comentarios model.
      * @param int $id ID
+     * @param string $descricao Descricao
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id, $descricao)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id, $descricao),
         ]);
     }
 
     /**
-     * Creates a new Paises model.
+     * Creates a new Comentarios model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Paises();
+        $model = new Comentarios();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id, 'descricao' => $model->descricao]);
             }
         } else {
             $model->loadDefaultValues();
@@ -83,18 +84,19 @@ class PaisesController extends Controller
     }
 
     /**
-     * Updates an existing Paises model.
+     * Updates an existing Comentarios model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
+     * @param string $descricao Descricao
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $descricao)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $descricao);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'descricao' => $model->descricao]);
         }
 
         return $this->render('update', [
@@ -103,29 +105,31 @@ class PaisesController extends Controller
     }
 
     /**
-     * Deletes an existing Paises model.
+     * Deletes an existing Comentarios model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
+     * @param string $descricao Descricao
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $descricao)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id, $descricao)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Paises model based on its primary key value.
+     * Finds the Comentarios model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Paises the loaded model
+     * @param string $descricao Descricao
+     * @return Comentarios the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $descricao)
     {
-        if (($model = Paises::findOne(['id' => $id])) !== null) {
+        if (($model = Comentarios::findOne(['id' => $id, 'descricao' => $descricao])) !== null) {
             return $model;
         }
 
