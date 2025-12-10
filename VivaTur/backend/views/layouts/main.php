@@ -48,11 +48,6 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <?= Html::beginForm(['/site/logout'], 'post') ?>
-                    <?= Html::submitButton('Logout', ['class' => 'btn btn-danger btn-sm']) ?>
-                    <?= Html::endForm() ?>
-                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -137,9 +132,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="<?= Yii::$app->homeUrl ?>" class="brand-link">
-                <img src="<?= Yii::getAlias('@web') ?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
-                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <img src="<?= Yii::getAlias('@web') ?>/imgs/logo.png" alt="Logo de VivaTur"
+                       class="logo">
             </a>
 
             <!-- Sidebar -->
@@ -269,6 +263,20 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                             </a>
                         </li>
 
+                        <li class="nav-header">Logout</li>
+
+                        <li class="nav-item">
+                            <?= Html::beginForm(['/site/logout'], 'post', ['class' => 'w-100']) ?>
+                            <?= Html::submitButton(
+                                '<i class="fas fa-sign-out-alt"></i> Logout',
+                                [
+                                    'class' => 'btn btn-danger btn-block mt-2',
+                                    'style' => 'text-align: left; padding: 0.5rem 1rem;'
+                                ]
+                            ) ?>
+                            <?= Html::endForm() ?>
+                        </li>
+
 
                     </ul>
                 </nav>
@@ -314,7 +322,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
 
         <!-- Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; <?= date('Y') ?> <a href="#">Your Company</a>.</strong>
+            <strong>Copyright &copy; <?= date('Y') ?> <a href="#">VivaTur</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0.0

@@ -88,3 +88,20 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+/*logo do projeto*/
+.main-sidebar .brand-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 150px;
+    padding: 0 10px;
+    margin: -10px 0;
+}
+
+.main-sidebar .brand-link .logo {
+    opacity: .8;
+    height: 160px;
+}

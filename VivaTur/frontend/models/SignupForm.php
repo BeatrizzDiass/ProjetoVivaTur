@@ -48,7 +48,7 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
@@ -56,8 +56,21 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        // Primeiro: guardar utilizador
+        if ($user->save()) {
+
+            // Depois: RBAC role assignment
+            $auth = Yii::$app->authManager;
+            $turistaRole= $auth->getRole('turista');
+            $auth->assign($turistaRole, $user->id);
+
+            // Enviar email de verificação
+            return $this->sendEmail($user);
+        }
+
+        return false;
     }
+
 
     /**
      * Sends confirmation email to user
