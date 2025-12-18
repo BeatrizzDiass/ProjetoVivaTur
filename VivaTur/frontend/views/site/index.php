@@ -56,6 +56,22 @@ $this->title = "Index";
 <div class="container-xxl py-5">
     <div class="container">
         <h1>Experiências</h1>
+
+        <div class="row">
+            <?php foreach ($experiencias as $experiencia): ?>
+                <div class="col-lg-4 mb-3">
+                    <div class="card" style="width: 20rem; height: 16rem;">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                            <h5 class="card-title"><?= $experiencia->nome ?></h5>
+
+                            <a href="<?= Url::to(['experiencias/view', 'id' => $experiencia->id]) ?>"
+                               class="btn btn-info mt-2" role="button">Ver</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
     </div>
 </div>
 <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

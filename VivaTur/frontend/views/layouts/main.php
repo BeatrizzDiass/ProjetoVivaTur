@@ -50,11 +50,11 @@ $this->beginPage()
 
     <!-- Spinner Start -->
     <!-- Spinner Start -->
-   <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div> -->
+    <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+             <span class="sr-only">Loading...</span>
+         </div>
+     </div> -->
     <!-- Spinner End -->
 
     <!-- Navbar & Hero Start -->
@@ -69,30 +69,46 @@ $this->beginPage()
                 <span class="fa fa-bars"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0">
+                <div class="navbar-nav ms-auto me-5 py-0">
                     <a href="<?= Url::to(['/site/index']) ?>"
                        class="nav-item nav-link <?= Yii::$app->controller->id === 'site' && Yii::$app->controller->action->id === 'index' ? 'active' : '' ?>">Home</a>
                     <a href="<?= Url::to(['/site/about']) ?>"
-                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'about' ? 'active' : '' ?>">About</a>
+                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'about' ? 'active' : '' ?>">Sobre</a>
                     <a href="<?= Url::to(['/site/service']) ?>"
-                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'service' ? 'active' : '' ?>">Services</a>
-                    <a href="<?= Url::to(['/experiencia/index']) ?>"
-                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'experiencias' ? 'active' : '' ?>">Experiences</a>
-                    <a href="<?= Url::to(['/favorito/index']) ?>"
-                       class="nav-item nav-link <?= Yii::$app->controller->id === 'favorito' ? 'active' : '' ?>">Favoritos</a>
+                       class="nav-item nav-link <?= Yii::$app->controller->action->id === 'service' ? 'active' : '' ?>">Serviços</a>
 
+
+                    <?php if (Yii::$app->user->isGuest): ?>
+                        <!-- Não logado -->
+                        <a href="<?= Url::to(['/site/login']) ?>" class="nav-item nav-link">
+                            <i class="fas fa-user me-2"></i>
+                        </a>
+                    <?php else: ?>
+                        <!-- Logado -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <?= Html::encode(Yii::$app->user->identity->username) ?>
+                                <i class="fas fa-user-circle ms-2"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end m-0">
+                                <a href="<?= Url::to(['']) ?>" class="dropdown-item">Detalhes da conta
+                                    </a>
+                                <a href="<?= Url::to(['']) ?>" class="dropdown-item">Experiências
+                                    avaliadas</a>
+                                <a href="<?= Url::to(['']) ?>" class="dropdown-item">Experiências
+                                    comentadas</a>
+                                <a href="<?= Url::to([' ']) ?>" class="dropdown-item">Experiências
+                                    reservadas</a>
+
+
+                                <a href="<?= Url::to(['/favorito/index']) ?>" class="dropdown-item">Favoritos</a>
+                                <?= Html::beginForm(['/site/logout'], 'post') ?>
+                                <?= Html::submitButton('Logout', ['class' => 'dropdown-item']) ?>
+                                <?= Html::endForm() ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <?php if (Yii::$app->user->isGuest): ?>
-                    <a href="<?= Url::to(['/site/signup']) ?>"
-                       class="btn btn-primary rounded-pill py-2 px-4">Register</a>
-                <?php else: ?>
-                    <?= Html::beginForm(['/site/logout'], 'post', ['class' => 'd-inline']) ?>
-                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4">
-                        Logout (<?= Html::encode(Yii::$app->user->identity->username) ?>)
-                    </button>
-                    <?= Html::endForm() ?>
-                <?php endif; ?>
-            </div>
         </nav>
 
         <!-- Content Start -->
@@ -115,7 +131,7 @@ $this->beginPage()
                     <div class="col-lg-3 col-md-6">
                         <h4 class="text-white mb-3">Contact</h4>
                         <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Leiria, Portugal</p>
-                                                <p class="mb-2"><i class="fa fa-envelope me-3"></i>vivatur@gmail.com</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>vivatur@gmail.com</p>
                         <div class="d-flex pt-2">
                             <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>

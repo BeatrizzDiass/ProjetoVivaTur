@@ -18,6 +18,7 @@ use frontend\models\ContactForm;
 
 use backend\models\Categoria;
 use backend\models\Pais;
+use backend\models\Experiencias;
 
 
 
@@ -84,9 +85,12 @@ class SiteController extends Controller
 
         $paises = Pais::find()->all();
 
+        $experiencias = Experiencias::find()->all();
+
         return $this->render('index', [
             'categorias' => $categorias,
             'paises' => $paises,
+            'experiencias' => $experiencias,
         ]);
     }
 

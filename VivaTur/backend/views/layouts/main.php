@@ -1,7 +1,6 @@
 <?php
 
 /** @var yii\web\View $this */
-
 /** @var string $content */
 
 use backend\assets\AppAsset;
@@ -17,6 +16,13 @@ $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1']);
 $this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
+
+// Registrar CSS e JS do Bootstrap Datepicker
+$this->registerCssFile('@web/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css');
+$this->registerJsFile('@web/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+$this->registerJsFile('@web/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.pt.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+$this->registerJsFile('@web/js/calendar-init.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+
 ?>
 <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -28,25 +34,13 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
     <body class="hold-transition sidebar-mini layout-fixed">
     <?php $this->beginBody() ?>
 
-
     <div class="wrapper">
-        <!-- Preloader (Remover após o carregamento) -->
-        <!-- <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="<?= Yii::getAlias('@web') ?>/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-  </div> -->
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="<?= Yii::$app->homeUrl ?>" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
                 </li>
             </ul>
 
@@ -167,27 +161,21 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <!-- Dashboard -->
-                        <li class="nav-item <?= (strpos($currentRoute, 'site/') === 0) ? 'menu-open' : '' ?>">
-                            <a href="#" class="nav-link <?= (strpos($currentRoute, 'site/') === 0) ? 'active' : '' ?>">
+
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                                <p>Dashboard</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="<?= Url::to(['site/index']) ?>"
-                                       class="nav-link <?= ($currentRoute == 'site/index') ? 'active' : '' ?>">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
-                                    </a>
-                                </li>
-
-                            </ul>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['site/calendar']) ?>"
+                               class="nav-link <?= ($currentRoute == 'site/calendar') ? 'active' : '' ?>">
+                                <i class="fas fa-calendar-alt nav-icon"></i>
+                                <p>Calendário - experiências</p>
+                            </a>
+                        </li>
 
                         <!-- Gestão -->
                         <li class="nav-header">Gerir</li>
@@ -246,7 +234,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_k
 
                         <li class="nav-item">
                             <a href="<?= Url::to(['metodopagamentos/index']) ?>"
-                               class="nav-link">
+                               class="nav-link <?= ($currentRoute == 'metodopagamentos/index') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-credit-card"></i>
                                 <p>Pagamento</p>
                             </a>

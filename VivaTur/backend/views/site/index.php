@@ -1,126 +1,174 @@
 <?php
-$this->title = 'Dashboard v1';
-?>
 
+use yii\helpers\Url;
+
+$this->title = 'Dashboard';
+
+// Registrar CSS e JS do Bootstrap Datepicker
+$this->registerCssFile('@web/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css');
+$this->registerJsFile('@web/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+$this->registerJsFile('@web/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.pt.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+
+// Script para inicializar o calendário
+$this->registerJs("
+$(function () {
+    $('#calendar').datepicker({
+        language: 'pt',
+        todayHighlight: true,
+        format: 'dd/mm/yyyy',
+        inline: true
+    });
+});
+");
+?>
 
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
+
+        <!-- Row 1 -->
         <div class="row">
             <div class="col-lg-3 col-6">
-                <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3><?= isset($experiencesCount) ? $experiencesCount : 0 ?></h3>
-
                         <p>Experiências</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="nav-icon fas fa-map-marked-alt"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="<?= Url::to(['experiencias/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
+
             <div class="col-lg-3 col-6">
-                <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Bounce Rate</p>
+                        <h3><?= isset($categoriasCount) ? $categoriasCount : 0 ?></h3>
+                        <p>Categorias</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="nav-icon fas fa-tags"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="<?= Url::to(['categorias/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
+
             <div class="col-lg-3 col-6">
-                <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
-
-                        <p>User Registrations</p>
+                        <h3><?= isset($userCount) ? $userCount : 0 ?></h3>
+                        <p>Users</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-person-add"></i>
+                        <i class="nav-icon fas fa-users"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="<?= Url::to(['user/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
+
             <div class="col-lg-3 col-6">
-                <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>65</h3>
-
-                        <p>Unique Visitors</p>
+                        <h3><?= isset($idiomasCount) ? $idiomasCount : 0 ?></h3>
+                        <p>Idioma</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="nav-icon fas fa-language"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="<?= Url::to(['idiomas/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
         </div>
-        <!-- /.row -->
-        <!-- Main row -->
+
+        <!-- Row 2 -->
         <div class="row">
-
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
-
-                <!-- Calendar -->
-                <div class="card bg-gradient-success">
-                    <div class="card-header border-0">
-
-                        <h3 class="card-title">
-                            <i class="far fa-calendar-alt"></i>
-                            Calendar
-                        </h3>
-                        <!-- tools card -->
-                        <div class="card-tools">
-                            <!-- button with a dropdown -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success btn-sm dropdown-toggle"
-                                        data-toggle="dropdown" data-offset="-52">
-                                    <i class="fas fa-bars"></i>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                    <a href="#" class="dropdown-item">Add new event</a>
-                                    <a href="#" class="dropdown-item">Clear events</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">View calendar</a>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <!-- /. tools -->
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-lightblue">
+                    <div class="inner">
+                        <h3><?= isset($paisesCount) ? $paisesCount : 0 ?></h3>
+                        <p>Países</p>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body pt-0">
-                        <!--The calendar -->
-                        <div id="calendar" style="width: 100%"></div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-flag"></i>
                     </div>
-                    <!-- /.card-body -->
+                    <a href="<?= Url::to(['paises/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
-                <!-- /.card -->
-            </section>
-            <!-- right col -->
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-teal">
+                    <div class="inner">
+                        <h3><?= isset($avaliacoesCount) ? $avaliacoesCount : 0 ?></h3>
+                        <p>Avaliações</p>
+                    </div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-star"></i>
+                    </div>
+                    <a href="<?= Url::to(['avaliacoes/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-olive">
+                    <div class="inner">
+                        <h3><?= isset($metodosPagamentoCount) ? $metodosPagamentoCount : 0 ?></h3>
+                        <p>Metodos de Pagamento</p>
+                    </div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                    </div>
+                    <a href="<?= Url::to(['metodopagamentos/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-orange">
+                    <div class="inner">
+                        <h3><?= isset($comentariosCount) ? $comentariosCount : 0 ?></h3>
+                        <p>Comentários</p>
+                    </div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-comments"></i>
+                    </div>
+                    <a href="<?= Url::to(['comentarios/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
+
+        <!-- Row 3 -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-maroon">
+                    <div class="inner">
+                        <h3><?= isset($gestoresCount) ? $gestoresCount : 0 ?></h3>
+                        <p>Gestores</p>
+                    </div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                    </div>
+                    <a href="<?= Url::to(['gestores/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </section>
-<!-- /.content -->
-</div>
