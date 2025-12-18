@@ -1,6 +1,6 @@
 <?php
 
-use app\models\User;
+use backend\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;

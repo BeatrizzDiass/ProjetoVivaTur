@@ -96,12 +96,13 @@ a.desc:after {
     justify-content: center;
     align-items: center;
 
-    height: 150px;
+    height: 80px; /* reduzido */
     padding: 0 10px;
     margin: -10px 0;
 }
 
 .main-sidebar .brand-link .logo {
     opacity: .8;
-    height: 160px;
+    height: 60px; /* diminui aqui */
+    width: auto;
 }

@@ -32,7 +32,7 @@ class SiteController extends Controller
                     ],
                     [
 
-                        'actions' => ['index', 'logout', 'users', 'experiencia', 'categorias', 'idioma', 'paises', 'avaliacoes', 'pagamento', 'comentarios'],
+                        'actions' => ['index', 'logout', 'users', 'experiencia', 'categorias', 'idioma', 'paises', 'avaliacoes', 'pagamento', 'comentarios', 'calendar'],
                         'allow' => true,
                         'roles' => ['admin', 'gestor'],  // Apenas admin e gestor
                     ],
@@ -43,8 +43,9 @@ class SiteController extends Controller
                         return Yii::$app->response->redirect(['site/login']);
                     }
 
-                    Yii::$app->user->logout();
+
                     Yii::$app->session->setFlash('error', 'Você não tem permissão para aceder ao backend.');
+                    //Yii::$app->user->logout();
                     return Yii::$app->response->redirect(['site/login']);
                 }
             ],
@@ -75,8 +76,35 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $experiencesCount = \backend\models\Experiencias::find()->count();
 
-        return $this->render('index');
+        $categoriasCount = \backend\models\Categorias::find()->count();
+
+        $userCount = \backend\models\User::find()->count();
+
+        $idiomasCount = \backend\models\Linguas::find()->count();
+
+        $paisesCount = \backend\models\Paises::find()->count();
+
+        $avaliacoesCount = \backend\models\Avaliacoes::find()->count();
+
+        $metodosPagamentoCount = \backend\models\MetodoPagamentos::find()->count();
+
+        $comentariosCount = \backend\models\Comentarios::find()->count();
+
+        $gestoresCount = \backend\models\Gestores::find()->count();
+
+        return $this->render('index', [
+            'experiencesCount' => $experiencesCount,
+            'categoriasCount' => $categoriasCount,
+            'userCount' => $userCount,
+            'idiomasCount' => $idiomasCount,
+            'paisesCount' => $paisesCount,
+            'avaliacoesCount' => $avaliacoesCount,
+            'metodosPagamentoCount' => $metodosPagamentoCount,
+            'comentariosCount' => $comentariosCount,
+            'gestoresCount' => $gestoresCount,
+        ]);
     }
 
     /**
@@ -95,7 +123,7 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-            // ✅ VERIFICAR SE TEM PERMISSÃO PARA O BACKEND
+            // verificar se tem acesso ao back-office
             $userRoles = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
 
             if (!in_array('admin', $userRoles) && !in_array('gestor', $userRoles)) {
@@ -203,5 +231,13 @@ class SiteController extends Controller
     public function actionComentarios()
     {
         return $this->render('comentarios');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionCalendar()
+    {
+        return $this->render('calendar');
     }
 }
