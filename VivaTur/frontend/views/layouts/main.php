@@ -91,8 +91,7 @@ $this->beginPage()
                                 <i class="fas fa-user-circle ms-2"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end m-0">
-                                <a href="<?= Url::to(['']) ?>" class="dropdown-item">Detalhes da conta
-                                    </a>
+                                <a href="<?= Url::to(['/site/profile']) ?>" class="dropdown-item">Detalhes da conta</a>
                                 <a href="<?= Url::to(['']) ?>" class="dropdown-item">Experiências
                                     avaliadas</a>
                                 <a href="<?= Url::to(['']) ?>" class="dropdown-item">Experiências
