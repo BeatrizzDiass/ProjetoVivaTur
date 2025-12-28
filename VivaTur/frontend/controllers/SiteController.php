@@ -16,11 +16,14 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
-use backend\models\Categoria;
-use backend\models\Pais;
-use backend\models\Experiencias;
+use frontend\models\Categorias;
+use backend\models\Paises;
+use frontend\models\Experiencias;
 
+use yii\web\NotFoundHttpException;
 
+use frontend\models\Comentarios;
+use frontend\models\Avaliacoes;
 
 /**
  * Site controller
@@ -81,16 +84,35 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $categorias = Categoria::find()->all();
+        // Receber os parâmetros do GET
+        $pesquisa = Yii::$app->request->get('pesquisa');
+        $categoriaId = Yii::$app->request->get('categoria');
+        $paisId = Yii::$app->request->get('pais');
 
-        $paises = Pais::find()->all();
+        // Criar a query
+        $query = Experiencias::find();
 
-        $experiencias = Experiencias::find()->all();
+        // Aplicar filtros se existirem
+        if (!empty($pesquisa)) {
+            $query->andWhere(['like', 'nome', $pesquisa]);
+        }
+
+        if (!empty($categoriaId)) {
+            $query->andWhere(['categoria_id' => $categoriaId]);
+        }
+
+        if (!empty($paisId)) {
+            $query->andWhere(['pais_id' => $paisId]);
+        }
+
+        $experiencias = $query->all();
+        $categorias = Categorias::find()->all();
+        $paises = Paises::find()->all();
 
         return $this->render('index', [
+            'experiencias' => $experiencias,
             'categorias' => $categorias,
             'paises' => $paises,
-            'experiencias' => $experiencias,
         ]);
     }
 
@@ -302,5 +324,64 @@ class SiteController extends Controller
     public function actionBooking()
     {
         return $this->render('booking');
+    }
+
+    public function actionDetalhes($id)
+    {
+        $experiencia = Experiencias::findOne($id);
+
+        if ($experiencia === null) {
+            throw new NotFoundHttpException('Experiência não encontrada.');
+        }
+
+
+        $novoComentario = new Comentarios();
+
+        // Se o formulário for submetido
+        if ($novoComentario->load(Yii::$app->request->post())) {
+            $novoComentario->experiencia_id = $id;
+            $novoComentario->user_id = Yii::$app->user->id;
+            $novoComentario->dataCriacao = date('Y-m-d H:i:s');
+
+            if ($novoComentario->save()) {
+                Yii::$app->session->setFlash('success', 'Comentário adicionado com sucesso!');
+                return $this->refresh(); // Recarrega a página para mostrar o novo comentário
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao adicionar comentário. Por favor, tente novamente.');
+            }
+        }
+
+
+        $novaAvaliacao = new Avaliacoes();
+        if($novaAvaliacao->load(Yii::$app->request->post())){
+            $novaAvaliacao->experiencia_id = $id;
+            $novaAvaliacao->user_id = Yii::$app->user->id; // 👈 linha OBRIGATÓRIA
+
+            if($novaAvaliacao->save()){
+                Yii::$app->session->setFlash('success', 'Avaliação adicionada com sucesso!');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao adicionar avaliação. Por favor, tente novamente.');
+            }
+        }
+
+        return $this->render('detalhes', [  // <- Esta view precisa existir
+            'experiencia' => $experiencia,
+            'novoComentario' => $novoComentario,
+            'novaAvaliacao' => $novaAvaliacao,
+        ]);
+    }
+
+    public function actionReservar($id)
+    {
+        $experiencia = Experiencias::findOne($id);
+
+        if ($experiencia === null) {
+            throw new NotFoundHttpException('Experiência não encontrada.');
+        }
+
+        return $this->render('reservar', [  // <- Esta view precisa existir
+            'experiencia' => $experiencia,
+        ]);
     }
 }

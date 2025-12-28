@@ -150,4 +150,17 @@ class Experiencias extends \yii\db\ActiveRecord
         return $this->hasMany(Reservas::class, ['experiencia_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        // If you have a user_id column in experiencias table:
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+
+        // OR if the user relation is through gestor:
+        // return $this->hasOne(User::class, ['id' => 'gestor_id']);
+    }
 }

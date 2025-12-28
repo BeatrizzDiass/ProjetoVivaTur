@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var backend\models\Avaliacoes $model */
 
-$this->title = $model->id;
+$this->title = 'Update Avaliacoes: ' . $model->experiencia->nome;
 $this->params['breadcrumbs'][] = ['label' => 'Avaliacoes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);

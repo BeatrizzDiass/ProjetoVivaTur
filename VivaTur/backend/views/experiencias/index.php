@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\ExperienciasSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Experiencias';
+$this->title = 'Experiências';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="experiencias-index">
@@ -32,20 +32,38 @@ $this->params['breadcrumbs'][] = $this->title;
             'horaInicio',
             'horaFim',
             'duracao',
-            //'local',
-            //'dataDisponivel',
-            //'precoPessoa',
-            //'imagem',
-            //'numMaxParticipante',
-            //'numMinParticipante',
-            //'categoria_id',
-            //'gestor_id',
-            //'pais_id',
+            'local',
+            'dataDisponivel',
+            'precoPessoa',
+            // 'imagem',
+            'numMaxParticipante',
+            'numMinParticipante',
+            [
+                'attribute' => 'categoria_id',
+                'value' => function($model) {
+                    return $model->categoria->nome;
+                },
+                'label' => 'Categoria',
+            ],
+            [
+                'attribute' => 'gestor_id',
+                'value' => function($model) {
+                    return $model->gestor->user->username;
+                },
+                'label' => 'Gestor',
+            ],
+            [
+                'attribute' => 'pais_id',
+                'value' => function($model) {
+                    return $model->pais->nome;
+                },
+                'label' => 'País',
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Experiencias $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

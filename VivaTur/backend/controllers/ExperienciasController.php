@@ -2,11 +2,14 @@
 
 namespace backend\controllers;
 
+use app\models\UploadForm;
 use backend\models\Experiencias;
 use app\models\ExperienciasSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ExperienciasController implements the CRUD actions for Experiencias model.
@@ -41,9 +44,32 @@ class ExperienciasController extends Controller
         $searchModel = new ExperienciasSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        $model = new Experiencias();
+
+        if (Yii::$app->request->isPost) {
+
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            if ($model->validate()) {
+
+                $nome = uniqid() . '.' . $model->imageFile->extension;
+
+                $model->imageFile->saveAs(
+                    Yii::getAlias('@webroot/uploads/') . $nome
+                );
+
+                $model->imagem = $nome;
+                $model->save(false);
+
+                Yii::$app->session->setFlash('success', 'Imagem guardada!');
+            }
+        }
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -70,8 +96,25 @@ class ExperienciasController extends Controller
         $model = new Experiencias();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+
+                // Handle file upload
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+                if ($model->imageFile) {
+                    $fileName = uniqid() . '.' . $model->imageFile->extension;
+
+                    if ($model->imageFile->saveAs(Yii::getAlias('@webroot/uploads/') . $fileName)) {
+                        $model->imagem = $fileName;
+                    }
+                }
+
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Experiência criada com sucesso!');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Erro: ' . json_encode($model->errors));
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -92,9 +135,29 @@ class ExperienciasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $oldImage = $model->imagem;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            if ($model->imageFile) {
+                $fileName = uniqid() . '.' . $model->imageFile->extension;
+
+                if ($model->imageFile->saveAs(Yii::getAlias('@webroot/uploads/') . $fileName)) {
+                    if ($oldImage && file_exists(Yii::getAlias('@webroot/uploads/') . $oldImage)) {
+                        unlink(Yii::getAlias('@webroot/uploads/') . $oldImage);
+                    }
+                    $model->imagem = $fileName;
+                }
+            }
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Experiência atualizada com sucesso!');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro: ' . json_encode($model->errors));
+            }
         }
 
         return $this->render('update', [
@@ -130,5 +193,20 @@ class ExperienciasController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionUpload()
+    {
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return;
+            }
+        }
+
+        return $this->render('upload', ['model' => $model]);
     }
 }

@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var backend\models\Comentarios $model */
 
-$this->title = $model->id;
+$this->title = $model->experiencia->nome;
 $this->params['breadcrumbs'][] = ['label' => 'Comentarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -30,8 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'descricao',
             'dataCriacao',
-            'experiencia_id',
-            'user_id',
+            [
+                'attribute' => 'experiencia_id',
+                'value' => $model->experiencia->nome,
+                'label' => 'Experiência',
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => $model->user->username,
+                'label' => 'Utilizador',
+            ],
         ],
     ]) ?>
 

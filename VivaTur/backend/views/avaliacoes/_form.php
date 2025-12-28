@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var backend\models\Avaliacoes $model */
@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper
 
     <?= $form->field($model, 'estrela')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'experiencia_id')->dropDownList(
+        <?= $form->field($model, 'experiencia')->dropDownList(
         ArrayHelper::map(\backend\models\Experiencias::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona uma experiencia']
     ) ?>

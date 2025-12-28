@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
 <div class="experiencias-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 
@@ -21,13 +21,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'horaFim')->input('time') ?>
 
-    <?= $form->field($model, 'duracao')->textInput(['maxlength' => true]) ?>
-
-
-    <?php
-    //calcular a duração
-
-    ?>
+    <?= $form->field($model, 'duracao')->textInput([
+        'maxlength' => true,
+        'readonly' => true,
+        'placeholder' => 'Calculado automaticamente'
+    ]) ?>
 
     <?= $form->field($model, 'local')->textInput(['maxlength' => true]) ?>
 
@@ -35,24 +33,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'precoPessoa')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'imagem')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <?= $form->field($model, 'numMaxParticipante')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'numMinParticipante')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'categoria_id')->dropDownList(
+    <?= $form->field($model, 'categoria')->dropDownList(
         ArrayHelper::map(Categorias::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona uma categoria']
     ) ?>
 
-
-            <?= $form->field($model, 'gestor_id')->dropDownList(
-        ArrayHelper::map(Gestores::find()->all(), 'id', 'id'),
-        ['prompt' => 'Seleciona um user para gestor']
+    <?= $form->field($model, 'gestor')->dropDownList(
+        ArrayHelper::map(
+            Gestores::find()->joinWith('user')->all(),
+            'id',
+            'user.username'
+        ),
+        ['prompt' => 'Seleciona um gestor']
     ) ?>
 
-    <?= $form->field($model, 'pais_id')->dropDownList(
+    <?= $form->field($model, 'pais')->dropDownList(
         ArrayHelper::map(\backend\models\Paises::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona um país']
     ) ?>
