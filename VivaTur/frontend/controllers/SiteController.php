@@ -355,7 +355,7 @@ class SiteController extends Controller
         $novaAvaliacao = new Avaliacoes();
         if($novaAvaliacao->load(Yii::$app->request->post())){
             $novaAvaliacao->experiencia_id = $id;
-            $novaAvaliacao->user_id = Yii::$app->user->id; // 👈 linha OBRIGATÓRIA
+            $novaAvaliacao->user_id = Yii::$app->user->id;
 
             if($novaAvaliacao->save()){
                 Yii::$app->session->setFlash('success', 'Avaliação adicionada com sucesso!');
@@ -382,7 +382,7 @@ class SiteController extends Controller
 
         return $this->render('reservar', [  // <- Esta view precisa existir
             'experiencia' => $experiencia,
-        ])
+        ]);
     }
 	
 	public function actionProfile()
@@ -391,4 +391,28 @@ class SiteController extends Controller
             'model' => Yii::$app->user->identity,
         ]);
     }
+
+    public function actionExperienciasAvaliadas()
+    {
+        $userId = Yii::$app->user->id;
+        $avaliacoes = Avaliacoes::find()->where(['user_id' => $userId])->all();
+
+
+        return $this->render('experienciasAvaliadas', [
+            'avaliacoes' => $avaliacoes,
+        ]);
+    }
+
+
+    public function actionExperienciasComentadas()
+    {
+        $userId = Yii::$app->user->id;
+        $comentarios = Comentarios::find()
+            ->where(['user_id' => $userId])->all();
+
+        return $this->render('experienciasComentadas', [
+            'comentarios' => $comentarios,
+        ]);
+    }
+
 }
