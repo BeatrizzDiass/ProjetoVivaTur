@@ -30,8 +30,8 @@ $this->title = "Sobre Nós";
         <div class="row g-5">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                 <div class="position-relative h-100">
-                    <img class="img-fluid position-absolute w-100 h-100" src="<?= Url::to('@web/img/vivatur-removebg-preview.png') ?>" alt=""
-                         style="object-fit: cover;">
+                    <img class="img-fluid position-absolute w-100 h-100" src="<?= Url::to('@web/img/logo.png') ?>" alt="Logo VivaTur"
+                         style="object-fit: contain;">
                 </div>
             </div>
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">

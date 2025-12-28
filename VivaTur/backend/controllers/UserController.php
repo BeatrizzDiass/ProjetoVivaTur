@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\User;
+use backend\models\User;
 use app\models\UserSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;

@@ -2,7 +2,10 @@
 
 namespace backend\models;
 
+use DateTime;
 use Yii;
+
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "experiencias".
@@ -33,6 +36,10 @@ use Yii;
 class Experiencias extends \yii\db\ActiveRecord
 {
 
+    /**
+     * @var UploadedFile
+     */
+    public $imageFile;
 
     /**
      * {@inheritdoc}
@@ -48,12 +55,14 @@ class Experiencias extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'imagem', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
+            [['nome', 'horaInicio', 'horaFim', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
             [['categoria_id', 'gestor_id', 'pais_id'], 'integer'],
-            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'imagem', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
+            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['categoria_id' => 'id']],
             [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gestores::class, 'targetAttribute' => ['gestor_id' => 'id']],
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'checkExtensionByMimeType' => false],
+            [['imagem'], 'string', 'max' => 255],
         ];
     }
 
@@ -148,6 +157,38 @@ class Experiencias extends \yii\db\ActiveRecord
     public function getReservas()
     {
         return $this->hasMany(Reservas::class, ['experiencia_id' => 'id']);
+    }
+
+
+    public function calcularDuracao(){
+        if ($this->horaInicio && $this->horaFim) {
+            $inicio = new DateTime($this->horaInicio);
+            $fim = new DateTime($this->horaFim);
+
+            $intervalo = $inicio->diff($fim);
+
+            // Formatar como "Xh Ym" ou apenas horas/minutos se um deles for 0
+            $horas = $intervalo->h;
+            $minutos = $intervalo->i;
+
+            if ($horas > 0 && $minutos > 0) {
+                $this->duracao = $horas . 'h ' . $minutos . 'm';
+            } elseif ($horas > 0) {
+                $this->duracao = $horas . 'h';
+            } else {
+                $this->duracao = $minutos . 'm';
+            }
+        }
+    }
+
+// Adicionar no beforeSave para calcular automaticamente
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->calcularDuracao();
+            return true;
+        }
+        return false;
     }
 
 }

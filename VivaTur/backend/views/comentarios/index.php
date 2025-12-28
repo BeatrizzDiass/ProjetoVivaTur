@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\ComentariosSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Comentarios';
+$this->title = 'Comentários';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comentarios-index">
@@ -30,13 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'descricao',
             'dataCriacao',
-            'experiencia_id',
-            'user_id',
+            [
+                'attribute' => 'experiencia_id',
+                'value' => function($model) {
+                    return $model->experiencia->nome;
+                },
+                'label' => 'Experiência',
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => function($model) {
+                    return $model->user->username;
+                },
+                'label' => 'Utilizador',
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Comentarios $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id, 'descricao' => $model->descricao]);
-                 }
+                }
             ],
         ],
     ]); ?>

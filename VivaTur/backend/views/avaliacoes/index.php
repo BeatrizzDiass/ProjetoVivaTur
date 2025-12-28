@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\AvaliacoesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Avaliacoes';
+$this->title = 'Avaliações';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="avaliacoes-index">
