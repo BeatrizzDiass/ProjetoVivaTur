@@ -92,9 +92,11 @@ $this->beginPage()
                             </a>
                             <div class="dropdown-menu dropdown-menu-end m-0">
                                 <a href="<?= Url::to(['/site/profile']) ?>" class="dropdown-item">Detalhes da conta</a>
-                                <a href="<?= Url::to(['']) ?>" class="dropdown-item">Experiências
-                                    avaliadas</a>
-                                <a href="<?= Url::to(['']) ?>" class="dropdown-item">Experiências
+                                <a href="<?= Url::to(['/site/experiencias-avaliadas']) ?>" class="dropdown-item">
+                                    Experiências avaliadas
+                                </a>
+
+                                <a href="<?= Url::to(['/site/experiencias-comentadas']) ?>" class="dropdown-item">Experiências
                                     comentadas</a>
                                 <a href="<?= Url::to([' ']) ?>" class="dropdown-item">Experiências
                                     reservadas</a>
