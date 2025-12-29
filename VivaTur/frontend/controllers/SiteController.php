@@ -365,7 +365,7 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('detalhes', [  // <- Esta view precisa existir
+        return $this->render('detalhes', [
             'experiencia' => $experiencia,
             'novoComentario' => $novoComentario,
             'novaAvaliacao' => $novaAvaliacao,
@@ -384,35 +384,11 @@ class SiteController extends Controller
             'experiencia' => $experiencia,
         ]);
     }
-	
-	public function actionProfile()
+
+    public function actionProfile()
     {
         return $this->render('profile', [
-            'model' => Yii::$app->user->identity,
+            'user' => Yii::$app->user->identity,
         ]);
     }
-
-    public function actionExperienciasAvaliadas()
-    {
-        $userId = Yii::$app->user->id;
-        $avaliacoes = Avaliacoes::find()->where(['user_id' => $userId])->all();
-
-
-        return $this->render('experienciasAvaliadas', [
-            'avaliacoes' => $avaliacoes,
-        ]);
-    }
-
-
-    public function actionExperienciasComentadas()
-    {
-        $userId = Yii::$app->user->id;
-        $comentarios = Comentarios::find()
-            ->where(['user_id' => $userId])->all();
-
-        return $this->render('experienciasComentadas', [
-            'comentarios' => $comentarios,
-        ]);
-    }
-
 }
