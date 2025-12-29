@@ -355,7 +355,7 @@ class SiteController extends Controller
         $novaAvaliacao = new Avaliacoes();
         if($novaAvaliacao->load(Yii::$app->request->post())){
             $novaAvaliacao->experiencia_id = $id;
-            $novaAvaliacao->user_id = Yii::$app->user->id; // 👈 linha OBRIGATÓRIA
+            $novaAvaliacao->user_id = Yii::$app->user->id;
 
             if($novaAvaliacao->save()){
                 Yii::$app->session->setFlash('success', 'Avaliação adicionada com sucesso!');
@@ -365,7 +365,7 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('detalhes', [  // <- Esta view precisa existir
+        return $this->render('detalhes', [
             'experiencia' => $experiencia,
             'novoComentario' => $novoComentario,
             'novaAvaliacao' => $novaAvaliacao,
