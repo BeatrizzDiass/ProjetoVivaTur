@@ -2,14 +2,22 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use frontend\models\Favorito; // Importante para verificar se é favorito
 
 /** @var frontend\models\Experiencias $model */
-
-use yii\widgets\ActiveForm;
 
 $backendUrl = str_replace('frontend/web', 'backend/web', Url::base(true)) . '/uploads/';
 
 $this->title = "Detalhes da experiência - " . $experiencia->nome;
+
+// Verificar se a experiência já está nos favoritos do utilizador logado
+$isFavorito = false;
+if (!Yii::$app->user->isGuest) {
+    $isFavorito = Favorito::find()
+        ->where(['user_id' => Yii::$app->user->id, 'experiencia_id' => $experiencia->id])
+        ->exists();
+}
 ?>
 <div class="container-fluid bg-primary py-5 mb-5 hero-header">
     <div class="container py-5">
@@ -109,6 +117,31 @@ $this->title = "Detalhes da experiência - " . $experiencia->nome;
                 <button class="btn btn-primary btn-lg rounded-pill py-3">
                     <i class="bi bi-cart-plus me-2"></i>Reservar Experiência
                 </button>
+            </div>
+            <div class="experiencia-detalhes">
+                <!-- Botão de Favoritos Dinâmico -->
+                <p>
+                    <?php if ($isFavorito): ?>
+                        <!-- Botão REMOVER (Vermelho Sólido) -->
+                        <?= Html::a('<i class="bi bi-heart-fill me-2"></i>Remover dos Favoritos', ['favorito/create', 'id_experiencia' => $experiencia->id], [
+                            'class' => 'btn btn-danger btn-lg rounded-pill py-3 w-100 mt-3',
+                            'data' => [
+                                'method' => 'post',
+                            ],
+                        ]) ?>
+                    <?php else: ?>
+                        <!-- Botão ADICIONAR (Outline Vermelho) -->
+                        <?= Html::a('<i class="bi bi-heart me-2"></i>Adicionar aos Favoritos', ['favorito/create', 'id_experiencia' => $experiencia->id], [
+                            'class' => 'btn btn-outline-danger btn-lg rounded-pill py-3 w-100 mt-3',
+                            'data' => [
+                                'method' => 'post',
+                            ],
+                        ]) ?>
+                    <?php endif; ?>
+                </p>
+            </div>
+
+
             </div>
         </div>
     </div>

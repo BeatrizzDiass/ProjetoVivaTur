@@ -5,13 +5,13 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "favorito".
+ * This is the model class for table "favoritos".
  *
  * @property int $id
  * @property int $experiencia_id
  * @property int $user_id
  *
- * @property Experiencia $experiencia // Assumindo que o modelo Experiencia está em common/models
+ * @property Experiencias $experiencia
  * @property \common\models\User $user
  */
 class Favorito extends \yii\db\ActiveRecord
@@ -23,7 +23,7 @@ class Favorito extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'favorito';
+        return 'favoritos';
     }
 
     /**
@@ -34,8 +34,8 @@ class Favorito extends \yii\db\ActiveRecord
         return [
             [['experiencia_id', 'user_id'], 'required'],
             [['experiencia_id', 'user_id'], 'integer'],
-            [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\Experiencia', 'targetAttribute' => ['experiencia_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\User', 'targetAttribute' => ['user_id' => 'id']],
+            [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -58,7 +58,7 @@ class Favorito extends \yii\db\ActiveRecord
      */
     public function getExperiencia()
     {
-        return $this->hasOne(\common\models\Experiencia::class, ['id' => 'experiencia_id']);
+        return $this->hasOne(Experiencias::class, ['id' => 'experiencia_id']);
     }
 
     /**

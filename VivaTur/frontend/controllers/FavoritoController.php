@@ -2,140 +2,83 @@
 
 namespace frontend\controllers;
 
-use frontend\models\Favorito;
-use frontend\models\FavoritoSearch;
+use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use frontend\models\Favorito;
+use yii\web\Response;
 
-/**
- * FavoritoController implements the CRUD actions for Favorito model.
- */
 class FavoritoController extends Controller
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['@'], // Apenas utilizadores autenticados podem aceder
-                        ],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'], // Apenas usuários autenticados
                     ],
                 ],
-                'verbs' => [
-                    'class' => VerbFilter::class,
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+            ],
+            'verbs' => [
+                'class' => \yii\filters\VerbFilter::class,
+                'actions' => [
+                    'create' => ['post'],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
-     * Lists all Favorito models for the current user.
-     *
-     * @return string
+     * Lista os favoritos do utilizador atual
      */
     public function actionIndex()
     {
-        $searchModel = new FavoritoSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $userId = Yii::$app->user->id;
+        
+        // Busca todos os favoritos do utilizador logado
+        $favoritos = Favorito::find()
+            ->where(['user_id' => $userId])
+            ->with('experiencia') // Carrega logo os dados da experiência para evitar muitas queries
+            ->all();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'favoritos' => $favoritos,
         ]);
     }
 
-    /**
-     * Displays a single Favorito model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
+    public function actionCreate($id_experiencia)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+        $userId = Yii::$app->user->id;
 
-    /**
-     * Creates a new Favorito model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Favorito();
+        // Verifica se já existe
+        $favorito = Favorito::find()
+            ->where(['experiencia_id' => $id_experiencia, 'user_id' => $userId])
+            ->one();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($favorito) {
+            // Se já existe, remove (toggle)
+            $favorito->delete();
+            Yii::$app->session->setFlash('success', 'Removido dos favoritos.');
         } else {
-            $model->loadDefaultValues();
+            // Se não existe, cria
+            $favorito = new Favorito();
+            $favorito->experiencia_id = $id_experiencia;
+            $favorito->user_id = $userId;
+            
+            if ($favorito->save()) {
+                Yii::$app->session->setFlash('success', 'Adicionado aos favoritos!');
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao adicionar aos favoritos.');
+            }
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Favorito model.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Favorito model.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Favorito model based on its primary key value.
-     * @param int $id ID
-     * @return Favorito the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Favorito::findOne(['id' => $id, 'user_id' => \Yii::$app->user->id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        // Redireciona de volta para a página anterior
+        return $this->redirect(Yii::$app->request->referrer ?: ['site/index']);
     }
 }

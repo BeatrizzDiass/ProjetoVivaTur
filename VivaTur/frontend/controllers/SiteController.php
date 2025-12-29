@@ -384,4 +384,11 @@ class SiteController extends Controller
             'experiencia' => $experiencia,
         ]);
     }
+
+    public function actionProfile()
+    {
+        return $this->render('profile', [
+            'user' => Yii::$app->user->identity,
+        ]);
+    }
 }
