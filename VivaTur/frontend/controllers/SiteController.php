@@ -25,6 +25,9 @@ use yii\web\NotFoundHttpException;
 use frontend\models\Comentarios;
 use frontend\models\Avaliacoes;
 
+use frontend\models\Metodopagamentos;
+use frontend\models\Reservas;
+
 /**
  * Site controller
  */
@@ -301,29 +304,9 @@ class SiteController extends Controller
         return $this->render('service');
     }
 
-    public function actionTestimonial()
-    {
-        return $this->render('testimonial');
-    }
-
     public function actionTeam()
     {
         return $this->render('team');
-    }
-
-    public function actionPackage()
-    {
-        return $this->render('package');
-    }
-
-    public function actionDestination()
-    {
-        return $this->render('destination');
-    }
-
-    public function actionBooking()
-    {
-        return $this->render('booking');
     }
 
     public function actionDetalhes($id)
@@ -365,23 +348,10 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('detalhes', [
+        return $this->render('detalhes', [  // <- Esta view precisa existir
             'experiencia' => $experiencia,
             'novoComentario' => $novoComentario,
             'novaAvaliacao' => $novaAvaliacao,
-        ]);
-    }
-
-    public function actionReservar($id)
-    {
-        $experiencia = Experiencias::findOne($id);
-
-        if ($experiencia === null) {
-            throw new NotFoundHttpException('Experiência não encontrada.');
-        }
-
-        return $this->render('reservar', [  // <- Esta view precisa existir
-            'experiencia' => $experiencia,
         ]);
     }
 
@@ -391,4 +361,117 @@ class SiteController extends Controller
             'user' => Yii::$app->user->identity,
         ]);
     }
+
+    public function actionExperienciasAvaliadas()
+    {
+        $userId = Yii::$app->user->id;
+        $avaliacoes = Avaliacoes::find()->where(['user_id' => $userId])->all();
+
+
+        return $this->render('experienciasAvaliadas', [
+            'avaliacoes' => $avaliacoes,
+        ]);
+    }
+
+
+    public function actionExperienciasComentadas()
+    {
+        $userId = Yii::$app->user->id;
+        $comentarios = Comentarios::find()
+            ->where(['user_id' => $userId])->all();
+
+        return $this->render('experienciasComentadas', [
+            'comentarios' => $comentarios,
+        ]);
+    }
+
+    public function actionReserva($id)
+    {
+        $experiencia = Experiencias::findOne($id);
+
+        if (!$experiencia) {
+            throw new NotFoundHttpException('Experiência não encontrada.');
+        }
+
+        $metodoPagamento = MetodoPagamentos::find()->all();
+        $reserva = new Reservas();
+
+        $reserva->numPessoas = 1;
+
+        if ($reserva->load(Yii::$app->request->post())) {
+
+            $vagasDisponiveis = $experiencia->getVagasDisponiveis();
+
+            if ($reserva->numPessoas > $vagasDisponiveis) {
+                Yii::$app->session->setFlash('error', "Desculpe, apenas {$vagasDisponiveis} vagas disponíveis para esta experiência.");
+                return $this->render('reserva', [
+                    'experiencia' => $experiencia,
+                    'metodoPagamento' => $metodoPagamento,
+                    'reserva' => $reserva,
+                ]);
+            }
+
+            $reserva->dataReserva = date('Y-m-d H:i:s');
+            $reserva->disponivel = "sim";
+            $reserva->experiencia_id = $id;
+            $reserva->user_id = Yii::$app->user->id;
+
+            // DEBUG: Ver se está salvando
+            if ($reserva->save()) {
+                Yii::$app->session->setFlash('success', 'Reserva realizada com sucesso!');
+                return $this->redirect(['site/confirmacao', 'id' => $reserva->id]);
+            } else {
+                // Mostrar os erros de validação
+                $errors = $reserva->getErrors();
+                Yii::$app->session->setFlash('error', 'Erro ao realizar reserva: ' . print_r($errors, true));
+
+                return $this->render('reserva', [
+                    'experiencia' => $experiencia,
+                    'metodoPagamento' => $metodoPagamento,
+                    'reserva' => $reserva,
+                ]);
+            }
+        }
+
+        return $this->render('reserva', [
+            'experiencia' => $experiencia,
+            'metodoPagamento' => $metodoPagamento,
+            'reserva' => $reserva,
+        ]);
+    }
+
+    public function actionConfirmacao($id)
+    {
+        $reserva = Reservas::findOne($id);
+
+        if (!$reserva) {
+            throw new \yii\web\NotFoundHttpException('Reserva não encontrada.');
+        }
+
+        // Verificar se a reserva pertence ao utilizador logado
+        if ($reserva->user_id != Yii::$app->user->id) {
+            throw new \yii\web\ForbiddenHttpException('Não tem permissão para ver esta reserva.');
+        }
+
+        return $this->render('confirmacao', [
+            'reserva' => $reserva,
+        ]);
+    }
+
+
+    public function actionExperienciasReservadas()
+    {
+        $userId = Yii::$app->user->id;
+
+        // Buscar todas as reservas do usuário logado
+        $reservas = Reservas::find()
+            ->where(['user_id' => Yii::$app->user->id])
+
+            ->all();
+
+        return $this->render('experienciasReservadas', [
+            'reservas' => $reservas,
+        ]);
+    }
+
 }

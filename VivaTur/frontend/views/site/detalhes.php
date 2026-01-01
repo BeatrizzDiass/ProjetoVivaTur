@@ -114,9 +114,9 @@ if (!Yii::$app->user->isGuest) {
                 <p><b>Gestor:</b><?= $experiencia->gestor->user->username ?></p>
             </div>
             <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-lg rounded-pill py-3">
+                <a href="<?= Url::to(['site/reserva', 'id' => $experiencia->id]) ?>" class="btn btn-primary btn-lg rounded-pill py-3">
                     <i class="bi bi-cart-plus me-2"></i>Reservar Experiência
-                </button>
+                </a>
             </div>
             <div class="experiencia-detalhes">
                 <!-- Botão de Favoritos Dinâmico -->

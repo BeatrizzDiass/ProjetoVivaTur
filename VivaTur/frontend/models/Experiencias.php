@@ -163,4 +163,28 @@ class Experiencias extends \yii\db\ActiveRecord
         // OR if the user relation is through gestor:
         // return $this->hasOne(User::class, ['id' => 'gestor_id']);
     }
+
+
+    public function getVagasDisponiveis()
+    {
+        // Soma o total de pessoas que já reservaram esta experiência
+        $totalReservado = Reservas::find()
+            ->where(['experiencia_id' => $this->id])
+            ->sum('numPessoas');
+
+        // Se não houver reservas, retorna o máximo
+        if ($totalReservado === null) {
+            $totalReservado = 0;
+        }
+
+        // Calcula vagas disponíveis
+        return $this->numMaxParticipante - $totalReservado;
+    }
+
+    public function vagasexperiencia($quantidade)
+    {
+        return $this->getVagasDisponiveis() >= $quantidade;
+    }
+
+
 }

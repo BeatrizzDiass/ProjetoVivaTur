@@ -98,11 +98,11 @@ $this->beginPage()
 
                                 <a href="<?= Url::to(['/site/experiencias-comentadas']) ?>" class="dropdown-item">Experiências
                                     comentadas</a>
-                                <a href="<?= Url::to([' ']) ?>" class="dropdown-item">Experiências
+                                <a href="<?= Url::to(['/site/experiencias-reservadas']) ?>" class="dropdown-item">Experiências
                                     reservadas</a>
 
 
-                                <a href="<?= Url::to(['/favorito/index']) ?>" class="dropdown-item">Favoritos</a>
+                                <a href="<?= Url::to(['/site/favoritos']) ?>" class="dropdown-item">Favoritos</a>
                                 <?= Html::beginForm(['/site/logout'], 'post') ?>
                                 <?= Html::submitButton('Logout', ['class' => 'dropdown-item']) ?>
                                 <?= Html::endForm() ?>
