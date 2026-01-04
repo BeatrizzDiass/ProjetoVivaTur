@@ -15,23 +15,27 @@ use backend\models\User;
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-<!--    --><?php //= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
-<!---->
-<!--    --><?php //= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
-<!---->
-<!--    --><?php //= $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
+    <!--    --><?php //= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
+    <!---->
+    <!--    --><?php //= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+    <!---->
+    <!--    --><?php //= $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
 
-   <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList([10 => 'Active', 9 => 'Inactive']) ?>
+    <?= $form->field($model, 'status')->dropDownList([
+        User::STATUS_ACTIVE => 'Ativo',
+        User::STATUS_INACTIVE => 'Inativo',
+        User::STATUS_DELETED => 'Removido',
+    ], ['prompt' => 'Selecione o status']) ?>
 
-<!--    --><?php //= $form->field($model, 'created_at')->textInput() ?>
-<!---->
-<!--    --><?php //= $form->field($model, 'updated_at')->textInput() ?>
-<!---->
-<!--    --><?php //= $form->field($model, 'verification_token')->textInput(['maxlength' => true]) ?>
+    <!--    --><?php //= $form->field($model, 'created_at')->textInput() ?>
+    <!---->
+    <!--    --><?php //= $form->field($model, 'updated_at')->textInput() ?>
+    <!---->
+    <!--    --><?php //= $form->field($model, 'verification_token')->textInput(['maxlength' => true]) ?>
 
 
     <div class="row">
@@ -48,7 +52,7 @@ use backend\models\User;
                 O role define as permissões do utilizador no sistema
             </small>
         </div>
-    </div
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

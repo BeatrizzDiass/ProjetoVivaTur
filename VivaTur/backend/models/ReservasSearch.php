@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Paises;
+use backend\models\Reservas;
 
 /**
- * PaisesSearch represents the model behind the search form of `frontend\models\Paises`.
+ * ReservasSearch represents the model behind the search form of `backend\models\Reservas`.
  */
-class PaisesSearch extends Paises
+class ReservasSearch extends Reservas
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class PaisesSearch extends Paises
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['nome'], 'safe'],
+            [['id', 'numPessoas', 'experiencia_id', 'user_id', 'metodoPagamento_id'], 'integer'],
+            [['dataReserva', 'disponivel'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PaisesSearch extends Paises
      */
     public function search($params, $formName = null)
     {
-        $query = Paises::find();
+        $query = Reservas::find();
 
         // add conditions that should always apply here
 
@@ -60,9 +60,14 @@ class PaisesSearch extends Paises
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'numPessoas' => $this->numPessoas,
+            'experiencia_id' => $this->experiencia_id,
+            'user_id' => $this->user_id,
+            'metodoPagamento_id' => $this->metodoPagamento_id,
         ]);
 
-        $query->andFilterWhere(['like', 'nome', $this->nome]);
+        $query->andFilterWhere(['like', 'dataReserva', $this->dataReserva])
+            ->andFilterWhere(['like', 'disponivel', $this->disponivel]);
 
         return $dataProvider;
     }

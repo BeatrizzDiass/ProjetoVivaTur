@@ -6,8 +6,20 @@ use common\models\LoginForm;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
+
+use backend\models\Experiencias;
+use backend\models\User;
+use backend\models\Categorias;
+use backend\models\Linguas;
+use backend\models\Paises;
+use backend\models\Avaliacoes;
+use backend\models\MetodoPagamentos;
+use backend\models\Comentarios;
+use backend\models\Reservas;
+use backend\models\Gestores;
 
 
 
@@ -76,23 +88,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $experiencesCount = \backend\models\Experiencias::find()->count();
+        $experiencesCount = Experiencias::find()->count();
 
-        $categoriasCount = \backend\models\Categorias::find()->count();
+        $categoriasCount = Categorias::find()->count();
 
-        $userCount = \backend\models\User::find()->count();
+        $userCount = User::find()->count();
 
-        $idiomasCount = \backend\models\Linguas::find()->count();
+        $idiomasCount = Linguas::find()->count();
 
-        $paisesCount = \backend\models\Paises::find()->count();
+        $paisesCount = Paises::find()->count();
 
-        $avaliacoesCount = \backend\models\Avaliacoes::find()->count();
+        $avaliacoesCount = Avaliacoes::find()->count();
 
-        $metodosPagamentoCount = \backend\models\MetodoPagamentos::find()->count();
+        $metodosPagamentoCount = MetodoPagamentos::find()->count();
 
-        $comentariosCount = \backend\models\Comentarios::find()->count();
+        $comentariosCount = Comentarios::find()->count();
 
-        $gestoresCount = \backend\models\Gestores::find()->count();
+        $reservasCount = Reservas::find()->count();
+
+        $gestoresCount = Gestores::find()->count();
 
         return $this->render('index', [
             'experiencesCount' => $experiencesCount,
@@ -103,6 +117,7 @@ class SiteController extends Controller
             'avaliacoesCount' => $avaliacoesCount,
             'metodosPagamentoCount' => $metodosPagamentoCount,
             'comentariosCount' => $comentariosCount,
+            'reservasCount' => $reservasCount,
             'gestoresCount' => $gestoresCount,
         ]);
     }
@@ -238,6 +253,27 @@ class SiteController extends Controller
      */
     public function actionCalendar()
     {
-        return $this->render('calendar');
+        $experiencias = Experiencias::find()
+            ->select(['id', 'nome', 'dataDisponivel', 'horaInicio', 'horaFim', 'local'])
+            ->all();
+
+        // Formatar para o FullCalendar
+        $eventos = [];
+        foreach ($experiencias as $exp) {
+            $eventos[] = [
+                'id' => $exp['id'],
+                'title' => $exp['nome'],
+                'start' => $exp['dataDisponivel'] . 'T' . $exp['horaInicio'],
+                'end' => $exp['dataDisponivel'] . 'T' . $exp['horaFim'],
+                'extendedProps' => [
+                    'local' => $exp['local']
+                ],
+                'url' => Url::to(['experiencias/view', 'id' => $exp['id']])
+            ];
+        }
+
+        return $this->render('calendar', [
+            'eventos' => json_encode($eventos)
+        ]);
     }
 }

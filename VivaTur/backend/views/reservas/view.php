@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var backend\models\Reservas $model */
 
-$this->title = $model->id;
+$this->title = $model->experiencia->nome;
 $this->params['breadcrumbs'][] = ['label' => 'Reservas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -28,11 +28,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'dataReserva',
+            [
+                'attribute' => 'dataReserva',
+                'label' => 'Data da Reserva',
+                'value' => function($model) {
+                    return date('d/m/Y', strtotime($model->dataReserva));
+                },
+            ],
             'disponivel',
-            'experiencia_id',
-            'user_id',
-            'metodoPagamento_id',
+            [
+                'attribute' => 'experiencia_id',
+                'value' => function($model) {
+                    return $model->experiencia->nome;
+                },
+                'label' => 'Experiencia',
+            ],
+            [
+                'attribute' => 'metodoPagamento_id',
+                'value' => function($model) {
+                    return $model->metodoPagamento->nome;
+                },
+                'label' => 'Metodo de Pagamento',
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => function($model) {
+                    return $model->user->username;
+                },
+                'label' => 'User',
+            ],
         ],
     ]) ?>
 

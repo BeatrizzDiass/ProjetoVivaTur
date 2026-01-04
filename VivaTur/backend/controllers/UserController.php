@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -178,7 +179,15 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // Soft delete: marcar o status como deletado (0) em vez de excluir permanentemente
+        $model = $this->findModel($id);
+        $model->status = User::STATUS_DELETED;
+
+        if ($model->save(false)) {
+            Yii::$app->session->setFlash('success', 'Usuário deletado com sucesso!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Erro ao deletar usuário.');
+        }
 
         return $this->redirect(['index']);
     }

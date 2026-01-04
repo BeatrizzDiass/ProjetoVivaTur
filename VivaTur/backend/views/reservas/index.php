@@ -6,6 +6,9 @@ use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
+//bootstrap
+use yii\bootstrap5\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var app\models\ReservasSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -28,16 +31,40 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'dataReserva',
+            [
+                'attribute' => 'dataReserva',
+                'label' => 'Data da Reserva',
+                'value' => function($model) {
+                    return date('d/m/Y', strtotime($model->dataReserva));
+                },
+            ],
             'disponivel',
-            'experiencia_id',
-            'user_id',
-            //'metodoPagamento_id',
+            [
+                'attribute' => 'experiencia_id',
+                'value' => function($model) {
+                    return $model->experiencia->nome;
+                },
+                'label' => 'Experiencia',
+            ],
+            [
+                'attribute' => 'metodoPagamento_id',
+                'value' => function($model) {
+                    return $model->metodoPagamento->nome;
+                },
+                'label' => 'Metodo de Pagamento',
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => function($model) {
+                    return $model->user->username;
+                },
+                'label' => 'User',
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Reservas $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

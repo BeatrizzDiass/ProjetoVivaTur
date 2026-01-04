@@ -39,27 +39,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'numMinParticipante')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'categoria')->dropDownList(
+    <?= $form->field($model, 'categoria_id')->dropDownList(
         ArrayHelper::map(Categorias::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona uma categoria']
-    ) ?>
+    )->label('Categoria') ?>
 
-    <?= $form->field($model, 'gestor')->dropDownList(
+    <?= $form->field($model, 'gestor_id')->dropDownList(
         ArrayHelper::map(
             Gestores::find()->joinWith('user')->all(),
             'id',
             'user.username'
         ),
         ['prompt' => 'Seleciona um gestor']
-    ) ?>
+    )->label('Gestor') ?>
 
-    <?= $form->field($model, 'pais')->dropDownList(
+    <?= $form->field($model, 'pais_id')->dropDownList(
         ArrayHelper::map(\backend\models\Paises::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona um país']
-    ) ?>
+    )->label('País') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

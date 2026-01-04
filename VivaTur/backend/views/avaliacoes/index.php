@@ -29,7 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'estrela',
-            'experiencia_id',
+            [
+                'attribute' => 'experiencia_id',
+                'label' => 'Experiência',
+                'value' => function($model) {
+                    return $model->experiencia ? $model->experiencia->nome : 'N/A';
+                },
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Avaliacoes $model, $key, $index, $column) {

@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var backend\models\Avaliacoes $model */
 
-$this->title = 'Update Avaliacoes: ' . $model->experiencia->nome;
+$this->title = 'Update Avaliações: ' . $model->experiencia->nome;
 $this->params['breadcrumbs'][] = ['label' => 'Avaliacoes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -29,7 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'estrela',
-            'experiencia_id',
+            [
+                'attribute' => 'experiencia_id',
+                'label' => 'Experiência',
+                'value' => function($model) {
+                    return $model->experiencia ? $model->experiencia->nome : 'N/A';
+                },
+            ],
         ],
     ]) ?>
 
