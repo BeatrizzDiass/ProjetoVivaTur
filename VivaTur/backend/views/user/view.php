@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\models\User;
 
 /** @var yii\web\View $this */
 /** @var app\models\User $model */
@@ -38,10 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value' => function($model) {
-                    if($model->status == 10) {  // ADICIONAR $model->
-                        return 'Active';
-                    } else {
-                        return 'Inactive';
+                    switch($model->status) {
+                        case User::STATUS_ACTIVE:
+                            return 'Ativo';
+                        case User::STATUS_INACTIVE:
+                            return 'Inativo';
+                        case User::STATUS_DELETED:
+                            return 'Removido';
+                        default:
+                            return 'Desconhecido';
                     }
                 },
             ],

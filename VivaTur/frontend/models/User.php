@@ -27,6 +27,8 @@ use Yii;
 class User extends \yii\db\ActiveRecord
 {
 
+    public $new_password;
+
 
     /**
      * {@inheritdoc}
@@ -51,6 +53,9 @@ class User extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
+
+            ['new_password', 'string', 'min' => 6],
+            ['new_password', 'safe'],
         ];
     }
 

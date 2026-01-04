@@ -357,8 +357,36 @@ class SiteController extends Controller
 
     public function actionProfile()
     {
+        $user = Yii::$app->user->identity;
+
+
+
+        if (!$user) {
+            throw new NotFoundHttpException('Utilizador não encontrado.');
+        }
+
+        if ($user->load(Yii::$app->request->post())) {
+            // Se foi fornecida uma nova password
+            if (!empty($user->new_password)) {
+                if (strlen($user->new_password) >= 6) {
+                    $user->setPassword($user->new_password);
+                    $user->generateAuthKey();
+                } else {
+                    Yii::$app->session->setFlash('error', 'A password deve ter no mínimo 6 caracteres.');
+                    return $this->render('profile', ['user' => $user]);
+                }
+            }
+
+            if ($user->save()) {
+                Yii::$app->session->setFlash('success', 'Perfil atualizado com sucesso!');
+                return $this->refresh();
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao atualizar perfil.');
+            }
+        }
+
         return $this->render('profile', [
-            'user' => Yii::$app->user->identity,
+            'user' => $user,
         ]);
     }
 

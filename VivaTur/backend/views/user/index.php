@@ -35,10 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value' => function($model) {
-                    if($model->status == 10) {
-                        return 'Active';
-                    } else {
-                        return 'Inactive';
+                    switch($model->status) {
+                        case User::STATUS_ACTIVE:
+                            return 'Ativo';
+                        case User::STATUS_INACTIVE:
+                            return 'Inativo';
+                        case User::STATUS_DELETED:
+                            return 'Removido';
+                        default:
+                            return 'Desconhecido';
                     }
                 },
             ],

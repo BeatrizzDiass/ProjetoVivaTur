@@ -33,14 +33,35 @@ $this->params['breadcrumbs'][] = $this->title;
             'horaFim',
             'duracao',
             'local',
-            'dataDisponivel',
+            [
+                'attribute' => 'dataDisponivel',
+                'value' => date('d/m/Y', strtotime($model->dataDisponivel)),
+            ],
             'precoPessoa',
             'imagem',
             'numMaxParticipante',
             'numMinParticipante',
-            'categoria_id',
-            'gestor_id',
-            'pais_id',
+            [
+                'attribute' => 'categoria_id',
+                'value' => function($model) {
+                    return $model->categoria->nome;
+                },
+                'label' => 'Categoria',
+            ],
+            [
+                'attribute' => 'gestor_id',
+                'value' => function($model) {
+                    return $model->gestor->user->username;
+                },
+                'label' => 'Gestor',
+            ],
+            [
+                'attribute' => 'pais_id',
+                'value' => function($model) {
+                    return $model->pais->nome;
+                },
+                'label' => 'País',
+            ],
         ],
     ]) ?>
 

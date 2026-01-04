@@ -63,6 +63,13 @@ class Experiencias extends \yii\db\ActiveRecord
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'checkExtensionByMimeType' => false],
             [['imagem'], 'string', 'max' => 255],
+
+            // Regra de validação para garantir que numMinParticipante <= numMaxParticipante
+            ['numMinParticipante', 'compare',
+                'compareAttribute' => 'numMaxParticipante',
+                'operator' => '<=',
+                'message' => 'O número mínimo de participantes não pode ser maior que o número máximo.'
+            ],
         ];
     }
 

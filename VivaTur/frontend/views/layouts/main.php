@@ -102,7 +102,7 @@ $this->beginPage()
                                     reservadas</a>
 
 
-                                <a href="<?= Url::to(['/site/favoritos']) ?>" class="dropdown-item">Favoritos</a>
+                                <a href="<?= Url::to(['/favorito/index']) ?>" class="dropdown-item">Favoritos</a>
                                 <?= Html::beginForm(['/site/logout'], 'post') ?>
                                 <?= Html::submitButton('Logout', ['class' => 'dropdown-item']) ?>
                                 <?= Html::endForm() ?>

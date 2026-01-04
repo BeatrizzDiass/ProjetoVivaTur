@@ -53,12 +53,31 @@ $vagasDisponiveis = $experiencia->getVagasDisponiveis();
                     'class' => 'form-control text-center',
                     'min' => 1,
                     'max' => $vagasDisponiveis, // Usar vagas disponíveis em vez do máximo
-                    'style' => 'width: 100px;'
+                    'style' => 'width: 100px;',
+                    'data-preco' => $experiencia->precoPessoa
                 ])->label(false) ?>
 
                 <button type="button" id="mais" class="btn btn-outline-primary">+</button>
             </div>
             <small class="text-muted">Máximo: <?= $vagasDisponiveis ?> vagas disponíveis</small>
+        </div>
+
+        <!-- Preço -->
+        <div class="mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resumo do Pagamento</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Preço por pessoa:</span>
+                        <strong><?= Html::encode($experiencia->precoPessoa) ?>€</strong>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Total:</span>
+                        <strong id="preco-total" class="text-primary fs-4"><?= Html::encode($experiencia->precoPessoa) ?>€</strong>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="mb-4">

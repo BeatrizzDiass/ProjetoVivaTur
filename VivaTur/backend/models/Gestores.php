@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use backend\models\Experiencias;
+use backend\models\User;
 
 /**
  * This is the model class for table "gestores".
@@ -65,7 +67,7 @@ class Gestores extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(\backend\models\User::class, ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
 }

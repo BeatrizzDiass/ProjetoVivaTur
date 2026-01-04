@@ -1,6 +1,6 @@
 <?php
 
-use backend\models\Paises;
+use frontend\models\Paises;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\PaisesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Países';
+$this->title = 'Paises';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="paises-index">
