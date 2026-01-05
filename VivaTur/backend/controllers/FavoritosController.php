@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Favoritos;
 use app\models\FavoritosSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +19,58 @@ class FavoritosController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'denyCallback' => function () {
+                    throw new \yii\web\ForbiddenHttpException(
+                        'Não tem permissões para aceder a esta funcionalidade.'
+                    );
+                },
+                'rules' => [
+                    // Login obrigatório
+                    [
+                        'allow' => true,
+                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
+                    ],
+
+                    // Visualizar
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['viewFavoritos'],
+                    ],
+
+                    // Criar
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['createFavoritos'],
+                    ],
+
+                    // Atualizar
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['updateFavoritos'],
+                    ],
+
+                    // Eliminar
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['deleteFavoritos'],
                     ],
                 ],
-            ]
-        );
+            ],
+
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
     /**
