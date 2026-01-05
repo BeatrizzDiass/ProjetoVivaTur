@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Categorias;
 use app\models\CategoriasSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +19,59 @@ class CategoriasController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'denyCallback' => function () {
+                    throw new \yii\web\ForbiddenHttpException(
+                        'Não tem permissões para aceder a esta funcionalidade.'
+                    );
+                },
+                'rules' => [
+
+                    // Login obrigatório
+                    [
+                        'allow' => true,
+                        'roles' => ['admin', 'gestor'],
+                    ],
+
+                    // Visualizar
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['viewCategorias'],
+                    ],
+
+                    // Criar
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['createCategorias'],
+                    ],
+
+                    // Atualizar
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['updateCategorias'],
+                    ],
+
+                    // Eliminar
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['deleteCategorias'],
                     ],
                 ],
-            ]
-        );
+            ],
+
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
     /**

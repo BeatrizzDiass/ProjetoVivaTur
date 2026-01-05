@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'horaInicio')->input('time') ?>
 
     <?= $form->field($model, 'horaFim')->input('time') ?>

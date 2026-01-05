@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nome',
+            'descricao',
             'horaInicio',
             'horaFim',
             'duracao',

@@ -9,6 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $descricao
+ * @property string|null $resposta
+ * @property string|null $dataResposta
  * @property string $dataCriacao
  * @property int $experiencia_id
  * @property int $user_id
@@ -18,8 +20,6 @@ use Yii;
  */
 class Comentarios extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -36,7 +36,9 @@ class Comentarios extends \yii\db\ActiveRecord
         return [
             [['descricao', 'dataCriacao', 'experiencia_id', 'user_id'], 'required'],
             [['experiencia_id', 'user_id'], 'integer'],
-            [['descricao', 'dataCriacao'], 'string', 'max' => 45],
+            [['descricao'], 'string', 'max' => 500],
+            [['resposta'], 'string', 'max' => 500],
+            [['dataCriacao', 'dataResposta'], 'safe'],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -49,10 +51,12 @@ class Comentarios extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descricao' => 'Descricao',
-            'dataCriacao' => 'Data Criacao',
-            'experiencia_id' => 'Experiencia ID',
-            'user_id' => 'User ID',
+            'descricao' => 'Comentário',
+            'resposta' => 'Resposta',
+            'dataResposta' => 'Data da Resposta',
+            'dataCriacao' => 'Data de Criação',
+            'experiencia_id' => 'Experiência',
+            'user_id' => 'Utilizador',
         ];
     }
 
@@ -76,4 +80,11 @@ class Comentarios extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+    /**
+     * Verifica se o comentário tem resposta
+     */
+    public function temResposta()
+    {
+        return !empty($this->resposta);
+    }
 }

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Paises;
 use app\models\PaisesSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +19,47 @@ class PaisesController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'denyCallback' => function () {
+                    throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
+                },
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['viewPaises'], // Permissão para listar e ver países
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['createPaises'], // Permissão para criar
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['updatePaises'], // Permissão para editar
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['deletePaises'], // Permissão para eliminar
                     ],
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
     /**

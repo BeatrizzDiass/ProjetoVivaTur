@@ -6,6 +6,7 @@ use app\models\UploadForm;
 use backend\models\Experiencias;
 use app\models\ExperienciasSearch;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,17 +22,57 @@ class ExperienciasController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'denyCallback' => function () {
+                    throw new \yii\web\ForbiddenHttpException(
+                        'Não tem permissões para aceder a esta funcionalidade.'
+                    );
+                },
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
+                    ],
+
+                    // Visualizar
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['viewExperiencias'],
+                    ],
+
+                    // Criar
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['createExperiencias'],
+                    ],
+
+                    // Atualizar
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['updateExperiencias', 'editarExperiencias'],
+                    ],
+
+                    // Eliminar
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['deleteExperiencias', 'eliminarExperiencias'],
                     ],
                 ],
-            ]
-        );
+            ],
+
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
     /**

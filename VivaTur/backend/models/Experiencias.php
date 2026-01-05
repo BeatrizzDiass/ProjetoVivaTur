@@ -55,9 +55,9 @@ class Experiencias extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'horaInicio', 'horaFim', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
+            [['nome', 'descricao' ,'horaInicio', 'horaFim', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
             [['categoria_id', 'gestor_id', 'pais_id'], 'integer'],
-            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
+            [['nome', 'descricao','horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['categoria_id' => 'id']],
             [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gestores::class, 'targetAttribute' => ['gestor_id' => 'id']],
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
@@ -70,6 +70,8 @@ class Experiencias extends \yii\db\ActiveRecord
                 'operator' => '<=',
                 'message' => 'O número mínimo de participantes não pode ser maior que o número máximo.'
             ],
+
+            [['horaInicio', 'dataDisponivel'], 'validarHorario'],
         ];
     }
 
@@ -81,6 +83,7 @@ class Experiencias extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nome' => 'Nome',
+            'descricao' => 'Descricao',
             'horaInicio' => 'Hora Inicio',
             'horaFim' => 'Hora Fim',
             'duracao' => 'Duracao',
@@ -196,6 +199,24 @@ class Experiencias extends \yii\db\ActiveRecord
             return true;
         }
         return false;
+    }
+
+    public function validarHorario($attribute, $params)
+    {
+        $query = self::find()
+            ->where([
+                'horaInicio' => $this->horaInicio,
+                'dataDisponivel' => $this->dataDisponivel,
+                'local' => $this->local,
+            ]);
+
+        if (!$this->isNewRecord) {
+            $query->andWhere(['!=', 'id', $this->id]);
+        }
+
+        if ($query->exists()) {
+            $this->addError($attribute, 'Já existe uma experiência agendada para este horário, data e local.');
+        }
     }
 
 }

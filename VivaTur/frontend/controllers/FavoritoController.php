@@ -21,7 +21,7 @@ class FavoritoController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'], // Apenas usuários autenticados
+                        'roles' => ['turista'], // Apenas usuários autenticados
                     ],
                 ],
             ],
