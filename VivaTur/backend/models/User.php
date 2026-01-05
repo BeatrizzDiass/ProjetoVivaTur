@@ -201,4 +201,9 @@ class User extends \yii\db\ActiveRecord
         return $list;
     }
 
+    public function getTuristas()
+    {
+        return $this->hasOne(Turistas::class, ['user_id' => 'id']);
+    }
+
 }

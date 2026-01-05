@@ -3,19 +3,22 @@
 namespace frontend\models;
 
 use Yii;
+use common\models\User; // Altere de frontend\models\User para common\models\User
 
 /**
  * This is the model class for table "comentarios".
  *
  * @property int $id
  * @property string $descricao
- * @property string|null $resposta
- * @property string|null $dataResposta
  * @property string $dataCriacao
  * @property int $experiencia_id
  * @property int $user_id
+ * @property int $turista_id
+ * @property string|null $resposta
+ * @property string|null $dataResposta
  *
  * @property Experiencias $experiencia
+ * @property Turistas $turista
  * @property User $user
  */
 class Comentarios extends \yii\db\ActiveRecord
@@ -34,13 +37,26 @@ class Comentarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['descricao', 'dataCriacao', 'experiencia_id', 'user_id'], 'required'],
-            [['experiencia_id', 'user_id'], 'integer'],
-            [['descricao'], 'string', 'max' => 500],
-            [['resposta'], 'string', 'max' => 500],
+            // Campos obrigatórios ao criar comentário
+            [['descricao', 'experiencia_id', 'turista_id'], 'required'],
+
+            // Campos numéricos
+            [['experiencia_id', 'turista_id'], 'integer'],
+
+            // Campos de data
             [['dataCriacao', 'dataResposta'], 'safe'],
+
+            // Campos de texto - NOTE: removido 'max' => 45 porque comentários precisam ser maiores
+            [['descricao'], 'string', 'max' => 500], // Aumentei para 500 caracteres
+
+            // Resposta é opcional (só preenchida pelo gestor)
+            [['resposta'], 'string', 'max' => 500],
+            [['resposta'], 'default', 'value' => null],
+            [['dataResposta'], 'default', 'value' => null],
+
+            // Validações de relacionamento
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
         ];
     }
 
@@ -52,11 +68,12 @@ class Comentarios extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'descricao' => 'Comentário',
-            'resposta' => 'Resposta',
-            'dataResposta' => 'Data da Resposta',
             'dataCriacao' => 'Data de Criação',
             'experiencia_id' => 'Experiência',
-            'user_id' => 'Utilizador',
+            // 'user_id' => 'Utilizador',
+            'turista_id' => 'Turista',
+            'resposta' => 'Resposta',
+            'dataResposta' => 'Data da Resposta',
         ];
     }
 
@@ -71,6 +88,16 @@ class Comentarios extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Turista]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTurista()
+    {
+        return $this->hasOne(Turistas::class, ['id' => 'turista_id']);
+    }
+
+    /**
      * Gets query for [[User]].
      *
      * @return \yii\db\ActiveQuery
@@ -81,7 +108,9 @@ class Comentarios extends \yii\db\ActiveRecord
     }
 
     /**
-     * Verifica se o comentário tem resposta
+     * Verifica se o comentário tem resposta do gestor
+     *
+     * @return bool
      */
     public function temResposta()
     {

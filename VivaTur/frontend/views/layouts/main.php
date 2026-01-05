@@ -4,7 +4,9 @@
 
 /** @var string $content */
 
+use frontend\models\Turistas;
 use frontend\assets\AppAsset;
+use frontend\models\Gestores;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -85,24 +87,45 @@ $this->beginPage()
                         </a>
                     <?php else: ?>
                         <!-- Logado -->
+                        <?php
+                        $user = Yii::$app->user->identity;
+                        $isGestor = Gestores::find()->where(['user_id' => $user->id])->exists();
+                        $isTurista = Turistas::find()->where(['user_id' => $user->id])->exists();
+                        ?>
+
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <?= Html::encode(Yii::$app->user->identity->username) ?>
+                                <?= Html::encode($user->username) ?>
                                 <i class="fas fa-user-circle ms-2"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end m-0">
+                                <!-- Sempre visível -->
                                 <a href="<?= Url::to(['/site/profile']) ?>" class="dropdown-item">Detalhes da conta</a>
-                                <a href="<?= Url::to(['/site/experiencias-avaliadas']) ?>" class="dropdown-item">
-                                    Experiências avaliadas
+
+                                <!-- Opções de Turista -->
+                                <a href="<?= Url::to(['/site/experiencias-reservadas']) ?>"
+                                   class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
+                                    Experiências Reservadas
+                                </a>
+                                <a href="<?= Url::to(['/site/experiencias-avaliadas']) ?>"
+                                   class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
+                                    Experiências Avaliadas
+                                </a>
+                                <a href="<?= Url::to(['/site/experiencias-comentadas']) ?>"
+                                   class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
+                                    Experiências Comentadas
+                                </a>
+                                <a href="<?= Url::to(['/favorito/index']) ?>"
+                                   class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
+                                    Favoritos
                                 </a>
 
-                                <a href="<?= Url::to(['/site/experiencias-comentadas']) ?>" class="dropdown-item">Experiências
-                                    comentadas</a>
-                                <a href="<?= Url::to(['/site/experiencias-reservadas']) ?>" class="dropdown-item">Experiências
-                                    reservadas</a>
+                                <a href="<?= Url::to(['site/comentarios']) ?>"
+                                   class="dropdown-item <?= !$isGestor ? 'disabled text-muted' : '' ?>">
+                                    Comentários
+                                </a>
 
-
-                                <a href="<?= Url::to(['/favorito/index']) ?>" class="dropdown-item">Favoritos</a>
+                                <!-- Logout -->
                                 <?= Html::beginForm(['/site/logout'], 'post') ?>
                                 <?= Html::submitButton('Logout', ['class' => 'dropdown-item']) ?>
                                 <?= Html::endForm() ?>

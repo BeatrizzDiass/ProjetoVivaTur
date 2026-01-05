@@ -86,8 +86,20 @@ class ReservasController extends Controller
         $model = new Reservas();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                // Adicionar automaticamente o user_id do utilizador logado
+                $model->user_id = \Yii::$app->user->id;
+
+                if ($model->save()) {
+                    \Yii::$app->session->setFlash('success', 'Reserva criada com sucesso!');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    // Debug temporário
+                    echo '<pre>';
+                    print_r($model->errors);
+                    echo '</pre>';
+                    die();
+                }
             }
         } else {
             $model->loadDefaultValues();

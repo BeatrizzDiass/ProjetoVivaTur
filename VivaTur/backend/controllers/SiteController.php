@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use backend\models\Favoritos;
+use backend\models\Turistas;
 use common\models\LoginForm;
 use Yii;
 use yii\filters\VerbFilter;
@@ -108,6 +110,10 @@ class SiteController extends Controller
 
         $gestoresCount = Gestores::find()->count();
 
+        $favoritosCount = Favoritos::find()->count();
+
+        $turistasCount = Turistas::find()->count();
+
         return $this->render('index', [
             'experiencesCount' => $experiencesCount,
             'categoriasCount' => $categoriasCount,
@@ -119,6 +125,8 @@ class SiteController extends Controller
             'comentariosCount' => $comentariosCount,
             'reservasCount' => $reservasCount,
             'gestoresCount' => $gestoresCount,
+            'favoritosCount' => $favoritosCount,
+            'turistasCount' => $turistasCount,
         ]);
     }
 
@@ -246,6 +254,11 @@ class SiteController extends Controller
     public function actionComentarios()
     {
         return $this->render('comentarios');
+    }
+
+    public function actionTuristas()
+    {
+        return $this->render('turistas');
     }
 
     /**

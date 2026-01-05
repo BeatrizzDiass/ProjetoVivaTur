@@ -17,7 +17,7 @@ class AvaliacoesSearch extends Avaliacoes
     public function rules()
     {
         return [
-            [['id', 'experiencia_id'], 'integer'],
+            [['id', 'experiencia_id', 'user_id', 'turista_id'], 'integer'],
             [['estrela'], 'safe'],
         ];
     }
@@ -61,6 +61,8 @@ class AvaliacoesSearch extends Avaliacoes
         $query->andFilterWhere([
             'id' => $this->id,
             'experiencia_id' => $this->experiencia_id,
+            'user_id' => $this->user_id,
+            'turista_id' => $this->turista_id,
         ]);
 
         $query->andFilterWhere(['like', 'estrela', $this->estrela]);

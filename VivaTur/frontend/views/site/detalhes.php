@@ -48,8 +48,7 @@ if (!Yii::$app->user->isGuest) {
             <div>
                 <p><b style="color: #28a745; font-weight: bold; font-size: 25px;"><?= $experiencia->precoPessoa ?>€</b> por pessoa</p>
             </div>
-            <!--TODO: falta a descrição-->
-            <!--<p class="descricao"><//?= $experiencia->descricao ?></p>-->
+            <p class="descricao"><//?= $experiencia->descricao ?></p>
 
             <div class="row mb-3">
                 <!-- Duração -->
@@ -148,7 +147,6 @@ if (!Yii::$app->user->isGuest) {
 </div>
 
 <!-- Seção de Comentários -->
-<!-- Seção de Comentários Atualizada -->
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
@@ -166,7 +164,7 @@ if (!Yii::$app->user->isGuest) {
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h6 class="mb-0">
                                         <i class="bi bi-person-circle text-primary me-2"></i>
-                                        <?= $comentario->user->username ?? 'Utilizador' ?>
+                                        <?= $comentario->turista->user->username ?? 'Utilizador' ?>
                                     </h6>
                                     <small class="text-muted">
                                         <i class="bi bi-calendar3 me-1"></i>
@@ -348,11 +346,7 @@ if (!Yii::$app->user->isGuest) {
                                     <div>
                                         <h6 class="mb-0">
                                             <i class="bi bi-person-circle text-primary me-2"></i>
-                                            <?php if ($avaliacao->user->username) {
-                                                echo $avaliacao->user->username;
-                                            } else {
-                                                echo 'Utilizador';
-                                            } ?>
+                                            <?= $avaliacao->turista->user->username ?? 'Utilizador' ?>
                                         </h6>
                                         <!-- Estrelas da avaliação -->
                                         <div class="mt-2">

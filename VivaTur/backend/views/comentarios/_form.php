@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\Turistas;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -22,10 +23,14 @@ use yii\helpers\ArrayHelper;
         ['prompt' => 'Seleciona uma experiencia']
     ) ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList(
-        ArrayHelper::map(\backend\models\User::find()->all(), 'id', 'username'),
-        ['prompt' => 'Seleciona um user']
-    ) ?>
+    <?= $form->field($model, 'turista_id')->dropDownList(
+        ArrayHelper::map(
+            Turistas::find()->joinWith('user')->all(),
+            'id',
+            'user.username'
+        ),
+        ['prompt' => 'Seleciona um turista']
+    )->label('Turista') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

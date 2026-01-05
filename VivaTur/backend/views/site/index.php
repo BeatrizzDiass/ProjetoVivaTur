@@ -154,9 +154,6 @@ $(function () {
 
         <!-- Row 3 -->
         <div class="row">
-
-
-
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
@@ -172,11 +169,6 @@ $(function () {
                 </div>
             </div>
 
-
-
-
-
-
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-maroon">
                     <div class="inner">
@@ -187,6 +179,36 @@ $(function () {
                         <i class="nav-icon fas fa-user-tie"></i>
                     </div>
                     <a href="<?= Url::to(['gestores/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-purple">
+                    <div class="inner">
+                        <h3><?= isset($turistasCount) ? $turistasCount : 0 ?></h3>
+                        <p>Turistas</p>
+                    </div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-hiking"></i>
+                    </div>
+                    <a href="<?= Url::to(['turistas/index']) ?>" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-pink">
+                    <div class="inner">
+                        <h3><?= isset($favoritosCount) ? $favoritosCount : 0 ?></h3>
+                        <p>Favoritos</p>
+                    </div>
+                    <div class="icon">
+                        <i class="nav-icon fas fa-heart"></i>
+                    </div>
+                    <a href="<?= Url::to(['favoritos/index']) ?>" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>

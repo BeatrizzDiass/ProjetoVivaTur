@@ -54,11 +54,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Metodo de Pagamento',
             ],
             [
-                'attribute' => 'user_id',
+                'attribute' => 'turista_id',
+                'label' => 'Turista',
                 'value' => function($model) {
-                    return $model->user->username;
+                    // Checks if 'turista' exists AND if 'user' exists
+                    return $model->turista->user->username ?? 'Utilizador não encontrado';
                 },
-                'label' => 'User',
             ],
             [
                 'class' => ActionColumn::className(),

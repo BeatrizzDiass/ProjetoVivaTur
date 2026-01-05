@@ -25,8 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
-                    [
+            [
+                'attribute' => 'user_id',
+                'label' => 'User',
+                'value' => function($model) {
+                    // Checks if 'turista' exists AND if 'user' exists
+                    return $model->turista->user->username ?? 'Utilizador não encontrado';
+                },
+            ],
+
+            [
             'label' => 'Experiências',
             'format' => 'raw',
             'value' => function($model) {

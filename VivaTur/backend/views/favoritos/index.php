@@ -28,8 +28,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'experiencia_id',
-            'user_id',
+            [
+                'attribute' => 'experiencia_id',
+                'value' => function($model) {
+                    return $model->experiencia->nome;
+                },
+                'label' => 'Experiencia',
+            ],
+            [
+                'attribute' => 'turista_id',
+                'label' => 'Turista',
+                'value' => function($model) {
+                    // Checks if 'turista' exists AND if 'user' exists
+                    return $model->turista->user->username ?? 'Utilizador não encontrado';
+                },
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Favoritos $model, $key, $index, $column) {
