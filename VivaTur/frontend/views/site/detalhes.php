@@ -142,12 +142,13 @@ if (!Yii::$app->user->isGuest) {
             </div>
 
 
-            </div>
         </div>
     </div>
 </div>
+</div>
 
 <!-- Seção de Comentários -->
+<!-- Seção de Comentários Atualizada -->
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
@@ -161,21 +162,124 @@ if (!Yii::$app->user->isGuest) {
                     <?php foreach ($experiencia->comentarios as $comentario): ?>
                         <div class="card mb-3">
                             <div class="card-body">
+                                <!-- Comentário do Cliente -->
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h6 class="mb-0">
                                         <i class="bi bi-person-circle text-primary me-2"></i>
-                                        <?php if ($comentario->user->username) {
-                                            echo $comentario->user->username;
-                                        } else {
-                                            echo 'Utilizador';
-                                        } ?>
+                                        <?= $comentario->user->username ?? 'Utilizador' ?>
                                     </h6>
                                     <small class="text-muted">
                                         <i class="bi bi-calendar3 me-1"></i>
-                                        <?= date('d/m/Y', strtotime($comentario->dataCriacao)) ?>
+                                        <?= date('d/m/Y H:i', strtotime($comentario->dataCriacao)) ?>
                                     </small>
                                 </div>
                                 <p class="mb-0 mt-2"><?= nl2br(htmlspecialchars($comentario->descricao)) ?></p>
+
+                                <!-- Resposta do Gestor -->
+                                <?php if ($comentario->temResposta()): ?>
+                                    <div class="mt-3 p-3 bg-light rounded border-start border-primary border-4">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h6 class="mb-0 text-primary">
+                                                <i class="bi bi-reply-fill me-2"></i>
+                                                Resposta do Gestor
+                                            </h6>
+                                            <small class="text-muted">
+                                                <i class="bi bi-calendar3 me-1"></i>
+                                                <?= date('d/m/Y H:i', strtotime($comentario->dataResposta)) ?>
+                                            </small>
+                                        </div>
+                                        <p class="mb-0 mt-2"><?= nl2br(htmlspecialchars($comentario->resposta)) ?></p>
+
+                                        <!-- Botões de Editar/Remover (apenas para o gestor) -->
+                                        <?php if (!Yii::$app->user->isGuest && $experiencia->gestor->user_id == Yii::$app->user->id): ?>
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#editarResposta<?= $comentario->id ?>">
+                                                    <i class="bi bi-pencil me-1"></i>Editar
+                                                </button>
+                                                <?= Html::a('<i class="bi bi-trash me-1"></i>Remover',
+                                                    ['site/remover-resposta', 'id' => $comentario->id],
+                                                    [
+                                                        'class' => 'btn btn-sm btn-outline-danger',
+                                                        'data' => [
+                                                            'confirm' => 'Tem certeza que deseja remover esta resposta?',
+                                                            'method' => 'post',
+                                                        ],
+                                                    ]) ?>
+                                            </div>
+
+                                            <!-- Modal para Editar Resposta -->
+                                            <div class="modal fade" id="editarResposta<?= $comentario->id ?>" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Editar Resposta</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <?php $form = ActiveForm::begin([
+                                                            'action' => ['site/editar-resposta', 'id' => $comentario->id],
+                                                            'method' => 'post',
+                                                        ]); ?>
+                                                        <div class="modal-body">
+                                                            <textarea name="resposta" class="form-control" rows="4" required><?= htmlspecialchars($comentario->resposta) ?></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                                        </div>
+                                                        <?php ActiveForm::end(); ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <!-- Botão para Responder (apenas para o gestor, se ainda não respondeu) -->
+                                <?php if (!Yii::$app->user->isGuest && $experiencia->gestor->user_id == Yii::$app->user->id && !$comentario->temResposta()): ?>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#responderModal<?= $comentario->id ?>">
+                                            <i class="bi bi-reply me-1"></i>Responder
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal para Responder -->
+                                    <div class="modal fade" id="responderModal<?= $comentario->id ?>" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Responder Comentário</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <?php $form = ActiveForm::begin([
+                                                    'action' => ['site/responder-comentario', 'id' => $comentario->id],
+                                                    'method' => 'post',
+                                                ]); ?>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-bold">Comentário original:</label>
+                                                        <p class="p-2 bg-light rounded"><?= nl2br(htmlspecialchars($comentario->descricao)) ?></p>
+                                                    </div>
+                                                    <div>
+                                                        <label class="form-label fw-bold">Sua resposta:</label>
+                                                        <textarea name="resposta" class="form-control" rows="4"
+                                                                  placeholder="Digite sua resposta..." required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="bi bi-send me-1"></i>Enviar Resposta
+                                                    </button>
+                                                </div>
+                                                <?php ActiveForm::end(); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

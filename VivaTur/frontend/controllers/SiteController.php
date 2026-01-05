@@ -502,4 +502,111 @@ class SiteController extends Controller
         ]);
     }
 
+
+    // Adicione este método no SiteController (depois do método actionDetalhes)
+
+    /**
+     * Responder a um comentário (apenas para gestores da experiência)
+     */
+    public function actionResponderComentario($id)
+    {
+        $comentario = Comentarios::findOne($id);
+
+        if (!$comentario) {
+            throw new NotFoundHttpException('Comentário não encontrado.');
+        }
+
+        $experiencia = $comentario->experiencia;
+
+        // Verificar se o utilizador logado é o gestor da experiência
+        if (Yii::$app->user->isGuest || $experiencia->gestor->user_id != Yii::$app->user->id) {
+            throw new \yii\web\ForbiddenHttpException('Apenas o gestor da experiência pode responder a comentários.');
+        }
+
+        if (Yii::$app->request->isPost) {
+            $resposta = Yii::$app->request->post('resposta');
+
+            if (!empty($resposta)) {
+                $comentario->resposta = $resposta;
+                $comentario->dataResposta = date('Y-m-d H:i:s');
+
+                if ($comentario->save()) {
+                    Yii::$app->session->setFlash('success', 'Resposta adicionada com sucesso!');
+                } else {
+                    Yii::$app->session->setFlash('error', 'Erro ao adicionar resposta.');
+                }
+            } else {
+                Yii::$app->session->setFlash('error', 'A resposta não pode estar vazia.');
+            }
+        }
+
+        return $this->redirect(['site/detalhes', 'id' => $experiencia->id]);
+    }
+
+    /**
+     * Editar resposta de um comentário
+     */
+    public function actionEditarResposta($id)
+    {
+        $comentario = Comentarios::findOne($id);
+
+        if (!$comentario) {
+            throw new NotFoundHttpException('Comentário não encontrado.');
+        }
+
+        $experiencia = $comentario->experiencia;
+
+        // Verificar permissões
+        if (Yii::$app->user->isGuest || $experiencia->gestor->user_id != Yii::$app->user->id) {
+            throw new \yii\web\ForbiddenHttpException('Apenas o gestor da experiência pode editar respostas.');
+        }
+
+        if (Yii::$app->request->isPost) {
+            $resposta = Yii::$app->request->post('resposta');
+
+            if (!empty($resposta)) {
+                $comentario->resposta = $resposta;
+                $comentario->dataResposta = date('Y-m-d H:i:s');
+
+                if ($comentario->save()) {
+                    Yii::$app->session->setFlash('success', 'Resposta atualizada com sucesso!');
+                } else {
+                    Yii::$app->session->setFlash('error', 'Erro ao atualizar resposta.');
+                }
+            }
+        }
+
+        return $this->redirect(['site/detalhes', 'id' => $experiencia->id]);
+    }
+
+    /**
+     * Remover resposta de um comentário
+     */
+    public function actionRemoverResposta($id)
+    {
+        $comentario = Comentarios::findOne($id);
+
+        if (!$comentario) {
+            throw new NotFoundHttpException('Comentário não encontrado.');
+        }
+
+        $experiencia = $comentario->experiencia;
+
+        // Verificar permissões
+        if (Yii::$app->user->isGuest || $experiencia->gestor->user_id != Yii::$app->user->id) {
+            throw new \yii\web\ForbiddenHttpException('Apenas o gestor da experiência pode remover respostas.');
+        }
+
+        $comentario->resposta = null;
+        $comentario->dataResposta = null;
+
+        if ($comentario->save(false)) {
+            Yii::$app->session->setFlash('success', 'Resposta removida com sucesso!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Erro ao remover resposta.');
+        }
+
+        return $this->redirect(['site/detalhes', 'id' => $experiencia->id]);
+    }
+
 }
