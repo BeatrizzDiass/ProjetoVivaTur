@@ -6,13 +6,12 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use frontend\models\Favorito;
+use frontend\models\Turistas; // Não esquecer de importar o model Turistas
 use yii\web\Response;
+use yii\web\NotFoundHttpException;
 
 class FavoritoController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -21,7 +20,7 @@ class FavoritoController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['turista'], // Apenas usuários autenticados
+                        'roles' => ['turista'],
                     ],
                 ],
             ],
@@ -35,16 +34,19 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Lista os favoritos do utilizador atual
+     * Lista os favoritos do turista atual
      */
     public function actionIndex()
     {
-        $userId = Yii::$app->user->id;
-        
-        // Busca todos os favoritos do utilizador logado
+        $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
+
+        if (!$turista) {
+            throw new NotFoundHttpException('Perfil de turista não encontrado.');
+        }
+
         $favoritos = Favorito::find()
-            ->where(['user_id' => $userId])
-            ->with('experiencia') // Carrega logo os dados da experiência para evitar muitas queries
+            ->where(['turista_id' => $turista->id]) // Alterado para turista_id
+            ->with('experiencia')
             ->all();
 
         return $this->render('index', [
@@ -54,23 +56,26 @@ class FavoritoController extends Controller
 
     public function actionCreate($id_experiencia)
     {
-        $userId = Yii::$app->user->id;
+        $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
 
-        // Verifica se já existe
+        if (!$turista) {
+            Yii::$app->session->setFlash('error', 'Precisa de um perfil de turista para favoritar.');
+            return $this->redirect(Yii::$app->request->referrer ?: ['site/index']);
+        }
+
+        // Verifica se já existe o favorito para este turista
         $favorito = Favorito::find()
-            ->where(['experiencia_id' => $id_experiencia, 'user_id' => $userId])
+            ->where(['experiencia_id' => $id_experiencia, 'turista_id' => $turista->id])
             ->one();
 
         if ($favorito) {
-            // Se já existe, remove (toggle)
             $favorito->delete();
             Yii::$app->session->setFlash('success', 'Removido dos favoritos.');
         } else {
-            // Se não existe, cria
             $favorito = new Favorito();
             $favorito->experiencia_id = $id_experiencia;
-            $favorito->user_id = $userId;
-            
+            $favorito->turista_id = $turista->id; // Alterado para turista_id
+
             if ($favorito->save()) {
                 Yii::$app->session->setFlash('success', 'Adicionado aos favoritos!');
             } else {
@@ -78,7 +83,6 @@ class FavoritoController extends Controller
             }
         }
 
-        // Redireciona de volta para a página anterior
         return $this->redirect(Yii::$app->request->referrer ?: ['site/index']);
     }
 }

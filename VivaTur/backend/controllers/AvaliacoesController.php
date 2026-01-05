@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use backend\models\Avaliacoes;
 use app\models\AvaliacoesSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,59 +18,17 @@ class AvaliacoesController extends Controller
      */
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'denyCallback' => function () {
-                    throw new \yii\web\ForbiddenHttpException(
-                        'Não tem permissões para aceder a esta funcionalidade.'
-                    );
-                },
-                'rules' => [
-
-                    // Login obrigatório
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'],
-                    ],
-
-                    // Visualizar
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view'],
-                        'roles' => ['viewAvaliacoes'],
-                    ],
-
-                    // Criar
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['createAvaliacoes'],
-                    ],
-
-                    // Atualizar
-                    [
-                        'allow' => true,
-                        'actions' => ['update'],
-                        'roles' => ['updateAvaliacoes'],
-                    ],
-
-                    // Eliminar
-                    [
-                        'allow' => true,
-                        'actions' => ['delete'],
-                        'roles' => ['deleteAvaliacoes'],
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
                     ],
                 ],
-            ],
-
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
+            ]
+        );
     }
 
     /**

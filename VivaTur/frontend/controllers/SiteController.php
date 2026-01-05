@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Gestores;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -15,18 +16,16 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
 use frontend\models\Categorias;
 use backend\models\Paises;
 use frontend\models\Experiencias;
-
 use yii\web\NotFoundHttpException;
-
 use frontend\models\Comentarios;
 use frontend\models\Avaliacoes;
-
 use frontend\models\Metodopagamentos;
 use frontend\models\Reservas;
+use frontend\models\Turistas;
+use common\models\User;
 
 /**
  * Site controller
@@ -95,6 +94,17 @@ class SiteController extends Controller
         // Criar a query
         $query = Experiencias::find();
 
+        // Se o utilizador estiver logado e for um gestor, mostrar apenas as suas experiências
+        if (!Yii::$app->user->isGuest) {
+            $userId = Yii::$app->user->id;
+            $gestor = Gestores::findOne(['user_id' => $userId]);
+
+            if ($gestor) {
+                // Se for gestor, filtra apenas as experiências dele
+                $query->andWhere(['gestor_id' => $gestor->id]);
+            }
+        }
+
         // Aplicar filtros se existirem
         if (!empty($pesquisa)) {
             $query->andWhere(['like', 'nome', $pesquisa]);
@@ -118,7 +128,6 @@ class SiteController extends Controller
             'paises' => $paises,
         ]);
     }
-
 
     /**
      * Logs in a user.
@@ -309,6 +318,9 @@ class SiteController extends Controller
         return $this->render('team');
     }
 
+    /**
+     * Exibe os detalhes de uma experiência
+     */
     public function actionDetalhes($id)
     {
         $experiencia = Experiencias::findOne($id);
@@ -317,38 +329,66 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Experiência não encontrada.');
         }
 
+        // VERIFICAR SE O UTILIZADOR ESTÁ LOGADO PRIMEIRO
+        if (Yii::$app->user->isGuest) {
+            // Se não estiver logado, renderiza a página SEM permitir comentar/avaliar
+            return $this->render('detalhes', [
+                'experiencia' => $experiencia,
+                'novoComentario' => null,
+                'novaAvaliacao' => null,
+            ]);
+        }
 
+        // Agora sim, buscar user e turista (só se estiver logado)
+        $user = Yii::$app->user->identity;
+
+        // Buscar turista usando namespace completo para evitar problemas
+        $turista = Turistas::findOne(['user_id' => $user->id]);
+
+        if (!$turista) {
+            Yii::$app->session->setFlash('error', 'Perfil de turista não encontrado.');
+            return $this->redirect(['index']);
+        }
+
+        // Preparar novo comentário
         $novoComentario = new Comentarios();
+        $novoComentario->experiencia_id = $id;
+        $novoComentario->turista_id = $turista->id;
+        $novoComentario->dataCriacao = date('Y-m-d H:i:s');
 
-        // Se o formulário for submetido
+        // Processar submissão de comentário
         if ($novoComentario->load(Yii::$app->request->post())) {
-            $novoComentario->experiencia_id = $id;
-            $novoComentario->user_id = Yii::$app->user->id;
-            $novoComentario->dataCriacao = date('Y-m-d H:i:s');
-
             if ($novoComentario->save()) {
                 Yii::$app->session->setFlash('success', 'Comentário adicionado com sucesso!');
-                return $this->refresh(); // Recarrega a página para mostrar o novo comentário
+                return $this->refresh();
             } else {
-                Yii::$app->session->setFlash('error', 'Erro ao adicionar comentário. Por favor, tente novamente.');
+                Yii::$app->session->setFlash(
+                    'error',
+                    'Erro ao adicionar comentário: ' . implode(', ', $novoComentario->getFirstErrors())
+                );
             }
         }
 
-
+        // Preparar nova avaliação
         $novaAvaliacao = new Avaliacoes();
-        if($novaAvaliacao->load(Yii::$app->request->post())){
-            $novaAvaliacao->experiencia_id = $id;
-            $novaAvaliacao->user_id = Yii::$app->user->id;
 
-            if($novaAvaliacao->save()){
+        // Processar submissão de avaliação
+        if ($novaAvaliacao->load(Yii::$app->request->post())) {
+            $novaAvaliacao->experiencia_id = $id;
+            $novaAvaliacao->turista_id = $turista->id;
+
+            if ($novaAvaliacao->save()) {
                 Yii::$app->session->setFlash('success', 'Avaliação adicionada com sucesso!');
                 return $this->refresh();
             } else {
-                Yii::$app->session->setFlash('error', 'Erro ao adicionar avaliação. Por favor, tente novamente.');
+                Yii::$app->session->setFlash(
+                    'error',
+                    'Erro ao adicionar avaliação: ' . implode(', ', $novaAvaliacao->getFirstErrors())
+                );
             }
         }
 
-        return $this->render('detalhes', [  // <- Esta view precisa existir
+        return $this->render('detalhes', [
             'experiencia' => $experiencia,
             'novoComentario' => $novoComentario,
             'novaAvaliacao' => $novaAvaliacao,
@@ -357,15 +397,17 @@ class SiteController extends Controller
 
     public function actionProfile()
     {
-        $user = Yii::$app->user->identity;
-
-
+        // Buscar o usuário do common\models\User (que tem setPassword)
+        $user = User::findOne(Yii::$app->user->id);
 
         if (!$user) {
             throw new NotFoundHttpException('Utilizador não encontrado.');
         }
 
         if ($user->load(Yii::$app->request->post())) {
+            // Atualizar updated_at
+            $user->updated_at = time();
+
             // Se foi fornecida uma nova password
             if (!empty($user->new_password)) {
                 if (strlen($user->new_password) >= 6) {
@@ -381,7 +423,11 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Perfil atualizado com sucesso!');
                 return $this->refresh();
             } else {
-                Yii::$app->session->setFlash('error', 'Erro ao atualizar perfil.');
+                $errors = [];
+                foreach ($user->errors as $field => $fieldErrors) {
+                    $errors[] = implode(', ', $fieldErrors);
+                }
+                Yii::$app->session->setFlash('error', 'Erro ao atualizar perfil: ' . implode(' | ', $errors));
             }
         }
 
@@ -392,21 +438,23 @@ class SiteController extends Controller
 
     public function actionExperienciasAvaliadas()
     {
-        $userId = Yii::$app->user->id;
-        $avaliacoes = Avaliacoes::find()->where(['user_id' => $userId])->all();
+        // Primeiro busca o turista pelo user_id
+        $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
 
+        // Depois busca as avaliações usando o turista->id
+        $avaliacoes = Avaliacoes::find()->where(['turista_id' => $turista->id])->all();
 
         return $this->render('experienciasAvaliadas', [
             'avaliacoes' => $avaliacoes,
         ]);
     }
 
-
     public function actionExperienciasComentadas()
     {
-        $userId = Yii::$app->user->id;
+        $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
+
         $comentarios = Comentarios::find()
-            ->where(['user_id' => $userId])->all();
+            ->where(['turista_id' => $turista->id])->all();
 
         return $this->render('experienciasComentadas', [
             'comentarios' => $comentarios,
@@ -421,7 +469,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Experiência não encontrada.');
         }
 
-        $metodoPagamento = MetodoPagamentos::find()->all();
+        $metodoPagamento = Metodopagamentos::find()->all();
         $reserva = new Reservas();
 
         $reserva->numPessoas = 1;
@@ -439,10 +487,24 @@ class SiteController extends Controller
                 ]);
             }
 
-            $reserva->dataReserva = date('Y-m-d H:i:s');
-            $reserva->disponivel = "sim";
+            //$user = Yii::$app->user->identity;
+
+            // Buscar turista usando namespace completo
+            $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
+
+            if (!$turista) {
+                Yii::$app->session->setFlash('error', 'Perfil de turista não encontrado.');
+                return $this->render('reserva', [
+                    'experiencia' => $experiencia,
+                    'metodoPagamento' => $metodoPagamento,
+                    'reserva' => $reserva,
+                ]);
+            }
+
             $reserva->experiencia_id = $id;
-            $reserva->user_id = Yii::$app->user->id;
+            $reserva->turista_id = $turista->id;
+            $reserva->dataReserva = date('Y-m-d H:i:s');
+            $reserva->disponivel = 'sim';
 
             // DEBUG: Ver se está salvando
             if ($reserva->save()) {
@@ -473,11 +535,15 @@ class SiteController extends Controller
         $reserva = Reservas::findOne($id);
 
         if (!$reserva) {
-            throw new \yii\web\NotFoundHttpException('Reserva não encontrada.');
+            throw new NotFoundHttpException('Reserva não encontrada.');
         }
 
-        // Verificar se a reserva pertence ao utilizador logado
-        if ($reserva->user_id != Yii::$app->user->id) {
+        // 1. Buscar o perfil do turista correspondente ao utilizador logado
+        $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
+
+        // 2. Verificar se a reserva pertence a esse turista
+        // Se o turista não existir ou se o ID não coincidir, bloqueia o acesso
+        if (!$turista || $reserva->turista_id != $turista->id) {
             throw new \yii\web\ForbiddenHttpException('Não tem permissão para ver esta reserva.');
         }
 
@@ -486,24 +552,28 @@ class SiteController extends Controller
         ]);
     }
 
-
     public function actionExperienciasReservadas()
     {
-        $userId = Yii::$app->user->id;
+        // 1. Primeiro, encontramos o perfil do turista associado ao utilizador logado
+        $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
 
-        // Buscar todas as reservas do usuário logado
+        // Se o utilizador não tiver um perfil de turista, retornamos uma lista vazia ou erro
+        if (!$turista) {
+            return $this->render('experienciasReservadas', [
+                'reservas' => [],
+            ]);
+        }
+
+        // 2. Buscamos todas as reservas filtrando pelo turista_id
         $reservas = Reservas::find()
-            ->where(['user_id' => Yii::$app->user->id])
-
+            ->where(['turista_id' => $turista->id])
+            ->orderBy(['dataReserva' => SORT_DESC]) // Opcional: mostrar as mais recentes primeiro
             ->all();
 
         return $this->render('experienciasReservadas', [
             'reservas' => $reservas,
         ]);
     }
-
-
-    // Adicione este método no SiteController (depois do método actionDetalhes)
 
     /**
      * Responder a um comentário (apenas para gestores da experiência)
@@ -609,4 +679,37 @@ class SiteController extends Controller
         return $this->redirect(['site/detalhes', 'id' => $experiencia->id]);
     }
 
+    public function actionComentarios()
+
+    {
+        // Verifica se o utilizador está autenticado
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        // Obtém o ID do user autenticado
+        $userId = Yii::$app->user->id;
+
+        // Busca o gestor associado ao user autenticado
+        $gestor = Gestores::findOne(['user_id' => $userId]);
+
+        if (!$gestor) {
+            Yii::$app->session->setFlash('error', 'Gestor não encontrado.');
+            return $this->redirect(['site/index']);
+        }
+
+        // Busca todos os comentários com resposta do gestor
+        // através das experiências que pertencem a esse gestor
+        $comentarios = Comentarios::find()
+            ->joinWith(['experiencia'])
+            ->where(['experiencias.gestor_id' => $gestor->id])
+            ->andWhere(['IS NOT', 'comentarios.resposta', null])
+            ->andWhere(['IS NOT', 'comentarios.dataResposta', null])
+            ->orderBy(['comentarios.dataResposta' => SORT_DESC])
+            ->all();
+
+        return $this->render('comentarios', [
+            'comentarios' => $comentarios,
+        ]);
+    }
 }

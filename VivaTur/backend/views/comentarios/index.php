@@ -38,11 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Experiência',
             ],
             [
-                'attribute' => 'user_id',
+                'attribute' => 'turista_id',
+                'label' => 'Turista',
                 'value' => function($model) {
-                    return $model->user->username;
+                    // Checks if 'turista' exists AND if 'user' exists
+                    return $model->turista->user->username ?? 'Utilizador não encontrado';
                 },
-                'label' => 'Utilizador',
             ],
             [
                 'class' => ActionColumn::className(),

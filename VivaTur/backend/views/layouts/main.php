@@ -195,6 +195,21 @@ $this->registerJsFile('@web/js/calendar-init.js', ['depends' => [\yii\web\Jquery
                                 <p>Gestores</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['turistas/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'turistas/index') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Turistas</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['favoritos/index']) ?>"
+                               class="nav-link <?= ($currentRoute == 'favoritos/index') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-heart"></i>
+                                <p>Favoritos</p>
+                            </a>
+                        </li>
                         <li class="nav-header">Logout</li>
                         <li class="nav-item">
                             <?= Html::beginForm(['/site/logout'], 'post', ['class' => 'w-100']) ?>

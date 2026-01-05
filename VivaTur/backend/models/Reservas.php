@@ -9,19 +9,18 @@ use Yii;
  *
  * @property int $id
  * @property string|null $dataReserva
- * @property string|null $disponivel
+ * @property int|null $disponivel
+ * @property int $numPessoas
  * @property int $experiencia_id
- * @property int $user_id
+ * @property int $turista_id
  * @property int $metodoPagamento_id
  *
  * @property Experiencias $experiencia
+ * @property Turistas $turista
  * @property Metodopagamentos $metodoPagamento
- * @property User $user
  */
 class Reservas extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -36,13 +35,25 @@ class Reservas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dataReserva', 'disponivel'], 'default', 'value' => null],
-            [['experiencia_id', 'user_id', 'metodoPagamento_id'], 'required'],
-            [['experiencia_id', 'user_id', 'metodoPagamento_id'], 'integer'],
-            [['dataReserva', 'disponivel'], 'string', 'max' => 45],
+            // Campos obrigatórios
+            [['numPessoas', 'experiencia_id', 'turista_id', 'metodoPagamento_id', 'user_id'], 'required'],
+
+            // Campos inteiros
+            [['numPessoas', 'experiencia_id', 'turista_id', 'metodoPagamento_id', 'disponivel', 'user_id'], 'integer'],
+
+            // Validação de números positivos
+            [['numPessoas'], 'integer', 'min' => 1],
+            [['disponivel'], 'integer', 'min' => 0],
+
+            // Data
+            [['dataReserva'], 'safe'],
+            [['dataReserva'], 'date', 'format' => 'php:Y-m-d'],
+
+            // Relações (Foreign Keys)
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
+            [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
             [['metodoPagamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamentos::class, 'targetAttribute' => ['metodoPagamento_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -53,11 +64,12 @@ class Reservas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dataReserva' => 'Data Reserva',
-            'disponivel' => 'Disponivel',
-            'experiencia_id' => 'Experiencia ID',
-            'user_id' => 'User ID',
-            'metodoPagamento_id' => 'Metodo Pagamento ID',
+            'dataReserva' => 'Data da Reserva',
+            'disponivel' => 'Lugares Disponíveis',
+            'numPessoas' => 'Número de Pessoas',
+            'experiencia_id' => 'Experiência',
+            'turista_id' => 'Turista',
+            'metodoPagamento_id' => 'Método de Pagamento',
         ];
     }
 
@@ -72,6 +84,16 @@ class Reservas extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Turista]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTurista()
+    {
+        return $this->hasOne(Turistas::class, ['id' => 'turista_id']);
+    }
+
+    /**
      * Gets query for [[MetodoPagamento]].
      *
      * @return \yii\db\ActiveQuery
@@ -81,14 +103,8 @@ class Reservas extends \yii\db\ActiveRecord
         return $this->hasOne(Metodopagamentos::class, ['id' => 'metodoPagamento_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser()
     {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
+        return $this->hasOne(\common\models\User::class, ['id' => 'user_id']);
     }
-
 }

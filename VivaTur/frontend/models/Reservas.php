@@ -12,7 +12,6 @@ use Yii;
  * @property string|null $disponivel
  * @property int $numPessoas
  * @property int $experiencia_id
- * @property int $user_id
  * @property int $metodoPagamento_id
  *
  * @property Experiencias $experiencia
@@ -38,12 +37,13 @@ class Reservas extends \yii\db\ActiveRecord
     {
         return [
             [['dataReserva', 'disponivel'], 'default', 'value' => null],
-            [['numPessoas', 'experiencia_id', 'user_id', 'metodoPagamento_id'], 'required'],
-            [['numPessoas', 'experiencia_id', 'user_id', 'metodoPagamento_id'], 'integer'],
+            [['numPessoas', 'experiencia_id', 'metodoPagamento_id'], 'required'],
+            [['numPessoas', 'experiencia_id', 'metodoPagamento_id'], 'integer'],
             [['dataReserva', 'disponivel'], 'string', 'max' => 45],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
             [['metodoPagamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamentos::class, 'targetAttribute' => ['metodoPagamento_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
+
         ];
     }
 
@@ -58,7 +58,7 @@ class Reservas extends \yii\db\ActiveRecord
             'disponivel' => 'Disponivel',
             'numPessoas' => 'Num Pessoas',
             'experiencia_id' => 'Experiencia ID',
-            'user_id' => 'User ID',
+            // 'user_id' => 'User ID',
             'metodoPagamento_id' => 'Metodo Pagamento ID',
         ];
     }
@@ -88,9 +88,4 @@ class Reservas extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
-    }
-
 }

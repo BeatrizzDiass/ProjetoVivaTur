@@ -1,5 +1,7 @@
 <?php
 
+use backend\models\Turistas;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,11 +14,20 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
+    <?= $form->field($model, 'experiencia_id')->dropDownList(
+        ArrayHelper::map(\backend\models\Experiencias::find()->all(), 'id', 'nome'),
+        ['prompt' => 'Seleciona uma experiencia']
+    )->label('Experiência') ?>
 
-    <?= $form->field($model, 'experiencia_id')->textInput() ?>
+    <?= $form->field($model, 'turista_id')->dropDownList(
+        ArrayHelper::map(
+            Turistas::find()->joinWith('user')->all(),
+            'id',
+            'user.username'
+        ),
+        ['prompt' => 'Seleciona um turista']
+    )->label('Turista') ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
