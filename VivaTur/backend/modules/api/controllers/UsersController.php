@@ -2,13 +2,26 @@
 namespace backend\modules\api\controllers;
 
 use Exception;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use function PHPUnit\Framework\throwException;
 
 class UsersController extends ActiveController
 {
     public $modelClass = 'common\models\User';
-    
+
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
 
     //obter dados do utilizador autenticado
     //URL: api/users/me

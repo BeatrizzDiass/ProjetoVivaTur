@@ -1,9 +1,24 @@
 <?php
 namespace backend\modules\api\controllers;
 
+use yii\filters\auth\QueryParamAuth;
+
 class AvaliacoesController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Avaliacoes';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
+
 
     // CRUD para Avaliacoes
     //URL: /api/avaliacoes
@@ -14,6 +29,8 @@ class AvaliacoesController extends \yii\rest\ActiveController
         $avaliacoesmodel->id = 0; // Defina como 0 para auto-incremento
         $avaliacoesmodel->estrela = \Yii::$app->request->post('estrela');
         $avaliacoesmodel->experiencia_id = \Yii::$app->request->post('experiencia_id');
+        $avaliacoesmodel->user_id = \Yii::$app->request->post('user_id');
+        $avaliacoesmodel->turista_id = \Yii::$app->request->post('turista_id');
 
         $avaliacoesmodel->save();
         return $avaliacoesmodel;
@@ -69,6 +86,9 @@ class AvaliacoesController extends \yii\rest\ActiveController
         $avaliacoesmodel->id = 0; // Defina como 0 para auto-incremento
         $avaliacoesmodel->estrela = \Yii::$app->request->post('estrela');
         $avaliacoesmodel->experiencia_id = $experiencia_id;
+        $avaliacoesmodel->user_id = \Yii::$app->request->post('user_id');
+        $avaliacoesmodel->turista_id = \Yii::$app->request->post('turista_id');
+
         $avaliacoesmodel->save();
         return $avaliacoesmodel;
 

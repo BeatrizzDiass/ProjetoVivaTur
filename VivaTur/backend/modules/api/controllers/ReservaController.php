@@ -3,6 +3,7 @@ namespace backend\modules\api\controllers;
 
 use common\models\Reservas;
 use common\models\Experiencias;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\filters\Cors;
@@ -10,6 +11,19 @@ use yii\filters\Cors;
 class ReservaController extends ActiveController
 {
     public $modelClass = 'common\models\Reservas';
+
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
 
 
     //criar nova reserva
@@ -25,6 +39,8 @@ class ReservaController extends ActiveController
         $reservamodel->metodoPagamento_id = \Yii::$app->request->post('metodoPagamento_id');
         $reservamodel->dataReserva = \Yii::$app->request->post('dataReserva');
         $reservamodel->disponivel = \Yii::$app->request->post('disponivel');
+        $reservamodel->turista_id = \Yii::$app->request->post('turista_id');
+
 
         $reservamodel->save();
         return $reservamodel;

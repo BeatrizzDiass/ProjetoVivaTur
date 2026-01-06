@@ -1,10 +1,23 @@
 <?php
 namespace backend\modules\api\controllers;
 
+use yii\filters\auth\QueryParamAuth;
+
 class FavoritoController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Favoritos';
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
 
     // Adicionar uma nova experiência aos favoritos
     //backend/web/api/favoritos
@@ -16,6 +29,7 @@ class FavoritoController extends \yii\rest\ActiveController
         $favoritomodel->id = 0; // Defina como 0 para auto-incremento
         $favoritomodel->experiencia_id = \Yii::$app->request->post('experiencia_id');
         $favoritomodel->user_id = \Yii::$app->request->post('user_id');
+        $favoritomodel->turista_id = \Yii::$app->request->post('turista_id');
 
         $favoritomodel->save();
         return $favoritomodel;

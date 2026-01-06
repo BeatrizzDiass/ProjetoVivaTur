@@ -10,12 +10,15 @@ use Yii;
  * @property int $id
  * @property string|null $dataReserva
  * @property string|null $disponivel
+ * @property int|null $numPessoas
  * @property int $experiencia_id
  * @property int $user_id
  * @property int $metodoPagamento_id
+ * @property int|null $turista_id
  *
  * @property Experiencias $experiencia
  * @property Metodopagamentos $metodoPagamento
+ * @property Turistas $turista
  * @property User $user
  */
 class Reservas extends \yii\db\ActiveRecord
@@ -36,12 +39,13 @@ class Reservas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dataReserva', 'disponivel'], 'default', 'value' => null],
+            [['dataReserva', 'disponivel', 'numPessoas', 'turista_id'], 'default', 'value' => null],
+            [['numPessoas', 'experiencia_id', 'user_id', 'metodoPagamento_id', 'turista_id'], 'integer'],
             [['experiencia_id', 'user_id', 'metodoPagamento_id'], 'required'],
-            [['experiencia_id', 'user_id', 'metodoPagamento_id'], 'integer'],
             [['dataReserva', 'disponivel'], 'string', 'max' => 45],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
             [['metodoPagamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamentos::class, 'targetAttribute' => ['metodoPagamento_id' => 'id']],
+            [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -55,9 +59,11 @@ class Reservas extends \yii\db\ActiveRecord
             'id' => 'ID',
             'dataReserva' => 'Data Reserva',
             'disponivel' => 'Disponivel',
+            'numPessoas' => 'Num Pessoas',
             'experiencia_id' => 'Experiencia ID',
             'user_id' => 'User ID',
             'metodoPagamento_id' => 'Metodo Pagamento ID',
+            'turista_id' => 'Turista ID',
         ];
     }
 
@@ -79,6 +85,16 @@ class Reservas extends \yii\db\ActiveRecord
     public function getMetodoPagamento()
     {
         return $this->hasOne(Metodopagamentos::class, ['id' => 'metodoPagamento_id']);
+    }
+
+    /**
+     * Gets query for [[Turista]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTurista()
+    {
+        return $this->hasOne(Turistas::class, ['id' => 'turista_id']);
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace backend\modules\api\controllers;
 
 use common\models\User;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 use yii\web\UnauthorizedHttpException;
@@ -10,6 +11,18 @@ use yii\web\ServerErrorHttpException;
 
 class AuthController extends Controller
 {
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
     public $enableCsrfValidation = false;
 
     /* ================= LOGIN ================= */
