@@ -201,6 +201,54 @@ class Experiencias extends \yii\db\ActiveRecord
         return false;
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        // Notificações MQTT (slides: afterSave/afterDelete)
+        try {
+            $baseTopic = Yii::$app->params['mqtt']['topics']['experiencias'] ?? 'vivaTur/experiencias';
+            $action = $insert ? 'INSERT' : 'UPDATE';
+
+            $payload = [
+                'entity' => 'experiencia',
+                'action' => $action,
+                'id' => (int) $this->id,
+                'ts' => time(),
+                // dados mínimos para o cliente decidir se precisa de sincronizar via REST
+                'data' => $this->toArray(),
+                'changed' => array_keys((array) $changedAttributes),
+            ];
+
+            Yii::$app->mqtt->publishJson($baseTopic . '/' . strtolower($action), $payload);
+        } catch (\Throwable $e) {
+            Yii::warning('Falha ao publicar notificação MQTT (experiencias afterSave): ' . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    public function afterDelete()
+    {
+        // guardar estado antes do parent (por segurança)
+        $snapshot = $this->toArray();
+
+        parent::afterDelete();
+
+        try {
+            $baseTopic = Yii::$app->params['mqtt']['topics']['experiencias'] ?? 'vivaTur/experiencias';
+            $payload = [
+                'entity' => 'experiencia',
+                'action' => 'DELETE',
+                'id' => (int) ($snapshot['id'] ?? 0),
+                'ts' => time(),
+                'data' => $snapshot,
+            ];
+
+            Yii::$app->mqtt->publishJson($baseTopic . '/delete', $payload);
+        } catch (\Throwable $e) {
+            Yii::warning('Falha ao publicar notificação MQTT (experiencias afterDelete): ' . $e->getMessage(), __METHOD__);
+        }
+    }
+
     public function validarHorario($attribute, $params)
     {
         $query = self::find()
