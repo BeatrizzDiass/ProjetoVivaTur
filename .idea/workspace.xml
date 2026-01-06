@@ -5,10 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VivaTur/console/controllers/RbacController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/views/layouts/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/views/layouts/main.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/common/config/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/config/main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AvaliacoesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AvaliacoesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/CategoriaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/CategoriaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ComentarioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ComentarioController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ExperienciaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ExperienciaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/FavoritoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/FavoritoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/MetodopagamentoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/MetodopagamentoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/PaisesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/PaisesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ReservaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ReservaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Avaliacoes.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Avaliacoes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Favoritos.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Favoritos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Reservas.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Reservas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +38,68 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\wamp64\bin\php\php8.1.31\php.exe">
     <include_path>
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/browser-kit" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/module-asserts" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/lib-innerbrowser" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/module-phpbrowser" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/codeception" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/stub" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/lib-web" />
+      <path value="$PROJECT_DIR$/tests/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/tests/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/tests/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/tests/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/tests/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/tests/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/tests/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/tests/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/tests/vendor/behat/gherkin" />
+      <path value="$PROJECT_DIR$/tests/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/tests/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/tests/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/tests/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/tests/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/tests/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/tests/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/tests/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/tests/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/tests/vendor/composer" />
+      <path value="$PROJECT_DIR$/tests/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/tests/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/tests/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/tests/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/tests/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/tests/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/tests/vendor/codeception/lib-asserts" />
+      <path value="$PROJECT_DIR$/tests/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-faker" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/object-enumerator" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-debug" />
@@ -166,6 +242,8 @@
       <option name="presentableId" value="Default" />
       <updated>1763509876282</updated>
       <workItem from="1763509878320" duration="7514000" />
+      <workItem from="1767712108337" duration="562000" />
+      <workItem from="1767728842011" duration="4649000" />
     </task>
     <servers />
   </component>

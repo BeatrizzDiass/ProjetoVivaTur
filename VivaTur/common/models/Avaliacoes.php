@@ -10,8 +10,11 @@ use Yii;
  * @property int $id
  * @property string $estrela
  * @property int $experiencia_id
+ * @property int $user_id
+ * @property int $turista_id
  *
  * @property Experiencias $experiencia
+ * @property Turistas $turista
  */
 class Avaliacoes extends \yii\db\ActiveRecord
 {
@@ -31,10 +34,11 @@ class Avaliacoes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['estrela', 'experiencia_id'], 'required'],
-            [['experiencia_id'], 'integer'],
+            [['estrela', 'experiencia_id', 'user_id', 'turista_id'], 'required'],
+            [['experiencia_id', 'user_id', 'turista_id'], 'integer'],
             [['estrela'], 'string', 'max' => 45],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
+            [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
         ];
     }
 
@@ -47,6 +51,8 @@ class Avaliacoes extends \yii\db\ActiveRecord
             'id' => 'ID',
             'estrela' => 'Estrela',
             'experiencia_id' => 'Experiencia ID',
+            'user_id' => 'User ID',
+            'turista_id' => 'Turista ID',
         ];
     }
 
@@ -58,6 +64,16 @@ class Avaliacoes extends \yii\db\ActiveRecord
     public function getExperiencia()
     {
         return $this->hasOne(Experiencias::class, ['id' => 'experiencia_id']);
+    }
+
+    /**
+     * Gets query for [[Turista]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTurista()
+    {
+        return $this->hasOne(Turistas::class, ['id' => 'turista_id']);
     }
 
 }

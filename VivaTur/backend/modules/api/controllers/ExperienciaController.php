@@ -1,33 +1,42 @@
 <?php
 namespace backend\modules\api\controllers;
 
+use Yii;
+use yii\filters\auth\QueryParamAuth;
+
 class ExperienciaController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Experiencias';
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
 
-    //pesquisar experiencias com filtros (nome, categoria_id, pais_id)
-    //URL: /api/experiencia/getexperienciasfiltradas?nome=xyz
-    //URL: /api/experiencia/getexperienciasfiltradas?categoria_id=
-    //URL: /api/experiencia/getexperienciasfiltradas?pais_id
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
+
+
+    // GET /api/experiencia/getexperienciasfiltradas
+    // Exemplos:
+    // ?nome=surf
+    // ?categoria_id=3
+    // ?pais_id=1
+    // ?nome=surf&categoria_id=3&pais_id=1 (combinados!)
     public function actionGetexperienciasfiltradas()
     {
-        $experienciasmodel = $this->modelClass;
-        $experienciasfiltradas = $experienciasmodel::find();
+        $modelClass = $this->modelClass;
+        $query = $modelClass::find();
 
-        // Apenas o ÚLTIMO filtro será aplicado
-        if ($nome = \Yii::$app->request->get('nome')) {
-            $experienciasfiltradas->where(['like', 'nome', $nome]);
-        }
+        // andFilterWhere ignora valores vazios/null automaticamente
+        $query->andFilterWhere(['like', 'nome', Yii::$app->request->get('nome')])
+            ->andFilterWhere(['categoria_id' => Yii::$app->request->get('categoria_id')])
+            ->andFilterWhere(['pais_id' => Yii::$app->request->get('pais_id')]);
 
-        if ($categoria_id = \Yii::$app->request->get('categoria_id')) {
-            $experienciasfiltradas->where(['categoria_id' => $categoria_id]); // Substitui o anterior
-        }
-
-        if ($pais_id = \Yii::$app->request->get('pais_id')) {
-            $experienciasfiltradas->where(['pais_id' => $pais_id]); // Substitui o anterior
-        }
-
-        return $experienciasfiltradas->all();
+        return $query->all();
     }
 }

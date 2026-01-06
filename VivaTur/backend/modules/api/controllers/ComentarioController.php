@@ -1,9 +1,23 @@
 <?php
 namespace backend\modules\api\controllers;
 
+use yii\filters\auth\QueryParamAuth;
+
 class ComentarioController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Comentarios';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
 
 
     //CRUD Comentarios
@@ -17,6 +31,7 @@ class ComentarioController extends \yii\rest\ActiveController
         $comentariosmodel->dataCriacao = \Yii::$app->request->post('dataCriacao');
         $comentariosmodel->experiencia_id = \Yii::$app->request->post('experiencia_id');
         $comentariosmodel->user_id = \Yii::$app->request->post('user_id');
+        $comentariosmodel->turista_id = \Yii::$app->request->post('turista_id');
 
         $comentariosmodel->save();
         return $comentariosmodel;
@@ -77,6 +92,8 @@ class ComentarioController extends \yii\rest\ActiveController
         $comentariosmodel->dataCriacao = \Yii::$app->request->post('dataCriacao');
         $comentariosmodel->experiencia_id = $experiencia_id;
         $comentariosmodel->user_id = \Yii::$app->request->post('user_id');
+        $comentariosmodel->turista_id = \Yii::$app->request->post('turista_id');
+
 
         $comentariosmodel->save();
         return $comentariosmodel;

@@ -1,9 +1,22 @@
 <?php
 namespace backend\modules\api\controllers;
+use yii\filters\auth\QueryParamAuth;
+
 class PaisesController extends \yii\rest\ActiveController
 {
 public $modelClass = 'common\models\Paises';
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            // 'only' => ['index'],
+        ];
+
+        return $behaviors;
+    }
 
     //pesquisar pais pelo nome 
     //URL: api/paises/nome/{nome}
