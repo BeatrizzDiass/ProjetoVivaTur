@@ -6,6 +6,9 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'mqtt' => [
+            'class' => \common\components\Mqtt::class,
+        ],
         'authManager' => [
             'class' => \yii\rbac\DbManager::class,
         ],

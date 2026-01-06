@@ -224,4 +224,52 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * afterSave: publica notificação MQTT quando um utilizador é criado/atualizado
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        try {
+            $acao = $insert ? 'insert' : 'update';
+            $topic = Yii::$app->params['mqtt']['topics']['users'][$acao] ?? "vivaTur/users/{$acao}";
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'username' => $this->username,
+                'email' => $this->email,
+                'status' => $this->status,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+                'action' => $acao,
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (User/{$acao}): " . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    /**
+     * afterDelete: publica notificação MQTT quando um utilizador é apagado
+     */
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        try {
+            $topic = Yii::$app->params['mqtt']['topics']['users']['delete'] ?? 'vivaTur/users/delete';
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'username' => $this->username,
+                'email' => $this->email,
+                'action' => 'delete',
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (User/delete): " . $e->getMessage(), __METHOD__);
+        }
+    }
 }

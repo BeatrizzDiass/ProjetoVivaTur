@@ -13,7 +13,6 @@ use common\models\User; // Altere de frontend\models\User para common\models\Use
  * @property string $dataCriacao
  * @property int $experiencia_id
  * @property int $user_id
- * @property int $turista_id
  * @property string|null $resposta
  * @property string|null $dataResposta
  *
@@ -38,10 +37,10 @@ class Comentarios extends \yii\db\ActiveRecord
     {
         return [
             // Campos obrigatórios ao criar comentário
-            [['descricao', 'experiencia_id', 'turista_id'], 'required'],
+            [['descricao', 'experiencia_id', 'user_id'], 'required'],
 
             // Campos numéricos
-            [['experiencia_id', 'turista_id'], 'integer'],
+            [['experiencia_id', 'user_id'], 'integer'],
 
             // Campos de data
             [['dataCriacao', 'dataResposta'], 'safe'],
@@ -56,7 +55,7 @@ class Comentarios extends \yii\db\ActiveRecord
 
             // Validações de relacionamento
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
-            [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -70,8 +69,7 @@ class Comentarios extends \yii\db\ActiveRecord
             'descricao' => 'Comentário',
             'dataCriacao' => 'Data de Criação',
             'experiencia_id' => 'Experiência',
-            // 'user_id' => 'Utilizador',
-            'turista_id' => 'Turista',
+            'user_id' => 'Utilizador',
             'resposta' => 'Resposta',
             'dataResposta' => 'Data da Resposta',
         ];
@@ -85,16 +83,6 @@ class Comentarios extends \yii\db\ActiveRecord
     public function getExperiencia()
     {
         return $this->hasOne(Experiencias::class, ['id' => 'experiencia_id']);
-    }
-
-    /**
-     * Gets query for [[Turista]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTurista()
-    {
-        return $this->hasOne(Turistas::class, ['id' => 'turista_id']);
     }
 
     /**
@@ -115,5 +103,54 @@ class Comentarios extends \yii\db\ActiveRecord
     public function temResposta()
     {
         return !empty($this->resposta);
+    }
+
+    /**
+     * afterSave: publica notificação MQTT quando um comentário é criado/atualizado
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        try {
+            $acao = $insert ? 'insert' : 'update';
+            $topic = Yii::$app->params['mqtt']['topics']['comentarios'][$acao] ?? "vivaTur/comentarios/{$acao}";
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'descricao' => $this->descricao,
+                'dataCriacao' => $this->dataCriacao,
+                'experiencia_id' => $this->experiencia_id,
+                'user_id' => $this->user_id,
+                'resposta' => $this->resposta,
+                'dataResposta' => $this->dataResposta,
+                'action' => $acao,
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (Comentarios/{$acao}): " . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    /**
+     * afterDelete: publica notificação MQTT quando um comentário é apagado
+     */
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        try {
+            $topic = Yii::$app->params['mqtt']['topics']['comentarios']['delete'] ?? 'vivaTur/comentarios/delete';
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'experiencia_id' => $this->experiencia_id,
+                'user_id' => $this->user_id,
+                'action' => 'delete',
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (Comentarios/delete): " . $e->getMessage(), __METHOD__);
+        }
     }
 }
