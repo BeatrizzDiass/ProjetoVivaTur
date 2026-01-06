@@ -31,37 +31,42 @@ class ExperienciasController extends Controller
                     );
                 },
                 'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
-                    ],
-
-                    // Visualizar
+                    // Visualizar (todos os autenticados, incluindo turista)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
                         'roles' => ['viewExperiencias'],
                     ],
 
-                    // Criar
+                    // Criar (admin e gestor)
                     [
                         'allow' => true,
-                        'actions' => ['create'],
+                        'actions' => ['create', 'upload'],  // ← upload incluído aqui
                         'roles' => ['createExperiencias'],
                     ],
 
-                    // Atualizar
+                    // Atualizar (admin atualiza tudo, gestor só as suas)
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateExperiencias', 'editarExperiencias'],
+                        'roles' => ['updateExperiencias'],
+                        'roleParams' => function() {
+                            return ['model' => $this->findModel(
+                                \Yii::$app->request->get('id')
+                            )];
+                        },
                     ],
 
-                    // Eliminar
+                    // Eliminar (admin elimina tudo, gestor só as suas)
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteExperiencias', 'eliminarExperiencias'],
+                        'roles' => ['deleteExperiencias'],
+                        'roleParams' => function() {
+                            return ['model' => $this->findModel(
+                                \Yii::$app->request->get('id')
+                            )];
+                        },
                     ],
                 ],
             ],

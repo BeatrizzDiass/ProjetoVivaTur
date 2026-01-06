@@ -28,13 +28,6 @@ class CategoriasController extends Controller
                     );
                 },
                 'rules' => [
-
-                    // Login obrigatório
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'],
-                    ],
-
                     // Visualizar
                     [
                         'allow' => true,
@@ -49,18 +42,18 @@ class CategoriasController extends Controller
                         'roles' => ['createCategorias'],
                     ],
 
-                    // Atualizar
+                    // Editar (aceder ao form) e Atualizar (guardar)
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateCategorias'],
+                        'roles' => ['editarCategorias', 'atualizarCategorias'], // ← Ambas as permissões
                     ],
 
                     // Eliminar
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteCategorias'],
+                        'roles' => ['eliminarCategorias'],  // ← Nome correto
                     ],
                 ],
             ],

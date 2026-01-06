@@ -1,0 +1,10 @@
+actor: UnitTester
+modules:
+    enabled:
+        - Asserts
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=projetovivatur'
+            user: 'root'
+            password: ''
+            populate: false
+            cleanup: false

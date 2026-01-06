@@ -80,9 +80,15 @@ $this->title = "Index";
                                  alt="<?= $experiencia->nome ?>">
                             <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
                                 <h5 class="card-title"><?= $experiencia->nome ?></h5>
-                                <p class="card-text"><?= $experiencia->descricao ?? 'Sem descrição' ?></p>
+                                <p class="card-text text-muted" style="font-size: 0.9rem;">
+                                    <?= Html::encode(mb_substr($experiencia->descricao ?? 'Sem descrição', 0, 45)) ?>
+                                    <?= strlen($experiencia->descricao) > 45 ? '...' : '' ?>
+                                </p>
                                 <a href="<?= Url::to(['site/detalhes', 'id' => $experiencia->id]) ?>"
-                                   class="btn btn-info mt-auto" role="button">Ver detalhes</a>
+                                   class="btn btn-primary rounded-pill"
+                                   onclick="console.log('Clicou no ID: <?= $experiencia->id ?>'); return true;">
+                                    <i class="bi bi-eye me-2"></i>Ver Detalhes
+                                </a>
                             </div>
                         </div>
                     </div>

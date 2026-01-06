@@ -1,0 +1,15 @@
+# Codeception Test Suite Configuration
+#
+# Suite for functional tests
+# Emulate web requests and make application process them
+
+actor: FunctionalTester
+modules:
+    enabled:
+        - PhpBrowser:
+            url: http://localhost/PLATSI/ProjetoVivaTurTESTES/VivaTur/backend/web/
+        - Yii2:
+            part: [orm, fixtures] # Carregar apenas ORM e Fixtures, sem 'web'
+            configFile: 'VivaTur/backend/config/test.php'
+            cleanup: false
+step_decorators: ~
