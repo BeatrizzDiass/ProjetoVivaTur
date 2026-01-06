@@ -48,7 +48,9 @@ if (!Yii::$app->user->isGuest) {
             <div>
                 <p><b style="color: #28a745; font-weight: bold; font-size: 25px;"><?= $experiencia->precoPessoa ?>€</b> por pessoa</p>
             </div>
-            <p class="descricao"><//?= $experiencia->descricao ?></p>
+            <!-- Detalhes do lado direito -->
+
+                <p class="descricao"><?= $experiencia->descricao ?></p>
 
             <div class="row mb-3">
                 <!-- Duração -->

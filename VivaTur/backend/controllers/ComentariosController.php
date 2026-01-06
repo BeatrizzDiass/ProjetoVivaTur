@@ -28,39 +28,44 @@ class ComentariosController extends Controller
                     );
                 },
                 'rules' => [
-
-                    // Login obrigatório
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
-                    ],
-
-                    // Visualizar
+                    // Visualizar (todos os roles autenticados)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
                         'roles' => ['viewComentarios'],
                     ],
 
-                    // Criar
+                    // Criar (gestor e turista)
                     [
                         'allow' => true,
                         'actions' => ['create'],
                         'roles' => ['createComentarios'],
                     ],
 
-                    // Atualizar
+                    // Atualizar (admin/gestor podem tudo, turista só os seus)
                     [
                         'allow' => true,
                         'actions' => ['update'],
                         'roles' => ['updateComentarios'],
+                        'roleParams' => function() {
+                            return ['model' => $this->findModel(
+                                \Yii::$app->request->get('id'),
+                                \Yii::$app->request->get('descricao')
+                            )];
+                        },
                     ],
 
-                    // Eliminar
+                    // Eliminar (admin/gestor podem tudo, turista só os seus)
                     [
                         'allow' => true,
                         'actions' => ['delete'],
                         'roles' => ['deleteComentarios'],
+                        'roleParams' => function() {
+                            return ['model' => $this->findModel(
+                                \Yii::$app->request->get('id'),
+                                \Yii::$app->request->get('descricao')
+                            )];
+                        },
                     ],
                 ],
             ],

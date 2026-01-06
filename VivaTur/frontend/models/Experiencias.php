@@ -5,10 +5,11 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "experiencias".
+ * This is the model class for table "experiencia".
  *
  * @property int $id
  * @property string $nome
+ * @property string $descricao
  * @property string $horaInicio
  * @property string $horaFim
  * @property string $duracao
@@ -22,18 +23,16 @@ use Yii;
  * @property int $gestor_id
  * @property int $pais_id
  *
- * @property Avaliacoes[] $avaliacoes
  * @property Categorias $categoria
- * @property Comentarios[] $comentarios
- * @property Favoritos[] $favoritos
  * @property Gestores $gestor
  * @property Paises $pais
+ * @property Avaliacoes[] $avaliacoes
+ * @property Comentarios[] $comentarios
+ * @property Favoritos[] $favoritos
  * @property Reservas[] $reservas
  */
 class Experiencias extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -48,9 +47,12 @@ class Experiencias extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'imagem', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
+            [['nome', 'descricao', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
+            [['dataDisponivel'], 'safe'],
             [['categoria_id', 'gestor_id', 'pais_id'], 'integer'],
-            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'imagem', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
+            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
+            [['descricao'], 'string', 'max' => 255],
+            [['imagem'], 'string', 'max' => 255],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['categoria_id' => 'id']],
             [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gestores::class, 'targetAttribute' => ['gestor_id' => 'id']],
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
@@ -65,29 +67,20 @@ class Experiencias extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nome' => 'Nome',
-            'horaInicio' => 'Hora Inicio',
+            'descricao' => 'Descrição',
+            'horaInicio' => 'Hora Início',
             'horaFim' => 'Hora Fim',
-            'duracao' => 'Duracao',
+            'duracao' => 'Duração',
             'local' => 'Local',
-            'dataDisponivel' => 'Data Disponivel',
-            'precoPessoa' => 'Preco Pessoa',
+            'dataDisponivel' => 'Data Disponível',
+            'precoPessoa' => 'Preço por Pessoa',
             'imagem' => 'Imagem',
-            'numMaxParticipante' => 'Num Max Participante',
-            'numMinParticipante' => 'Num Min Participante',
-            'categoria_id' => 'Categoria ID',
-            'gestor_id' => 'Gestor ID',
-            'pais_id' => 'Pais ID',
+            'numMaxParticipante' => 'Número Máximo de Participantes',
+            'numMinParticipante' => 'Número Mínimo de Participantes',
+            'categoria_id' => 'Categoria',
+            'gestor_id' => 'Gestor',
+            'pais_id' => 'País',
         ];
-    }
-
-    /**
-     * Gets query for [[Avaliacoes]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAvaliacoes()
-    {
-        return $this->hasMany(Avaliacoes::class, ['experiencia_id' => 'id']);
     }
 
     /**
@@ -98,26 +91,6 @@ class Experiencias extends \yii\db\ActiveRecord
     public function getCategoria()
     {
         return $this->hasOne(Categorias::class, ['id' => 'categoria_id']);
-    }
-
-    /**
-     * Gets query for [[Comentarios]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getComentarios()
-    {
-        return $this->hasMany(Comentarios::class, ['experiencia_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Favoritos]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFavoritos()
-    {
-        return $this->hasMany(Favoritos::class, ['experiencia_id' => 'id']);
     }
 
     /**
@@ -141,6 +114,36 @@ class Experiencias extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Avaliacoes]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAvaliacoes()
+    {
+        return $this->hasMany(Avaliacoes::class, ['experiencia_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Comentarios]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComentarios()
+    {
+        return $this->hasMany(Comentarios::class, ['experiencia_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Favoritos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFavoritos()
+    {
+        return $this->hasMany(Favoritos::class, ['experiencia_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[Reservas]].
      *
      * @return \yii\db\ActiveQuery
@@ -151,40 +154,14 @@ class Experiencias extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
+     * Calcula as vagas disponíveis para esta experiência
      */
-    public function getUser()
-    {
-        // If you have a user_id column in experiencias table:
-        return $this->hasOne(User::class, ['id' => 'user_id']);
-
-        // OR if the user relation is through gestor:
-        // return $this->hasOne(User::class, ['id' => 'gestor_id']);
-    }
-
-
     public function getVagasDisponiveis()
     {
-        // Soma o total de pessoas que já reservaram esta experiência
         $totalReservado = Reservas::find()
             ->where(['experiencia_id' => $this->id])
             ->sum('numPessoas');
 
-        // Se não houver reservas, retorna o máximo
-        if ($totalReservado === null) {
-            $totalReservado = 0;
-        }
-
-        // Calcula vagas disponíveis
-        return $this->numMaxParticipante - $totalReservado;
+        return $this->numMaxParticipante - ($totalReservado ?? 0);
     }
-
-    public function vagasexperiencia($quantidade)
-    {
-        return $this->getVagasDisponiveis() >= $quantidade;
-    }
-
-
 }
