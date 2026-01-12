@@ -116,16 +116,14 @@ return [
                     ],
                 ],
 
-
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/comentario'],
-                    'pluralize' => true,
+                    'pluralize' => true,  // ✅ Mude para true
                     'extraPatterns' => [
-                        // ❌ REMOVER ESTA LINHA (está a causar conflito!)
-                        // 'api/comentarios/experiencia/<experiencia_id:\d+>' => 'api/comentario/getcomentariosexperiencia',
-
-                        // ✅ MANTER APENAS ESTAS
+                        'POST' => 'postcomentarios',
+                        'PUT <id:\d+>' => 'putcomentario',
+                        'DELETE <id:\d+>' => 'delete',
                         'GET experiencia/<experiencia_id:\d+>' => 'getcomentariosexperiencia',
                         'POST experiencia/<experiencia_id:\d+>' => 'postcomentariosexperiencia',
                         'PUT experiencia/<experiencia_id:\d+>/<id:\d+>' => 'putcomentariosexperiencia',
