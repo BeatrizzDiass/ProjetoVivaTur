@@ -28,38 +28,25 @@ class FavoritosController extends Controller
                     );
                 },
                 'rules' => [
-                    // Login obrigatório
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
-                    ],
-
-                    // Visualizar
+                    // Visualizar favoritos (todos os autenticados)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
-                        'roles' => ['viewFavoritos'],
+                        'roles' => ['@'], // Qualquer utilizador autenticado
                     ],
 
-                    // Criar
+                    // Criar favoritos (turistas)
                     [
                         'allow' => true,
                         'actions' => ['create'],
                         'roles' => ['createFavoritos'],
                     ],
 
-                    // Atualizar
-                    [
-                        'allow' => true,
-                        'actions' => ['update'],
-                        'roles' => ['updateFavoritos'],
-                    ],
-
-                    // Eliminar
+                    // Eliminar favoritos (turistas)
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteFavoritos'],
+                        'roles' => ['eliminarFavoritos'],
                     ],
                 ],
             ],

@@ -28,38 +28,33 @@ class GestoresController extends Controller
                     );
                 },
                 'rules' => [
-                    // Login obrigatório
+                    // Admin tem acesso total a tudo
                     [
                         'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'experiencias'],
+                        'roles' => ['admin'],
                     ],
 
-                    // Visualizar
+                    // Gestor pode ver lista e ver detalhes de todos os gestores
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'experiencias'],
-                        'roles' => ['viewGestores'],
+                        'roles' => ['gestor'],
                     ],
 
-                    // Criar
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['createGestores'],
-                    ],
-
-                    // Atualizar
+                    // Gestor pode atualizar apenas o seu próprio perfil
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateGestores'],
-                    ],
+                        'roles' => ['gestor'],
+                        'matchCallback' => function ($rule, $action) {
+                            $id = \Yii::$app->request->get('id');
+                            if (!$id) return false;
 
-                    // Eliminar
-                    [
-                        'allow' => true,
-                        'actions' => ['delete'],
-                        'roles' => ['deleteGestores'],
+                            $model = $this->findModel($id);
+                            // Assumindo que Gestores tem users_id
+                            return $model->users_id === \Yii::$app->user->id;
+                        }
                     ],
                 ],
             ],

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * ComentariosController implements the CRUD actions for Comentarios model.
  */
@@ -28,44 +29,32 @@ class ComentariosController extends Controller
                     );
                 },
                 'rules' => [
-                    // Visualizar (todos os roles autenticados)
+                    // Visualizar comentários (todos podem ver)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
-                        'roles' => ['viewComentarios'],
+                        'roles' => ['@'], // Qualquer user autenticado
                     ],
 
-                    // Criar (gestor e turista)
+                    // Criar comentários
                     [
                         'allow' => true,
                         'actions' => ['create'],
                         'roles' => ['createComentarios'],
                     ],
 
-                    // Atualizar (admin/gestor podem tudo, turista só os seus)
+                    // Atualizar comentários
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateComentarios'],
-                        'roleParams' => function() {
-                            return ['model' => $this->findModel(
-                                \Yii::$app->request->get('id'),
-                                \Yii::$app->request->get('descricao')
-                            )];
-                        },
+                        'roles' => ['atualizarComentarios'],
                     ],
 
-                    // Eliminar (admin/gestor podem tudo, turista só os seus)
+                    // Eliminar comentários
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteComentarios'],
-                        'roleParams' => function() {
-                            return ['model' => $this->findModel(
-                                \Yii::$app->request->get('id'),
-                                \Yii::$app->request->get('descricao')
-                            )];
-                        },
+                        'roles' => ['eliminarComentarios'],
                     ],
                 ],
             ],

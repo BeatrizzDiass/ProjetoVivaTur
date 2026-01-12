@@ -46,7 +46,7 @@ class CategoriasController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['editarCategorias', 'atualizarCategorias'], // ← Ambas as permissões
+                        'roles' => ['atualizarCategorias'],
                     ],
 
                     // Eliminar

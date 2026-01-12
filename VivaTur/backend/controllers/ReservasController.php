@@ -26,16 +26,40 @@ class ReservasController extends Controller
                     throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
                 },
                 'rules' => [
+                    // Admin vê todas as reservas
                     [
                         'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
+                        'actions' => ['index', 'view'],
+                        'roles' => ['admin'],
                     ],
 
-                    // Permissões específicas
-                    ['allow' => true, 'actions' => ['index', 'view'], 'roles' => ['viewReservas']],
-                    ['allow' => true, 'actions' => ['create'], 'roles' => ['createReservas']],
-                    ['allow' => true, 'actions' => ['update'], 'roles' => ['updateReservas']],
-                    ['allow' => true, 'actions' => ['delete'], 'roles' => ['deleteReservas']],
+                    // Visualizar (admin, gestor, turista)
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['viewReservas'],
+                    ],
+
+                    // Criar (turistas e gestores podem criar)
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['createReservas'],
+                    ],
+
+                    // Atualizar (admin e gestor)
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['atualizarReservas'],
+                    ],
+
+                    // Eliminar (admin, gestor e turista)
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['eliminarReservas'],
+                    ],
                 ],
             ],
             'verbs' => [

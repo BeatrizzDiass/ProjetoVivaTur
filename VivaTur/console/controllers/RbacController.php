@@ -340,6 +340,11 @@ class RbacController extends Controller
         $auth->addChild($gestor, $updateLingua);
         $auth->addChild($gestor, $deleteLingua);
 
+        $auth->addChild($gestor, $createPais);
+        $auth->addChild($gestor, $editPais);
+       // $auth->addChild($gestor, $atualizarPais);
+        $auth->addChild($gestor, $deletePais);
+
 
         // --- TURISTA ---
         $turista = $auth->createRole('turista');

@@ -12,17 +12,14 @@ use yii\web\ServerErrorHttpException;
 class AuthController extends Controller
 {
 
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
+public function behaviors()
+{
+    $behaviors = parent::behaviors();
+    // Remove ou ajusta o authenticator para a action 'login'
+    $behaviors['authenticator']['except'] = ['login']; 
+    return $behaviors;
+}
 
-        $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
-        ];
-
-        return $behaviors;
-    }
     public $enableCsrfValidation = false;
 
     /* ================= LOGIN ================= */

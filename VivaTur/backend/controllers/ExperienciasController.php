@@ -41,32 +41,22 @@ class ExperienciasController extends Controller
                     // Criar (admin e gestor)
                     [
                         'allow' => true,
-                        'actions' => ['create', 'upload'],  // ← upload incluído aqui
+                        'actions' => ['create', 'upload'],
                         'roles' => ['createExperiencias'],
                     ],
 
-                    // Atualizar (admin atualiza tudo, gestor só as suas)
+                    // Atualizar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['update'],
                         'roles' => ['updateExperiencias'],
-                        'roleParams' => function() {
-                            return ['model' => $this->findModel(
-                                \Yii::$app->request->get('id')
-                            )];
-                        },
                     ],
 
-                    // Eliminar (admin elimina tudo, gestor só as suas)
+                    // Eliminar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['delete'],
                         'roles' => ['deleteExperiencias'],
-                        'roleParams' => function() {
-                            return ['model' => $this->findModel(
-                                \Yii::$app->request->get('id')
-                            )];
-                        },
                     ],
                 ],
             ],

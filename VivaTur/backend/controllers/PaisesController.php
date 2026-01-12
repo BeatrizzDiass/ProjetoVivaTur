@@ -26,30 +26,32 @@ class PaisesController extends Controller
                     throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
                 },
                 'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
-                    ],
-
+                    // Visualizar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
-                        'roles' => ['viewPaises'], // Permissão para listar e ver países
+                        'roles' => ['admin', 'gestor'],
                     ],
+
+                    // Criar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['createPaises'], // Permissão para criar
+                        'roles' => ['createPais'],
                     ],
+
+                    // Atualizar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updatePaises'], // Permissão para editar
+                        'roles' => ['atualizarPais'],
                     ],
+
+                    // Eliminar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deletePaises'], // Permissão para eliminar
+                        'roles' => ['eliminarPais'],
                     ],
                 ],
             ],

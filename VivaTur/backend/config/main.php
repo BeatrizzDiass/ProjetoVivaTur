@@ -105,38 +105,33 @@ return [
                     'controller' => ['api/avaliacoes'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                        // Regras personalizadas para operações de avaliações de experiências (em geral)
-                        'POST' => 'postavaliacoes', //actionPostavaliacoes
-                        'PUT <id:\d+>' => 'putavaliacoes', //actionPutavaliacoes
-                        'DELETE <id:\d+>' => 'delete',  //actionDelete
-
-                        // Regras personalizadas para operações de avaliações de experiências específicas
-                        'GET experiencias/<experiencia_id:\d+>/avaliacoes' => 'getavaliacoesexperiencia', //actionGetavaliacoesexperiencia
-                        'POST experiencias/<experiencia_id:\d+>/avaliacoes' => 'postavaliacoesexperiencia', //actionPostavaliacoesexperiencia
-                        'PUT experiencias/<experiencia_id:\d+>/avaliacoes/<id:\d+>' => 'putavaliacoesexperiencia', //actionPutavaliacoesexperiencia
-                        'DELETE experiencias/<experiencia_id:\d+>/avaliacoes/<id:\d+>' => 'deleteavaliacoesexperiencia', //actionDeleteavaliacoesexperiencia
+                        // Suas regras personalizadas
+                        'POST' => 'postavaliacoes',
+                        'PUT <id:\d+>' => 'putavaliacoes',
+                        'DELETE <id:\d+>' => 'delete',
+                        'GET experiencias/<experiencia_id:\d+>/avaliacoes' => 'getavaliacoesexperiencia',
+                        'POST experiencias/<experiencia_id:\d+>/avaliacoes' => 'postavaliacoesexperiencia',
+                        'PUT experiencias/<experiencia_id:\d+>/avaliacoes/<id:\d+>' => 'putavaliacoesexperiencia',
+                        'DELETE experiencias/<experiencia_id:\d+>/avaliacoes/<id:\d+>' => 'deleteavaliacoesexperiencia',
                     ],
                 ],
 
-                // Regras para o controlador de Comentario
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/comentario'],
                     'pluralize' => true,
                     'extraPatterns' => [
-                        // Regras personalizadas para operações de comentários (em geral)
-                        'POST postcomentarios' => 'postcomentarios', //actionPostcomentarios
-                        'PUT <id:\d+>' => 'putcomentario', //actionPutcomentario
-                        'DELETE <id:\d+>' => 'delete', //actionDelete
+                        // ❌ REMOVER ESTA LINHA (está a causar conflito!)
+                        // 'api/comentarios/experiencia/<experiencia_id:\d+>' => 'api/comentario/getcomentariosexperiencia',
 
-                        // Regras personalizadas para operações de comentários de experiências específicas
-                        'GET experiencias/<experiencia_id:\d+>/comentarios' => 'getcomentariosexperiencia', //actionGetcomentariosexperiencia
-                        'POST experiencias/<experiencia_id:\d+>/comentarios' => 'postcomentariosexperiencia', //actionPostcomentariosexperiencia
-                        'PUT experiencias/<experiencia_id:\d+>/comentarios/<id:\d+>' => 'putcomentariosexperiencia',    //actionPutcomentariosexperiencia
-                        'DELETE experiencias/<experiencia_id:\d+>/comentarios/<id:\d+>' => 'deletecomentariosexperiencia', //actionDeletecomentariosexperiencia
+                        // ✅ MANTER APENAS ESTAS
+                        'GET experiencia/<experiencia_id:\d+>' => 'getcomentariosexperiencia',
+                        'POST experiencia/<experiencia_id:\d+>' => 'postcomentariosexperiencia',
+                        'PUT experiencia/<experiencia_id:\d+>/<id:\d+>' => 'putcomentariosexperiencia',
+                        'DELETE experiencia/<experiencia_id:\d+>/<id:\d+>' => 'deletecomentariosexperiencia',
                     ],
                 ],
-
 
                 // Regras para o controlador de Favorito
                 [

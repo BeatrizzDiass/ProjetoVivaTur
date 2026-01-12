@@ -7,13 +7,30 @@ class ComentarioController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Comentarios';
 
+    // Adicione este método para debug
+    public function beforeAction($action)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        error_log("Action chamada: " . $action->id);
+        error_log("URL completa: " . \Yii::$app->request->url);
+        return parent::beforeAction($action);
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
+            'except' => ['index', 'view', 'getcomentariosexperiencia'],
+        ];
+
+        // Force JSON response
+        $behaviors['contentNegotiator'] = [
+            'class' => \yii\filters\ContentNegotiator::class,
+            'formats' => [
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+            ],
         ];
 
         return $behaviors;

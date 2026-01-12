@@ -107,4 +107,56 @@ class Reservas extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+
+
+    /**
+     * afterSave: publica notificação MQTT quando uma reserva é criada/atualizada
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        try {
+            $acao = $insert ? 'insert' : 'update';
+            $topic = Yii::$app->params['mqtt']['topics']['reservas'][$acao] ?? "vivaTur/reservas/{$acao}";
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'dataReserva' => $this->dataReserva,
+                'numPessoas' => $this->numPessoas,
+                'disponivel' => $this->disponivel,
+                'experiencia_id' => $this->experiencia_id,
+                'turista_id' => $this->turista_id,
+                'metodoPagamento_id' => $this->metodoPagamento_id,
+                'action' => $acao,
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (Reservas/{$acao}): " . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    /**
+     * afterDelete: publica notificação MQTT quando uma reserva é apagada
+     */
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        try {
+            $topic = Yii::$app->params['mqtt']['topics']['reservas']['delete'] ?? 'vivaTur/reservas/delete';
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'experiencia_id' => $this->experiencia_id,
+                'turista_id' => $this->turista_id,
+                'action' => 'delete',
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (Reservas/delete): " . $e->getMessage(), __METHOD__);
+        }
+    }
+
+
 }
