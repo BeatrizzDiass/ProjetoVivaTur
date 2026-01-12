@@ -1,8 +1,9 @@
+# ✅ Configuração correta
 RewriteEngine on
 
-# Se um diretório ou ficheiro com esse nome existir, usa-o diretamente
+# Se uma pasta ou ficheiro existe, use-o diretamente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Caso contrário, encaminha o pedido para o index.php
-RewriteRule . index.php [L]
+# Caso contrário, redirecione para index.php
+RewriteRule . index.php

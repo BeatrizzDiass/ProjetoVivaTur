@@ -6,23 +6,30 @@
   <component name="ChangeListManager">
     <list default="true" id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/config/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/config/main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/AvaliacoesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/AvaliacoesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/CategoriasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/CategoriasController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/ComentariosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/ComentariosController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/ExperienciasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/ExperienciasController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/FavoritosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/FavoritosController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/GestoresController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/GestoresController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/LinguasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/LinguasController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/MetodopagamentosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/MetodopagamentosController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/PaisesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/PaisesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/ReservasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/ReservasController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/TuristasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/TuristasController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AvaliacoesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AvaliacoesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/CategoriaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/CategoriaController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ComentarioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ComentarioController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ExperienciaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ExperienciaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/FavoritoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/FavoritoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/MetodopagamentoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/MetodopagamentoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/PaisesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/PaisesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ReservaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ReservaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/UsersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/web/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/web/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Avaliacoes.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Avaliacoes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Favoritos.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Favoritos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Paises.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Paises.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Reservas.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Reservas.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/console/controllers/RbacController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/console/controllers/RbacController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +250,20 @@
       <updated>1763509876282</updated>
       <workItem from="1763509878320" duration="7514000" />
       <workItem from="1767712108337" duration="562000" />
-      <workItem from="1767728842011" duration="4649000" />
+      <workItem from="1767728842011" duration="6890000" />
+      <workItem from="1767776982226" duration="1271000" />
+      <workItem from="1767778302059" duration="155000" />
+      <workItem from="1767784405561" duration="1021000" />
+      <workItem from="1767874759837" duration="815000" />
+      <workItem from="1767883108604" duration="661000" />
+      <workItem from="1767895821828" duration="6513000" />
+      <workItem from="1768051568523" duration="179000" />
+      <workItem from="1768150012307" duration="130000" />
+      <workItem from="1768150401657" duration="504000" />
+      <workItem from="1768153228917" duration="656000" />
+      <workItem from="1768170170273" duration="159000" />
+      <workItem from="1768171368183" duration="3901000" />
+      <workItem from="1768211796086" duration="507000" />
     </task>
     <servers />
   </component>

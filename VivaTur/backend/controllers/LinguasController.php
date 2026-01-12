@@ -26,30 +26,32 @@ class LinguasController extends Controller
                     throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
                 },
                 'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['admin', 'gestor'], // Apenas admin e gestor
-                    ],
-
+                    // Visualizar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
-                        'roles' => ['viewLinguas'],
+                        'roles' => ['admin', 'gestor'],
                     ],
+
+                    // Criar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['createLinguas'],
+                        'roles' => ['createLingua'],
                     ],
+
+                    // Atualizar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateLinguas'],
+                        'roles' => ['atualizarLingua'],
                     ],
+
+                    // Eliminar (admin e gestor)
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteLinguas'],
+                        'roles' => ['eliminarLingua'],
                     ],
                 ],
             ],
@@ -61,7 +63,6 @@ class LinguasController extends Controller
             ],
         ];
     }
-
     /**
      * Lists all Linguas models.
      *

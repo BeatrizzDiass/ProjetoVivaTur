@@ -14,7 +14,7 @@ class ExperienciaController extends \yii\rest\ActiveController
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
+            'except' => ['index', 'view', 'getexperienciasfiltradas'], // Estas ações são públicas
         ];
 
         return $behaviors;

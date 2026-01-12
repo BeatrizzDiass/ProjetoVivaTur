@@ -96,4 +96,53 @@ class Comentarios extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+    /**
+     * afterSave: publica notificação MQTT quando um comentário é criado/atualizado
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        try {
+            $acao = $insert ? 'insert' : 'update';
+            $topic = Yii::$app->params['mqtt']['topics']['comentarios'][$acao] ?? "vivaTur/comentarios/{$acao}";
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'descricao' => $this->descricao,
+                'dataCriacao' => $this->dataCriacao,
+                'experiencia_id' => $this->experiencia_id,
+                'user_id' => $this->user_id,
+                'resposta' => $this->resposta,
+                'dataResposta' => $this->dataResposta,
+                'action' => $acao,
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (Comentarios/{$acao}): " . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    /**
+     * afterDelete: publica notificação MQTT quando um comentário é apagado
+     */
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        try {
+            $topic = Yii::$app->params['mqtt']['topics']['comentarios']['delete'] ?? 'vivaTur/comentarios/delete';
+
+            Yii::$app->mqtt->publishJson($topic, [
+                'id' => $this->id,
+                'experiencia_id' => $this->experiencia_id,
+                'user_id' => $this->user_id,
+                'action' => 'delete',
+                'timestamp' => date('Y-m-d H:i:s'),
+            ]);
+        } catch (\Exception $e) {
+            Yii::error("MQTT publish falhou (Comentarios/delete): " . $e->getMessage(), __METHOD__);
+        }
+    }
+
 }

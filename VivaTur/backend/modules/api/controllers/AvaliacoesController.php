@@ -13,8 +13,8 @@ class AvaliacoesController extends \yii\rest\ActiveController
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
-        ];
+            'except' => ['index', 'view', 'getavaliacoesexperiencia'],
+            ];
 
         return $behaviors;
     }
