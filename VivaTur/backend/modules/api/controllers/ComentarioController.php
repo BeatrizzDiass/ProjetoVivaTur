@@ -57,6 +57,19 @@ class ComentarioController extends \yii\rest\ActiveController
     }
 
 
+    // Ver um comentário específico
+// URL: api/comentarios/{id}
+    public function actionView($id)
+    {
+        $comentario = $this->modelClass::findOne($id);
+
+        if ($comentario === null) {
+            throw new \yii\web\NotFoundHttpException('Comentário não encontrado.');
+        }
+
+        return $comentario;
+    }
+
     //Atualizar comentário
     //URL: api/comentario/{id}
     public function actionPutcomentario($id)
@@ -104,18 +117,33 @@ class ComentarioController extends \yii\rest\ActiveController
     {
         $comentariosmodel = new $this->modelClass;
 
-        // Preencher os campos do POST
-        $comentariosmodel->descricao = \Yii::$app->request->post('descricao');
-        $comentariosmodel->dataCriacao = \Yii::$app->request->post('dataCriacao');
-        $comentariosmodel->experiencia_id = $experiencia_id;
-        $comentariosmodel->user_id = \Yii::$app->request->post('user_id');
-        $comentariosmodel->turista_id = \Yii::$app->request->post('turista_id');
+        try {
+            // Log dos dados recebidos
+            \Yii::info('POST data: ' . json_encode(\Yii::$app->request->post()), 'comentario');
 
+            // Preencher os campos
+            $comentariosmodel->descricao = \Yii::$app->request->post('descricao');
+            $comentariosmodel->dataCriacao = \Yii::$app->request->post('dataCriacao') ?: date('Y-m-d H:i:s');
+            $comentariosmodel->experiencia_id = $experiencia_id;
+            $comentariosmodel->user_id = \Yii::$app->request->post('user_id') ?: 3; // Default
+            $comentariosmodel->turista_id = \Yii::$app->request->post('turista_id') ?: 0; // Default
 
-        $comentariosmodel->save();
-        return $comentariosmodel;
-        
+            // Validar antes de guardar
+            if (!$comentariosmodel->validate()) {
+                \Yii::error('Validation errors: ' . json_encode($comentariosmodel->errors), 'comentario');
+                throw new \yii\web\UnprocessableEntityHttpException(json_encode($comentariosmodel->errors));
+            }
+
+            $comentariosmodel->save(false); // false = skip validation
+
+            return $comentariosmodel;
+
+        } catch (\Exception $e) {
+            \Yii::error('Error: ' . $e->getMessage(), 'comentario');
+            throw $e;
+        }
     }
+
 
     //Atualizar comentário de uma experiência
     //URL: api/comentario/experiencia/{experiencia_id}/{id}

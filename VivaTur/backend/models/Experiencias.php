@@ -267,4 +267,44 @@ class Experiencias extends \yii\db\ActiveRecord
         }
     }
 
+
+    public function getImagemUrl()
+    {
+        if (empty($this->imagem)) {
+            return null;
+        }
+
+        // Se já tiver extensão, retorna como está
+        if (strpos($this->imagem, '.') !== false) {
+            return $this->imagem;
+        }
+
+        // Se não tiver extensão, procura o arquivo
+        $basePath = Yii::getAlias('@webroot/uploads/');
+
+        // Tenta as extensões mais comuns
+        $extensions = ['jpg', 'jpeg', 'png'];
+
+        foreach ($extensions as $ext) {
+            if (file_exists($basePath . $this->imagem . '.' . $ext)) {
+                return $this->imagem . '.' . $ext;
+            }
+        }
+
+        // Se não encontrar, retorna com .jpg (padrão)
+        return $this->imagem . '.jpg';
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        // Substitui o campo 'imagem' para usar o getter que adiciona a extensão
+        $fields['imagem'] = function($model) {
+            return $model->imagemUrl;
+        };
+
+        return $fields;
+    }
+
 }
