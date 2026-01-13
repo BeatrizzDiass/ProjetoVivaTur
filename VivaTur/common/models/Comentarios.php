@@ -103,23 +103,22 @@ class Comentarios extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        try {
-            $acao = $insert ? 'insert' : 'update';
-            $topic = Yii::$app->params['mqtt']['topics']['comentarios'][$acao] ?? "vivaTur/comentarios/{$acao}";
-
-            Yii::$app->mqtt->publishJson($topic, [
-                'id' => $this->id,
-                'descricao' => $this->descricao,
-                'dataCriacao' => $this->dataCriacao,
-                'experiencia_id' => $this->experiencia_id,
-                'user_id' => $this->user_id,
-                'resposta' => $this->resposta,
-                'dataResposta' => $this->dataResposta,
-                'action' => $acao,
-                'timestamp' => date('Y-m-d H:i:s'),
-            ]);
-        } catch (\Exception $e) {
-            Yii::error("MQTT publish falhou (Comentarios/{$acao}): " . $e->getMessage(), __METHOD__);
+        if ($insert) {
+            try {
+                $mqtt = Yii::$app->mqtt;
+                if ($mqtt !== null) {
+                    $mqtt->publishJson('comentarios/novo', [
+                        'id' => $this->id,
+                        'descricao' => $this->descricao,
+                        'experiencia_id' => $this->experiencia_id,
+                        'user_id' => $this->user_id,
+                        'dataCriacao' => $this->dataCriacao,
+                    ]);
+                }
+            } catch (\Exception $e) {
+                // Log do erro mas não bloqueia a criação
+                \Yii::error("MQTT Error: " . $e->getMessage(), 'mqtt');
+            }
         }
     }
 

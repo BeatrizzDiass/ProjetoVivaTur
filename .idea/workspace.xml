@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/models/Experiencias.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ComentarioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/ComentarioController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +242,7 @@
       <workItem from="1768211796086" duration="5994000" />
       <workItem from="1768245333022" duration="1499000" />
       <workItem from="1768258918521" duration="2711000" />
-      <workItem from="1768308566795" duration="3040000" />
+      <workItem from="1768308566795" duration="4615000" />
     </task>
     <servers />
   </component>
