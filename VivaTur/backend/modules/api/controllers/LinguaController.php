@@ -25,7 +25,7 @@ public $modelClass = 'common\models\Linguas';
     {
         $linguamodels = $this->modelClass;
         $linguas = $linguamodels::find()
-            ->where(['nomelingua' => $nomelingua])
+            ->where(['nome' => $nomelingua])
             ->all();
 
         return $linguas;

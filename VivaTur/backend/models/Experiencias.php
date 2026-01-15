@@ -61,10 +61,10 @@ class Experiencias extends \yii\db\ActiveRecord
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['categoria_id' => 'id']],
             [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gestores::class, 'targetAttribute' => ['gestor_id' => 'id']],
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
+            // IMPORTANTE: skipOnEmpty => true permite editar sem reenviar imagem
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'checkExtensionByMimeType' => false],
             [['descricao','imagem'], 'string', 'max' => 255],
 
-            // Regra de validação para garantir que numMinParticipante <= numMaxParticipante
             ['numMinParticipante', 'compare',
                 'compareAttribute' => 'numMaxParticipante',
                 'operator' => '<=',
@@ -265,6 +265,64 @@ class Experiencias extends \yii\db\ActiveRecord
         if ($query->exists()) {
             $this->addError($attribute, 'Já existe uma experiência agendada para este horário, data e local.');
         }
+    }
+
+
+    public function actionCreate()
+    {
+        $model = new Experiencias();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                // Carrega o ficheiro de imagem
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+                // Faz upload da imagem
+                if ($model->imageFile) {
+                    $model->uploadImage();
+                }
+
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    public function uploadImage()
+    {
+        if ($this->imageFile) {
+            $uploadPath = Yii::getAlias('@webroot/uploads/');
+
+            // Cria o diretório se não existir
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            // Gera nome único para o ficheiro
+            $filename = uniqid() . '.' . $this->imageFile->extension;
+            $filePath = $uploadPath . $filename;
+
+            if ($this->imageFile->saveAs($filePath)) {
+                // Remove imagem antiga se existir
+                if (!empty($this->imagem)) {
+                    $oldFile = $uploadPath . $this->imagem;
+                    if (file_exists($oldFile)) {
+                        unlink($oldFile);
+                    }
+                }
+
+                $this->imagem = $filename;
+                return true;
+            }
+        }
+        return false;
     }
 
 
