@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/VivaTur/common/models/Gestores.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/ExperienciasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/ExperienciasController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/models/Experiencias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/views/experiencias/_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/views/experiencias/_form.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +116,6 @@
       <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/global-state" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/sebastian/environment" />
-      <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/bootstrap" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/punycode" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/yii2-pjax" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/bower-asset/jquery" />
@@ -169,6 +178,9 @@
       <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-composer" />
       <path value="$PROJECT_DIR$/VivaTur/vendor/yiisoft/yii2-gii" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/myclabs/php-enum" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/php-mqtt/client" />
+      <path value="$PROJECT_DIR$/VivaTur/vendor/twbs/bootstrap" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -242,7 +254,8 @@
       <workItem from="1768211796086" duration="5994000" />
       <workItem from="1768245333022" duration="1499000" />
       <workItem from="1768258918521" duration="2711000" />
-      <workItem from="1768308566795" duration="4615000" />
+      <workItem from="1768308566795" duration="5964000" />
+      <workItem from="1768428419486" duration="7167000" />
     </task>
     <servers />
   </component>

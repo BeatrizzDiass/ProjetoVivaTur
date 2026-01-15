@@ -37,6 +37,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 
+    <!-- MOSTRAR IMAGEM ATUAL -->
+    <?php if (!$model->isNewRecord && $model->imagem): ?>
+        <div class="form-group">
+            <label>Imagem Atual:</label><br>
+            <img src="<?= Yii::getAlias('@web/uploads/' . $model->imagemUrl) ?>"
+                 alt="Imagem atual"
+                 style="max-width: 300px; max-height: 300px; border: 1px solid #ddd; padding: 5px; border-radius: 4px;">
+            <p class="help-block text-muted">Deixe o campo acima em branco para manter esta imagem</p>
+        </div>
+    <?php endif; ?>
+
     <?= $form->field($model, 'numMaxParticipante')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'numMinParticipante')->textInput(['maxlength' => true]) ?>

@@ -111,13 +111,11 @@ class Comentarios extends \yii\db\ActiveRecord
                         'id' => $this->id,
                         'descricao' => $this->descricao,
                         'experiencia_id' => $this->experiencia_id,
-                        'user_id' => $this->user_id,
-                        'dataCriacao' => $this->dataCriacao,
                     ]);
                 }
             } catch (\Exception $e) {
-                // Log do erro mas não bloqueia a criação
-                \Yii::error("MQTT Error: " . $e->getMessage(), 'mqtt');
+                \Yii::error("MQTT: " . $e->getMessage());
+                // Não bloqueia a criação do comentário
             }
         }
     }

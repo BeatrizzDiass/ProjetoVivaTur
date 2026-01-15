@@ -31,32 +31,32 @@ class ExperienciasController extends Controller
                     );
                 },
                 'rules' => [
-                    // Visualizar (todos os autenticados, incluindo turista)
+                    // Visualizar
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],
                         'roles' => ['viewExperiencias'],
                     ],
 
-                    // Criar (admin e gestor)
+                    // Criar
                     [
                         'allow' => true,
                         'actions' => ['create', 'upload'],
                         'roles' => ['createExperiencias'],
                     ],
 
-                    // Atualizar (admin e gestor)
+                    // Atualizar - CORRIGIDO AQUI
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['updateExperiencias'],
+                        'roles' => ['atualizarExperiencias'], // ← Mudou aqui
                     ],
 
-                    // Eliminar (admin e gestor)
+                    // Eliminar - CORRIGIDO AQUI
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteExperiencias'],
+                        'roles' => ['eliminarExperiencias'], // ← Mudou aqui
                     ],
                 ],
             ],
@@ -133,23 +133,16 @@ class ExperienciasController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-
-                // Handle file upload
+                // Carrega o ficheiro de imagem
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
+                // Faz upload da imagem
                 if ($model->imageFile) {
-                    $fileName = uniqid() . '.' . $model->imageFile->extension;
-
-                    if ($model->imageFile->saveAs(Yii::getAlias('@webroot/uploads/') . $fileName)) {
-                        $model->imagem = $fileName;
-                    }
+                    $model->uploadImage();
                 }
 
                 if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Experiência criada com sucesso!');
                     return $this->redirect(['view', 'id' => $model->id]);
-                } else {
-                    Yii::$app->session->setFlash('error', 'Erro: ' . json_encode($model->errors));
                 }
             }
         } else {
@@ -171,28 +164,18 @@ class ExperienciasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $oldImage = $model->imagem;
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-
+            // Carrega o ficheiro de imagem
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
+            // Faz upload da imagem se foi enviada uma nova
             if ($model->imageFile) {
-                $fileName = uniqid() . '.' . $model->imageFile->extension;
-
-                if ($model->imageFile->saveAs(Yii::getAlias('@webroot/uploads/') . $fileName)) {
-                    if ($oldImage && file_exists(Yii::getAlias('@webroot/uploads/') . $oldImage)) {
-                        unlink(Yii::getAlias('@webroot/uploads/') . $oldImage);
-                    }
-                    $model->imagem = $fileName;
-                }
+                $model->uploadImage();
             }
 
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Experiência atualizada com sucesso!');
                 return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                Yii::$app->session->setFlash('error', 'Erro: ' . json_encode($model->errors));
             }
         }
 

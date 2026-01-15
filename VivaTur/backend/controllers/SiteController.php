@@ -138,7 +138,15 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            // Verifica se já está autenticado e tem permissão
+            $userRoles = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
+
+            if (in_array('admin', $userRoles) || in_array('gestor', $userRoles)) {
+                return $this->goHome();
+            } else {
+                // Se não tem permissão, faz logout e mostra o formulário
+                Yii::$app->user->logout();
+            }
         }
 
         $this->layout = 'blank';
@@ -152,7 +160,11 @@ class SiteController extends Controller
             if (!in_array('admin', $userRoles) && !in_array('gestor', $userRoles)) {
                 Yii::$app->user->logout();
                 Yii::$app->session->setFlash('error', 'Acesso negado! Esta área é apenas para administradores e gestores de experiências');
-                return $this->refresh(); // Recarrega a página de login
+                // MUDANÇA AQUI: em vez de refresh(), renderiza o login novamente
+                $model->password = '';
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
             }
 
             return $this->goBack();

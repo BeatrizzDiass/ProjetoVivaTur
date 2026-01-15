@@ -2,67 +2,49 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "experiencias".
- *
- * @property int $id
- * @property string $nome
- * @property string $descricao
- * @property string $horaInicio
- * @property string $horaFim
- * @property string $duracao
- * @property string $local
- * @property string $dataDisponivel
- * @property string $precoPessoa
- * @property string $imagem
- * @property string $numMaxParticipante
- * @property string $numMinParticipante
- * @property int $categoria_id
- * @property int $gestor_id
- * @property int $pais_id
- *
- * @property Avaliacoes[] $avaliacoes
- * @property Categorias $categoria
- * @property Comentarios[] $comentarios
- * @property Favoritos[] $favoritos
- * @property Gestores $gestor
- * @property Paises $pais
- * @property Reservas[] $reservas
  */
 class Experiencias extends \yii\db\ActiveRecord
 {
-
-
     /**
-     * {@inheritdoc}
+     * @var UploadedFile
      */
+    public $imageFile;
+
     public static function tableName()
     {
         return 'experiencias';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
-            [['nome', 'descricao', 'horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'imagem', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
-            [['dataDisponivel'], 'safe'],
+            [['nome','horaInicio', 'horaFim', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante', 'categoria_id', 'gestor_id', 'pais_id'], 'required'],
             [['categoria_id', 'gestor_id', 'pais_id'], 'integer'],
-            [['nome', 'horaInicio', 'horaFim', 'duracao', 'local', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
-            [['descricao', 'imagem'], 'string', 'max' => 255],
+            [['nome','horaInicio', 'horaFim', 'duracao', 'local', 'dataDisponivel', 'precoPessoa', 'numMaxParticipante', 'numMinParticipante'], 'string', 'max' => 45],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['categoria_id' => 'id']],
             [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gestores::class, 'targetAttribute' => ['gestor_id' => 'id']],
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
+            // ADICIONA ESTA LINHA - permite upload opcional
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'checkExtensionByMimeType' => false],
+            [['descricao','imagem'], 'string', 'max' => 255],
+
+            // Validação min/max participantes
+            ['numMinParticipante', 'compare',
+                'compareAttribute' => 'numMaxParticipante',
+                'operator' => '<=',
+                'message' => 'O número mínimo de participantes não pode ser maior que o número máximo.'
+            ],
+
+            [['horaInicio', 'dataDisponivel'], 'validarHorario'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -84,77 +66,142 @@ class Experiencias extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Avaliacoes]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
+    // Relações
     public function getAvaliacoes()
     {
         return $this->hasMany(Avaliacoes::class, ['experiencia_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Categoria]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getCategoria()
     {
         return $this->hasOne(Categorias::class, ['id' => 'categoria_id']);
     }
 
-    /**
-     * Gets query for [[Comentarios]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getComentarios()
     {
         return $this->hasMany(Comentarios::class, ['experiencia_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Favoritos]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getFavoritos()
     {
         return $this->hasMany(Favoritos::class, ['experiencia_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Gestor]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getGestor()
     {
         return $this->hasOne(Gestores::class, ['id' => 'gestor_id']);
     }
 
-    /**
-     * Gets query for [[Pais]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getPais()
     {
         return $this->hasOne(Paises::class, ['id' => 'pais_id']);
     }
 
-    /**
-     * Gets query for [[Reservas]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getReservas()
     {
         return $this->hasMany(Reservas::class, ['experiencia_id' => 'id']);
     }
 
-    // Adicionar no beforeSave para calcular automaticamente
+    // ADICIONA ESTES MÉTODOS
+    public function calcularDuracao()
+    {
+        if ($this->horaInicio && $this->horaFim) {
+            $inicio = new DateTime($this->horaInicio);
+            $fim = new DateTime($this->horaFim);
+
+            $intervalo = $inicio->diff($fim);
+
+            $horas = $intervalo->h;
+            $minutos = $intervalo->i;
+
+            if ($horas > 0 && $minutos > 0) {
+                $this->duracao = $horas . 'h ' . $minutos . 'm';
+            } elseif ($horas > 0) {
+                $this->duracao = $horas . 'h';
+            } else {
+                $this->duracao = $minutos . 'm';
+            }
+        }
+    }
+
+    public function uploadImage()
+    {
+        if ($this->imageFile) {
+            $uploadPath = Yii::getAlias('@webroot/uploads/');
+
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            $filename = uniqid() . '.' . $this->imageFile->extension;
+            $filePath = $uploadPath . $filename;
+
+            if ($this->imageFile->saveAs($filePath)) {
+                if (!empty($this->imagem)) {
+                    $oldFile = $uploadPath . $this->imagem;
+                    if (file_exists($oldFile)) {
+                        unlink($oldFile);
+                    }
+                }
+
+                $this->imagem = $filename;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function validarHorario($attribute, $params)
+    {
+        $query = self::find()
+            ->where([
+                'horaInicio' => $this->horaInicio,
+                'dataDisponivel' => $this->dataDisponivel,
+                'local' => $this->local,
+            ]);
+
+        if (!$this->isNewRecord) {
+            $query->andWhere(['!=', 'id', $this->id]);
+        }
+
+        if ($query->exists()) {
+            $this->addError($attribute, 'Já existe uma experiência agendada para este horário, data e local.');
+        }
+    }
+
+    public function getImagemUrl()
+    {
+        if (empty($this->imagem)) {
+            return null;
+        }
+
+        if (strpos($this->imagem, '.') !== false) {
+            return $this->imagem;
+        }
+
+        $basePath = Yii::getAlias('@webroot/uploads/');
+        $extensions = ['jpg', 'jpeg', 'png'];
+
+        foreach ($extensions as $ext) {
+            if (file_exists($basePath . $this->imagem . '.' . $ext)) {
+                return $this->imagem . '.' . $ext;
+            }
+        }
+
+        return $this->imagem . '.jpg';
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['imagem'] = function($model) {
+            return $model->imagemUrl;
+        };
+
+        return $fields;
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -168,7 +215,6 @@ class Experiencias extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        // Notificações MQTT (slides: afterSave/afterDelete)
         try {
             $baseTopic = Yii::$app->params['mqtt']['topics']['experiencias'] ?? 'vivaTur/experiencias';
             $action = $insert ? 'INSERT' : 'UPDATE';
@@ -178,7 +224,6 @@ class Experiencias extends \yii\db\ActiveRecord
                 'action' => $action,
                 'id' => (int) $this->id,
                 'ts' => time(),
-                // dados mínimos para o cliente decidir se precisa de sincronizar via REST
                 'data' => $this->toArray(),
                 'changed' => array_keys((array) $changedAttributes),
             ];
@@ -191,9 +236,7 @@ class Experiencias extends \yii\db\ActiveRecord
 
     public function afterDelete()
     {
-        // guardar estado antes do parent (por segurança)
         $snapshot = $this->toArray();
-
         parent::afterDelete();
 
         try {
@@ -211,5 +254,4 @@ class Experiencias extends \yii\db\ActiveRecord
             Yii::warning('Falha ao publicar notificação MQTT (experiencias afterDelete): ' . $e->getMessage(), __METHOD__);
         }
     }
-
 }
