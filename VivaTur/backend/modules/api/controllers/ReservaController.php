@@ -12,7 +12,6 @@ class ReservaController extends ActiveController
 {
     public $modelClass = 'common\models\Reservas';
 
-
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -25,15 +24,13 @@ class ReservaController extends ActiveController
         return $behaviors;
     }
 
-
     //criar nova reserva
-    //URL: api/reservas
+    //URL: api/reserva/postreserva
     public function actionPostreserva()
     {
-
         $reservamodel = new $this->modelClass;
 
-        $reservamodel->id = 0; // Defina como 0 para auto-incremento
+        $reservamodel->id = 0;
         $reservamodel->user_id = \Yii::$app->request->post('user_id');
         $reservamodel->experiencia_id = \Yii::$app->request->post('experiencia_id');
         $reservamodel->metodoPagamento_id = \Yii::$app->request->post('metodoPagamento_id');
@@ -41,20 +38,29 @@ class ReservaController extends ActiveController
         $reservamodel->disponivel = \Yii::$app->request->post('disponivel');
         $reservamodel->turista_id = \Yii::$app->request->post('turista_id');
 
-
         $reservamodel->save();
         return $reservamodel;
     }
 
+    //Buscar reservas por experiência
+    //URL: api/reserva/experiencia/{id}
+    public function actionExperiencia($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
+        $reservas = Reservas::find()
+            ->where(['experiencia_id' => $id])
+            ->all();
+
+        return $reservas;
+    }
 
     //Apagar reserva pelo id
-    //URL: api/reservas/{id}
+    //URL: api/reserva/{id}
     public function actionDelete($id)
     {
         $reservamodel = new $this->modelClass;
         $recs = $reservamodel::deleteAll(['id' => $id]);
         return $recs;
     }
-
 }

@@ -59,6 +59,9 @@ class VivaturController extends Controller
             $gestor->save(false);
         }
 
+        // ========== EXPERIENCIAS ==========
+        $this->stdout("=== Testando Experiências ===\n", Console::FG_CYAN);
+
         // INSERT (publica vivaTur/experiencias/insert)
         $exp = new Experiencias();
         $exp->nome = 'Experiência MQTT ' . date('His');
@@ -69,7 +72,7 @@ class VivaturController extends Controller
         $exp->local = 'Leiria';
         $exp->dataDisponivel = date('Y-m-d');
         $exp->precoPessoa = '10';
-        $exp->imagem = null;
+        $exp->imagem = '';
         $exp->numMaxParticipante = 10;
         $exp->numMinParticipante = 1;
         $exp->categoria_id = $categoria->id;
@@ -93,7 +96,7 @@ class VivaturController extends Controller
 
         // ========== COMENTARIOS ==========
         $this->stdout("=== Testando Comentários ===\n", Console::FG_CYAN);
-        
+
         // Criar experiência auxiliar para testar comentários
         $expAux = new Experiencias();
         $expAux->nome = 'Exp Auxiliar (comentários)';
@@ -104,7 +107,7 @@ class VivaturController extends Controller
         $expAux->local = 'Coimbra';
         $expAux->dataDisponivel = date('Y-m-d');
         $expAux->precoPessoa = '15';
-        $expAux->imagem = null;
+        $expAux->imagem = '';
         $expAux->numMaxParticipante = 5;
         $expAux->numMinParticipante = 1;
         $expAux->categoria_id = $categoria->id;
@@ -123,7 +126,7 @@ class VivaturController extends Controller
         $coment->descricao = 'Comentário de teste MQTT ' . date('His');
         $coment->dataCriacao = date('Y-m-d H:i:s');
         $coment->experiencia_id = $expAux->id;
-        $coment->user_id = $user->id;
+        $coment->turista_id = $turista->id;
         $coment->save(false);
         $this->stdout("Criado comentário ID={$coment->id}\n", Console::FG_GREEN);
 
@@ -147,7 +150,6 @@ class VivaturController extends Controller
         $fav = new Favoritos();
         $fav->experiencia_id = $expAux->id;
         $fav->turista_id = $turista->id;
-        $fav->user_id = $user->id;
         $fav->save(false);
         $this->stdout("Criado favorito ID={$fav->id}\n", Console::FG_GREEN);
 
@@ -166,7 +168,6 @@ class VivaturController extends Controller
         $aval->estrela = 4;
         $aval->experiencia_id = $expAux->id;
         $aval->turista_id = $turista->id;
-        $aval->user_id = $user->id;
         $aval->save(false);
         $this->stdout("Criada avaliação ID={$aval->id}\n", Console::FG_GREEN);
 
@@ -198,7 +199,6 @@ class VivaturController extends Controller
         $reserva->disponivel = 3;
         $reserva->experiencia_id = $expAux->id;
         $reserva->turista_id = $turista->id;
-        $reserva->user_id = $user->id;
         $reserva->metodoPagamento_id = $metodoPag->id;
         $reserva->save(false);
         $this->stdout("Criada reserva ID={$reserva->id}\n", Console::FG_GREEN);
@@ -296,5 +296,3 @@ class VivaturController extends Controller
         return ExitCode::OK;
     }
 }
-
-

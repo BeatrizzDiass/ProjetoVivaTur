@@ -42,6 +42,8 @@ class Experiencias extends \yii\db\ActiveRecord
             ],
 
             [['horaInicio', 'dataDisponivel'], 'validarHorario'],
+
+            [['imagem'], 'default', 'value' => ''],
         ];
     }
 
@@ -206,6 +208,12 @@ class Experiencias extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             $this->calcularDuracao();
+
+            // Adicione esta linha para garantir que imagem não seja NULL
+            if (empty($this->imagem)) {
+                $this->imagem = ''; // ou 'default.jpg' se preferir uma imagem padrão
+            }
+
             return true;
         }
         return false;
