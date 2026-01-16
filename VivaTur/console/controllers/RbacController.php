@@ -379,6 +379,8 @@ class RbacController extends Controller
         $auth->addChild($turista, $viewPagamento);
         $auth->addChild($turista, $viewIdioma);
 
+        $auth->addChild($turista, $viewAvaliacoes);
+
 
 
 

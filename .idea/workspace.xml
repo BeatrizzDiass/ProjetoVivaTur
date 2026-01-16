@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59c6966a-0529-4867-a5de-de544535be1c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VivaTur/common/models/Gestores.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/MatematicaController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/ExperienciasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/ExperienciasController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/controllers/SiteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/models/Experiencias.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/LinguaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/backend/views/experiencias/_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/views/experiencias/_form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Comentarios.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/config/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/config/main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AvaliacoesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/modules/api/controllers/AvaliacoesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/backend/views/site/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/backend/views/site/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/common/models/Experiencias.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VivaTur/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VivaTur/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/console/controllers/RbacController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/console/controllers/RbacController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VivaTur/console/controllers/VivaturController.php" beforeDir="false" afterPath="$PROJECT_DIR$/VivaTur/console/controllers/VivaturController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,20 +190,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;desenvolvimento__Beatriz&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/wamp64/www/PLATSI/ProjetoVivaTur/VivaTur/backend/web&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "desenvolvimento__Beatriz",
+    "last_opened_file_path": "C:/wamp64/www/PLATSI/ProjetoVivaTur/VivaTur",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\wamp64\www\PLATSI\ProjetoVivaTur\VivaTur\backend\web" />
@@ -256,6 +254,10 @@
       <workItem from="1768258918521" duration="2711000" />
       <workItem from="1768308566795" duration="5964000" />
       <workItem from="1768428419486" duration="7167000" />
+      <workItem from="1768477253521" duration="2531000" />
+      <workItem from="1768491354585" duration="3064000" />
+      <workItem from="1768567526006" duration="3924000" />
+      <workItem from="1768577550663" duration="804000" />
     </task>
     <servers />
   </component>

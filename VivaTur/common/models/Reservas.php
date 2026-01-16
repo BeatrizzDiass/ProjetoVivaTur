@@ -23,8 +23,6 @@ use Yii;
  */
 class Reservas extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -107,14 +105,19 @@ class Reservas extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-
-
     /**
      * afterSave: publica notificação MQTT quando uma reserva é criada/atualizada
+     * Versão segura - não quebra se MQTT não estiver disponível
      */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
+
+        // Verifica se o componente MQTT está configurado
+        if (!isset(Yii::$app->mqtt)) {
+            Yii::info("MQTT component não configurado - notificação não enviada", __METHOD__);
+            return;
+        }
 
         try {
             $acao = $insert ? 'insert' : 'update';
@@ -131,17 +134,26 @@ class Reservas extends \yii\db\ActiveRecord
                 'action' => $acao,
                 'timestamp' => date('Y-m-d H:i:s'),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            // Log o erro mas não impede a operação de salvar
             Yii::error("MQTT publish falhou (Reservas/{$acao}): " . $e->getMessage(), __METHOD__);
+            // A reserva foi salva com sucesso mesmo se MQTT falhar
         }
     }
 
     /**
      * afterDelete: publica notificação MQTT quando uma reserva é apagada
+     * Versão segura - não quebra se MQTT não estiver disponível
      */
     public function afterDelete()
     {
         parent::afterDelete();
+
+        // Verifica se o componente MQTT está configurado
+        if (!isset(Yii::$app->mqtt)) {
+            Yii::info("MQTT component não configurado - notificação não enviada", __METHOD__);
+            return;
+        }
 
         try {
             $topic = Yii::$app->params['mqtt']['topics']['reservas']['delete'] ?? 'vivaTur/reservas/delete';
@@ -153,10 +165,10 @@ class Reservas extends \yii\db\ActiveRecord
                 'action' => 'delete',
                 'timestamp' => date('Y-m-d H:i:s'),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            // Log o erro mas não impede a operação de delete
             Yii::error("MQTT publish falhou (Reservas/delete): " . $e->getMessage(), __METHOD__);
+            // A reserva foi apagada com sucesso mesmo se MQTT falhar
         }
     }
-
-
 }

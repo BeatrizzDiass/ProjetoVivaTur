@@ -158,14 +158,13 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/reserva'],
-                    'pluralize' => true,
+                    'pluralize' => false,
                     'extraPatterns' => [
-                        // Regras personalizadas para operações de reservas
-                        'POST' => 'postreserva',  //actionPostreserva
-                        'DELETE <id:\d+>' => 'delete', //actionDelete
+                        'POST' => 'postreserva',
+                        'GET experiencia/<id:\d+>' => 'experiencia', // Esta deve vir ANTES
+                        'DELETE <id:\d+>' => 'delete',
                     ],
                 ],
-
                 // Regras para o controlador de Users
                 [
                     'class' => 'yii\rest\UrlRule',
