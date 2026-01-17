@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Cassandra\Set;
 use frontend\models\Gestores;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -710,6 +711,8 @@ class SiteController extends Controller
 
         return $this->render('comentarios', [
             'comentarios' => $comentarios,
+
         ]);
+
     }
 }
