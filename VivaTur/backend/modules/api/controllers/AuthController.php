@@ -24,41 +24,41 @@ public function behaviors()
 
     /* ================= LOGIN ================= */
     // POST /api/auth/login
-    public function actionLogin()
-    {
-        $request = \Yii::$app->request;
+	public function actionLogin()
+	{
+		// bodyParams permite ler o JSON que vem do Android
+		$params = \Yii::$app->request->bodyParams;
+		$username = $params['username'] ?? \Yii::$app->request->post('username');
+		$password = $params['password'] ?? \Yii::$app->request->post('password');
 
-        $username = $request->post('username');
-        $password = $request->post('password');
+		if (!$username || !$password) {
+			throw new BadRequestHttpException('Username e password são obrigatórios.');
+		}
 
-        if (!$username || !$password) {
-            throw new BadRequestHttpException('Username e password são obrigatórios.');
-        }
+		$user = User::findOne([
+			'username' => $username,
+			'status' => User::STATUS_ACTIVE
+		]);
 
-        // CORREÇÃO: Buscar usuário ativo
-        $user = User::findOne([
-            'username' => $username,
-            'status' => User::STATUS_ACTIVE  // Adicione esta linha
-        ]);
+		if (!$user || !$user->validatePassword($password)) {
+			throw new UnauthorizedHttpException('Credenciais inválidas.');
+		}
 
-        if (!$user || !$user->validatePassword($password)) {
-            throw new UnauthorizedHttpException('Credenciais inválidas.');
-        }
+		// ALTERAÇÃO CRÍTICA: Mudar access_token para auth_key
+		// O auth_key é o campo padrão do Yii2 que o Site e a App podem partilhar
+		$user->auth_key = \Yii::$app->security->generateRandomString(64);
 
-        // Gerar token
-        $user->access_token = \Yii::$app->security->generateRandomString(64);
+		if (!$user->save(false)) {
+			throw new ServerErrorHttpException('Erro ao gerar token.');
+		}
 
-        if (!$user->save(false)) {
-            throw new ServerErrorHttpException('Erro ao gerar token.');
-        }
-
-        return [
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-            'access_token' => $user->access_token,
-        ];
-    }
+		return [
+			'id' => $user->id,
+			'username' => $user->username,
+			'email' => $user->email,
+			'token' => $user->auth_key, // Enviamos como "token" para a App
+		];
+	}
 
     /* ================= REGISTER ================= */
     // POST /api/auth/register
