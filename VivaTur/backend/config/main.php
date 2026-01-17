@@ -165,6 +165,16 @@ return [
                         'DELETE <id:\d+>' => 'delete',
                     ],
                 ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['api/gestor'],
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                       'GET gestorbyuser/<user_id:\d+>' => 'gestorbyuser',
+                    ],
+                ],
+
                 // Regras para o controlador de Users
                 [
                     'class' => 'yii\rest\UrlRule',
