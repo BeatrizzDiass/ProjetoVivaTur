@@ -24,41 +24,42 @@ public function behaviors()
 
     /* ================= LOGIN ================= */
     // POST /api/auth/login
-    public function actionLogin()
-    {
-        $request = \Yii::$app->request;
+	public function actionLogin()
+	{
+		$request = \Yii::$app->request;
 
-        $username = $request->post('username');
-        $password = $request->post('password');
+		// Isto permite ler tanto JSON (App) como Form-Data (Site)
+		$username = $request->getBodyParam('username') ?: $request->post('username');
+		$password = $request->getBodyParam('password') ?: $request->post('password');
 
-        if (!$username || !$password) {
-            throw new BadRequestHttpException('Username e password são obrigatórios.');
-        }
+		if (!$username || !$password) {
+			throw new BadRequestHttpException('Username e password são obrigatórios.');
+		}
 
-        // CORREÇÃO: Buscar usuário ativo
-        $user = User::findOne([
-            'username' => $username,
-            'status' => User::STATUS_ACTIVE  // Adicione esta linha
-        ]);
+		$user = User::findOne([
+			'username' => $username,
+			'status' => User::STATUS_ACTIVE
+		]);
 
-        if (!$user || !$user->validatePassword($password)) {
-            throw new UnauthorizedHttpException('Credenciais inválidas.');
-        }
+		if (!$user || !$user->validatePassword($password)) {
+			throw new UnauthorizedHttpException('Credenciais inválidas.');
+		}
 
-        // Gerar token
-        $user->access_token = \Yii::$app->security->generateRandomString(64);
+		// Usamos o auth_key que já existe na BD para ambos os casos
+		// Se o auth_key estiver vazio, geramos um. Se já existir, podemos reutilizar ou renovar.
+		$user->auth_key = \Yii::$app->security->generateRandomString(64);
 
-        if (!$user->save(false)) {
-            throw new ServerErrorHttpException('Erro ao gerar token.');
-        }
+		if (!$user->save(false)) {
+			throw new ServerErrorHttpException('Erro ao atualizar o token.');
+		}
 
-        return [
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-            'access_token' => $user->access_token,
-        ];
-    }
+		return [
+			'id' => $user->id,
+			'username' => $user->username,
+			'email' => $user->email,
+			'token' => $user->auth_key, // Enviamos como "token" para a App ler
+		];
+	}
 
     /* ================= REGISTER ================= */
     // POST /api/auth/register
