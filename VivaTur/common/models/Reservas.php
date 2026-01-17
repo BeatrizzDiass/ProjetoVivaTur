@@ -37,10 +37,19 @@ class Reservas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dataReserva', 'disponivel', 'numPessoas', 'turista_id'], 'default', 'value' => null],
+            // REMOVER numPessoas desta linha - ele NÃO deve ter valor padrão null
+            [['dataReserva', 'disponivel', 'turista_id'], 'default', 'value' => null],
+
+            // ADICIONAR numPessoas como obrigatório
+            [['numPessoas', 'experiencia_id', 'user_id', 'metodoPagamento_id'], 'required'],
+
+            // Validação de inteiros
             [['numPessoas', 'experiencia_id', 'user_id', 'metodoPagamento_id', 'turista_id'], 'integer'],
-            [['experiencia_id', 'user_id', 'metodoPagamento_id'], 'required'],
+
+            // Validação de strings
             [['dataReserva', 'disponivel'], 'string', 'max' => 45],
+
+            // Validação de relacionamentos
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
             [['metodoPagamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Metodopagamentos::class, 'targetAttribute' => ['metodoPagamento_id' => 'id']],
             [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
