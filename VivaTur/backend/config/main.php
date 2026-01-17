@@ -119,7 +119,7 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/comentario'],
-                    'pluralize' => true,  // ✅ Mude para true
+                    'pluralize' => true,
                     'extraPatterns' => [
                         'POST' => 'postcomentarios',
                         'PUT <id:\d+>' => 'putcomentario',

@@ -24,6 +24,7 @@ public function behaviors()
 
     /* ================= LOGIN ================= */
     // POST /api/auth/login
+
 	public function actionLogin()
 	{
 		// bodyParams permite ler o JSON que vem do Android
@@ -48,9 +49,10 @@ public function behaviors()
 		// O auth_key é o campo padrão do Yii2 que o Site e a App podem partilhar
 		$user->auth_key = \Yii::$app->security->generateRandomString(64);
 
-		if (!$user->save(false)) {
-			throw new ServerErrorHttpException('Erro ao gerar token.');
-		}
+		// Workaround: update direto na BD sem triggerar afterSave (evita erro MQTT)
+		\Yii::$app->db->createCommand()->update('user', [
+			'auth_key' => $user->auth_key
+		], ['id' => $user->id])->execute();
 
 		return [
 			'id' => $user->id,
