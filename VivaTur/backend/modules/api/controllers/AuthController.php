@@ -26,11 +26,10 @@ public function behaviors()
     // POST /api/auth/login
 	public function actionLogin()
 	{
-		$request = \Yii::$app->request;
-
-		// Isto permite ler tanto JSON (App) como Form-Data (Site)
-		$username = $request->getBodyParam('username') ?: $request->post('username');
-		$password = $request->getBodyParam('password') ?: $request->post('password');
+		// bodyParams permite ler o JSON que vem do Android
+		$params = \Yii::$app->request->bodyParams;
+		$username = $params['username'] ?? \Yii::$app->request->post('username');
+		$password = $params['password'] ?? \Yii::$app->request->post('password');
 
 		if (!$username || !$password) {
 			throw new BadRequestHttpException('Username e password são obrigatórios.');
@@ -45,19 +44,19 @@ public function behaviors()
 			throw new UnauthorizedHttpException('Credenciais inválidas.');
 		}
 
-		// Usamos o auth_key que já existe na BD para ambos os casos
-		// Se o auth_key estiver vazio, geramos um. Se já existir, podemos reutilizar ou renovar.
+		// ALTERAÇÃO CRÍTICA: Mudar access_token para auth_key
+		// O auth_key é o campo padrão do Yii2 que o Site e a App podem partilhar
 		$user->auth_key = \Yii::$app->security->generateRandomString(64);
 
 		if (!$user->save(false)) {
-			throw new ServerErrorHttpException('Erro ao atualizar o token.');
+			throw new ServerErrorHttpException('Erro ao gerar token.');
 		}
 
 		return [
 			'id' => $user->id,
 			'username' => $user->username,
 			'email' => $user->email,
-			'token' => $user->auth_key, // Enviamos como "token" para a App ler
+			'token' => $user->auth_key, // Enviamos como "token" para a App
 		];
 	}
 
