@@ -171,7 +171,7 @@ return [
                     'controller' => ['api/gestor'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                       'GET gestorbyuser/<user_id:\d+>' => 'gestorbyuser',
+                        'GET gestorbyuser/<user_id:\d+>' => 'gestorbyuser',
                     ],
                 ],
                 // Regras para o controlador de Users

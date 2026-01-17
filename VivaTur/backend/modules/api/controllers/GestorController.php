@@ -2,7 +2,6 @@
 namespace backend\modules\api\controllers;
 
 use yii\rest\ActiveController;
-use common\models\Gestor;
 
 class GestorController extends ActiveController
 {
@@ -12,7 +11,6 @@ class GestorController extends ActiveController
     {
         $behaviors = parent::behaviors();
 
-        // Autenticação (se necessário)
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\QueryParamAuth::class,
         ];
