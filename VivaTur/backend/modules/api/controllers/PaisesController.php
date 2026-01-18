@@ -12,7 +12,7 @@ public $modelClass = 'common\models\Paises';
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
+            'except' => ['index', 'view'], // Permite acesso sem autenticação
         ];
 
         return $behaviors;
