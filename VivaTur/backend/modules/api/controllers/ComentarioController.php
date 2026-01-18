@@ -22,8 +22,10 @@ class ComentarioController extends \yii\rest\ActiveController
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            'except' => ['index', 'view', 'getcomentariosexperiencia'],
+            'except' => ['index', 'view', 'getcomentariosexperiencia', 'postcomentariosexperiencia'],
         ];
+
+
 
         // Force JSON response
         $behaviors['contentNegotiator'] = [
