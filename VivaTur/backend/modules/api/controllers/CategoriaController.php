@@ -8,13 +8,14 @@ class CategoriaController extends ActiveController
 {
     public $modelClass = 'common\models\Categorias';
 
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'], // se quiseres só proteger alguns métodos
+            'except' => ['index', 'view', 'pesquisarpornome'], // Permite acesso sem autenticação
         ];
 
         return $behaviors;
