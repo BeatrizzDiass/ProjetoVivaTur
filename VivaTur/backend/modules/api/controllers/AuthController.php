@@ -24,39 +24,44 @@ public function behaviors()
 
     /* ================= LOGIN ================= */
     // POST /api/auth/login
-    public function actionLogin()
-    {
-        $params = \Yii::$app->request->bodyParams;
-        $username = $params['username'] ?? \Yii::$app->request->post('username');
-        $password = $params['password'] ?? \Yii::$app->request->post('password');
 
-        if (!$username || !$password) {
-            throw new BadRequestHttpException('Username e password são obrigatórios.');
-        }
+	public function actionLogin()
+	{
+		// bodyParams permite ler o JSON que vem do Android
+		$params = \Yii::$app->request->bodyParams;
+		$username = $params['username'] ?? \Yii::$app->request->post('username');
+		$password = $params['password'] ?? \Yii::$app->request->post('password');
 
-        $user = User::findOne([
-            'username' => $username,
-            'status' => User::STATUS_ACTIVE
-        ]);
+		if (!$username || !$password) {
+			throw new BadRequestHttpException('Username e password são obrigatórios.');
+		}
 
-        if (!$user || !$user->validatePassword($password)) {
-            throw new UnauthorizedHttpException('Credenciais inválidas.');
-        }
+		$user = User::findOne([
+			'username' => $username,
+			'status' => User::STATUS_ACTIVE
+		]);
 
-        // CHANGE: Use access_token instead of auth_key
-        $user->access_token = \Yii::$app->security->generateRandomString(64);
+		if (!$user || !$user->validatePassword($password)) {
+			throw new UnauthorizedHttpException('Credenciais inválidas.');
+		}
 
-        if (!$user->save(false)) {
-            throw new ServerErrorHttpException('Erro ao gerar token.');
-        }
+		// ALTERAÇÃO CRÍTICA: Mudar access_token para auth_key
+		// O auth_key é o campo padrão do Yii2 que o Site e a App podem partilhar
+		$user->auth_key = \Yii::$app->security->generateRandomString(64);
 
-        return [
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-            'token' => $user->access_token, // Return access_token
-        ];
-    }
+		// Workaround: update direto na BD sem triggerar afterSave (evita erro MQTT)
+		\Yii::$app->db->createCommand()->update('user', [
+			'auth_key' => $user->auth_key
+		], ['id' => $user->id])->execute();
+
+		return [
+			'id' => $user->id,
+			'username' => $user->username,
+			'email' => $user->email,
+			'token' => $user->auth_key,
+
+		];
+	}
 
     /* ================= REGISTER ================= */
     // POST /api/auth/register
