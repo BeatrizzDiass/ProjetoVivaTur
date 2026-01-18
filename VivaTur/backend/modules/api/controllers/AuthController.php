@@ -58,7 +58,8 @@ public function behaviors()
 			'id' => $user->id,
 			'username' => $user->username,
 			'email' => $user->email,
-			'token' => $user->auth_key, // Enviamos como "token" para a App
+			'token' => $user->auth_key,
+
 		];
 	}
 
