@@ -13,7 +13,7 @@ public $modelClass = 'common\models\Metodopagamentos';
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
+            'except' => ['index', 'view'],
         ];
 
         return $behaviors;
