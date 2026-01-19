@@ -19,14 +19,15 @@ class AvaliacoesController extends \yii\rest\ActiveController
 			],
 		];
 
-		$behaviors['authenticator'] = [
-			'class' => QueryParamAuth::class,
-			'except' => ['index', 'view', 'getavaliacoesexperiencia'],
-		];
+        $behaviors['authenticator'] = [
+            'class' => \yii\filters\auth\QueryParamAuth::class,
+            // IMPORTANTE: Use 'access-token' (com hífen) para corresponder à URL
+            'tokenParam' => 'access-token',
+            'except' => ['index', 'view', 'getavaliacoesexperiencia'],
+        ];
 
-		return $behaviors;
-	}
-
+        return $behaviors;
+    }
 
     // CRUD para Avaliacoes
     //URL: /api/avaliacoes
@@ -34,13 +35,15 @@ class AvaliacoesController extends \yii\rest\ActiveController
     {
         $avaliacoesmodel = new $this->modelClass;
 
-        $avaliacoesmodel->id = 0; // Defina como 0 para auto-incremento
+        $avaliacoesmodel->id = 0; // Auto-incremento
         $avaliacoesmodel->estrela = \Yii::$app->request->post('estrela');
         $avaliacoesmodel->experiencia_id = \Yii::$app->request->post('experiencia_id');
         $avaliacoesmodel->user_id = \Yii::$app->request->post('user_id');
         $avaliacoesmodel->turista_id = \Yii::$app->request->post('turista_id');
 
-        $avaliacoesmodel->save();
+        if (!$avaliacoesmodel->save()) {
+            return $avaliacoesmodel->errors;
+        }
         return $avaliacoesmodel;
     }
 
@@ -48,18 +51,18 @@ class AvaliacoesController extends \yii\rest\ActiveController
     //URL: /api/avaliacoes
     public function actionPutavaliacoes($id)
     {
-
-        $nova_estrela =\Yii::$app->request->post('estrela');
+        $nova_estrela = \Yii::$app->request->post('estrela');
         $avaliacaomodel = new $this->modelClass;
         $recs = $avaliacaomodel::findOne($id);
         if ($recs) {
             $recs->estrela = $nova_estrela;
-            $recs->save();
-        }
-        else{
+            if (!$recs->save()) {
+                return $recs->errors;
+            }
+            return $recs;
+        } else {
             throw new \yii\web\NotFoundHttpException('Avaliação não encontrada.');
         }
-
     }
 
     // Apagar avaliação por ID
@@ -70,7 +73,6 @@ class AvaliacoesController extends \yii\rest\ActiveController
         $recs = $avaliacaoModel::deleteAll(['id' => $id]);
         return $recs;
     }
-
 
     // CRUD para Avaliacoes por Experiencia
     //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes
@@ -91,35 +93,43 @@ class AvaliacoesController extends \yii\rest\ActiveController
     {
         $avaliacoesmodel = new $this->modelClass;
 
+        $avaliacoesmodel->id = 0; // IMPORTANTE: Auto-incremento
         $avaliacoesmodel->estrela = \Yii::$app->request->post('estrela');
-        $avaliacoesmodel->experiencia_id = $experiencia_id;
+        $avaliacoesmodel->experiencia_id = $experiencia_id; // Vem da URL
         $avaliacoesmodel->user_id = \Yii::$app->request->post('user_id');
         $avaliacoesmodel->turista_id = \Yii::$app->request->post('turista_id');
 
         if (!$avaliacoesmodel->save()) {
-            return $avaliacoesmodel->errors;
+            \Yii::$app->response->statusCode = 400;
+            return [
+                'success' => false,
+                'errors' => $avaliacoesmodel->errors
+            ];
         }
         return $avaliacoesmodel;
-
-
     }
 
     // Atualizar avaliação específica para uma experiência
     //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes/{id}
     public function actionPutavaliacoesexperiencia($experiencia_id, $id)
     {
-        $nova_estrela =\Yii::$app->request->post('estrela');
+        $nova_estrela = \Yii::$app->request->post('estrela');
         $avaliacaomodel = new $this->modelClass;
         $recs = $avaliacaomodel::findOne(['id' => $id, 'experiencia_id' => $experiencia_id]);
         if ($recs) {
             $recs->estrela = $nova_estrela;
-            $recs->save();
-        }
-        else{
+            if (!$recs->save()) {
+                \Yii::$app->response->statusCode = 400;
+                return [
+                    'success' => false,
+                    'errors' => $recs->errors
+                ];
+            }
+            return $recs;
+        } else {
             throw new \yii\web\NotFoundHttpException('Avaliação não encontrada para a experiência especificada.');
         }
     }
-
 
     // Apagar avaliação específica para uma experiência
     //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes/{id}
