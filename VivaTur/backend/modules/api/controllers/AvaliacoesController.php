@@ -19,13 +19,11 @@ class AvaliacoesController extends \yii\rest\ActiveController
         ];
 
         $behaviors['authenticator'] = [
-            'class' => \yii\filters\auth\CompositeAuth::class, // Permite vários métodos
-            'authMethods' => [
-                \yii\filters\auth\HttpBearerAuth::class,      // Suporte para o Header (Android)
-                \yii\filters\auth\QueryParamAuth::class,    // Mantém suporte para URL se quiseres
-            ],
+            'class' => \yii\filters\auth\QueryParamAuth::class,
+            'tokenParam' => 'access-token',
             'except' => ['index', 'view', 'getavaliacoesexperiencia'],
         ];
+
 
         return $behaviors;
     }
