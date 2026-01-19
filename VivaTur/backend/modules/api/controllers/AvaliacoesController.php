@@ -7,25 +7,28 @@ class AvaliacoesController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Avaliacoes';
 
-	public function behaviors()
-	{
-		$behaviors = parent::behaviors();
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
 
-		// FORÇAR RESPOSTA EM JSON (Adiciona isto aqui)
-		$behaviors['contentNegotiator'] = [
-			'class' => \yii\filters\ContentNegotiator::class,
-			'formats' => [
-				'application/json' => \yii\web\Response::FORMAT_JSON,
-			],
-		];
+        $behaviors['contentNegotiator'] = [
+            'class' => \yii\filters\ContentNegotiator::class,
+            'formats' => [
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+            ],
+        ];
 
-		$behaviors['authenticator'] = [
-			'class' => QueryParamAuth::class,
-			'except' => ['index', 'view', 'getavaliacoesexperiencia'],
-		];
+        $behaviors['authenticator'] = [
+            'class' => \yii\filters\auth\CompositeAuth::class, // Permite vários métodos
+            'authMethods' => [
+                \yii\filters\auth\HttpBearerAuth::class,      // Suporte para o Header (Android)
+                \yii\filters\auth\QueryParamAuth::class,    // Mantém suporte para URL se quiseres
+            ],
+            'except' => ['index', 'view', 'getavaliacoesexperiencia'],
+        ];
 
-		return $behaviors;
-	}
+        return $behaviors;
+    }
 
 
     // CRUD para Avaliacoes
