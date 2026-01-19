@@ -154,6 +154,13 @@ return [
                     ],
                 ],
 
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['turistas' => 'api/turista'], // ✅ Formato correto
+                    'pluralize' => false, // ✅ Desabilitar pluralização automática
+                    'extraPatterns' => [],
+                ],
+
                 // Regras para o controlador de Reserva
                 [
                     'class' => 'yii\rest\UrlRule',
