@@ -58,6 +58,21 @@ class ComentarioController extends \yii\rest\ActiveController
 
     }
 
+    // ===== NOVO: Obter comentários de um utilizador específico =====
+// URL: /api/comentario/user/{user_id}
+    public function actionGetcomentariosuser($user_id)
+    {
+        $comentariosmodel = $this->modelClass;
+
+        $comentarios = $comentariosmodel::find()
+            ->where(['user_id' => $user_id])
+            ->orderBy(['id' => SORT_DESC]) // Mais recentes primeiro
+            ->all();
+
+        return $comentarios;
+    }
+
+
 
     // Ver um comentário específico
 // URL: api/comentarios/{id}

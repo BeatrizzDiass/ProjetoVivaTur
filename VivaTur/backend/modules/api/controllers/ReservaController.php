@@ -94,4 +94,16 @@ class ReservaController extends ActiveController
         Yii::error('Load falhou. Dados recebidos: ' . json_encode($data), 'reserva-create');
         throw new \yii\web\BadRequestHttpException('Não foi possível carregar os dados');
     }
+
+    public function actionGetreservasuser($user_id)
+    {
+        $reservaModel = $this->modelClass;
+
+        $reservas = $reservaModel::find()
+            ->where(['user_id' => $user_id])
+            ->orderBy(['id' => SORT_DESC]) // Mais recentes primeiro
+            ->all();
+
+        return $reservas;
+    }
 }
