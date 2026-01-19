@@ -91,14 +91,16 @@ class AvaliacoesController extends \yii\rest\ActiveController
     {
         $avaliacoesmodel = new $this->modelClass;
 
-        $avaliacoesmodel->id = 0; // Defina como 0 para auto-incremento
         $avaliacoesmodel->estrela = \Yii::$app->request->post('estrela');
         $avaliacoesmodel->experiencia_id = $experiencia_id;
         $avaliacoesmodel->user_id = \Yii::$app->request->post('user_id');
         $avaliacoesmodel->turista_id = \Yii::$app->request->post('turista_id');
 
-        $avaliacoesmodel->save();
+        if (!$avaliacoesmodel->save()) {
+            return $avaliacoesmodel->errors;
+        }
         return $avaliacoesmodel;
+
 
     }
 
