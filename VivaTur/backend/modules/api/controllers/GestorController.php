@@ -13,6 +13,7 @@ class GestorController extends ActiveController
 
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\QueryParamAuth::class,
+            'except' => ['*']
         ];
 
         return $behaviors;
