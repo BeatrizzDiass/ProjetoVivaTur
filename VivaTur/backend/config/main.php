@@ -129,6 +129,8 @@ return [
                         'POST experiencia/<experiencia_id:\d+>' => 'postcomentariosexperiencia',
                         'PUT experiencia/<experiencia_id:\d+>/<id:\d+>' => 'putcomentariosexperiencia',
                         'DELETE experiencia/<experiencia_id:\d+>/<id:\d+>' => 'deletecomentariosexperiencia',
+                        'GET user/<user_id:\d+>' => 'getcomentariosuser',
+
                     ],
                 ],
 
@@ -171,6 +173,7 @@ return [
                         'POST' => 'postreserva',
                         'GET experiencia/<id:\d+>' => 'experiencia', // Esta deve vir ANTES
                         'DELETE <id:\d+>' => 'delete',
+                        'GET user/<user_id:\d+>' => 'getreservasuser',
                     ],
                 ],
 
