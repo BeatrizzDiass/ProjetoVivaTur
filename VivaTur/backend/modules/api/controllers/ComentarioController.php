@@ -22,7 +22,7 @@ class ComentarioController extends \yii\rest\ActiveController
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            'except' => ['index', 'view', 'getcomentariosexperiencia', 'postcomentariosexperiencia'],
+            'except' => ['*'],
         ];
 
 
