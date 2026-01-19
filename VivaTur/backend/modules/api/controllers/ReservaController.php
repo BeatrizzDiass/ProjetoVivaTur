@@ -20,7 +20,7 @@ class ReservaController extends ActiveController
         // ✅ CONFIGURAÇÃO CORRETA
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'tokenParam' => 'access-token', // ← COM HÍFEN, não underscore!
+            'except' => ['*'], // Permite acesso sem autenticação
         ];
 
         // OU, se quiser desabilitar autenticação temporariamente para testar:
