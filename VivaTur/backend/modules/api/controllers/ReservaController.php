@@ -42,6 +42,7 @@ class ReservaController extends ActiveController
         $reservamodel->dataReserva = \Yii::$app->request->post('dataReserva');
         $reservamodel->disponivel = \Yii::$app->request->post('disponivel');
         $reservamodel->turista_id = \Yii::$app->request->post('turista_id');
+        $reservamodel->numPessoas = \Yii::$app->request->post('numPessoas');
 
         $reservamodel->save();
         return $reservamodel;
