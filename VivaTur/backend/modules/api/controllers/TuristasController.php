@@ -1,10 +1,12 @@
 <?php
-namespace app\modules\api\controllers;
-use yii\filters\auth\QueryParamAuth;
+namespace backend\modules\api\controllers;
 
-class TuristasController extends \yii\rest\ActiveController
+use yii\filters\auth\QueryParamAuth;
+use yii\rest\ActiveController;
+
+class TuristasController extends ActiveController
 {
-public $modelClass = 'common\models\Turistas';
+    public $modelClass = 'common\models\Turistas';
 
     public function behaviors()
     {
@@ -12,10 +14,9 @@ public $modelClass = 'common\models\Turistas';
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            'except' => ['*'], // Permite acesso sem autenticação
+            'except' => ['*'],
         ];
 
         return $behaviors;
     }
-
 }
