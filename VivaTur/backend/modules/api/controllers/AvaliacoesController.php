@@ -7,24 +7,22 @@ class AvaliacoesController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Avaliacoes';
 
-	public function behaviors()
-	{
-		$behaviors = parent::behaviors();
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
 
-		// FORÇAR RESPOSTA EM JSON (Adiciona isto aqui)
-		$behaviors['contentNegotiator'] = [
-			'class' => \yii\filters\ContentNegotiator::class,
-			'formats' => [
-				'application/json' => \yii\web\Response::FORMAT_JSON,
-			],
-		];
+        // FORÇAR RESPOSTA EM JSON
+        $behaviors['contentNegotiator'] = [
+            'class' => \yii\filters\ContentNegotiator::class,
+            'formats' => [
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+            ],
+        ];
 
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\QueryParamAuth::class,
-            // IMPORTANTE: Use 'access-token' (com hífen) para corresponder à URL
             'tokenParam' => 'access-token',
             'except' => ['*'],
-
         ];
 
         return $behaviors;
@@ -49,7 +47,7 @@ class AvaliacoesController extends \yii\rest\ActiveController
     }
 
     // Atualizar avaliação por ID
-    //URL: /api/avaliacoes
+    //URL: /api/avaliacoes/{id}
     public function actionPutavaliacoes($id)
     {
         $nova_estrela = \Yii::$app->request->post('estrela');
@@ -75,8 +73,22 @@ class AvaliacoesController extends \yii\rest\ActiveController
         return $recs;
     }
 
+    // ===== NOVO: Obter avaliações de um utilizador específico =====
+    //URL: /api/avaliacoes/user/{user_id}
+    public function actionGetavaliacoesuser($user_id)
+    {
+        $avaliacoesmodel = $this->modelClass;
+
+        $avaliacoes = $avaliacoesmodel::find()
+            ->where(['user_id' => $user_id])
+            ->orderBy(['id' => SORT_DESC]) // Mais recentes primeiro
+            ->all();
+
+        return $avaliacoes;
+    }
+
     // CRUD para Avaliacoes por Experiencia
-    //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes
+    //URL: api/avaliacoes/experiencias/{experiencia_id}/avaliacoes
     public function actionGetavaliacoesexperiencia($experiencia_id)
     {
         $avaliacoesmodel = $this->modelClass;
@@ -89,14 +101,14 @@ class AvaliacoesController extends \yii\rest\ActiveController
     }
 
     // Criar avaliação para uma experiência específica
-    //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes
+    //URL: api/avaliacoes/experiencias/{experiencia_id}/avaliacoes
     public function actionPostavaliacoesexperiencia($experiencia_id)
     {
         $avaliacoesmodel = new $this->modelClass;
 
-        $avaliacoesmodel->id = 0; // IMPORTANTE: Auto-incremento
+        $avaliacoesmodel->id = 0; // Auto-incremento
         $avaliacoesmodel->estrela = \Yii::$app->request->post('estrela');
-        $avaliacoesmodel->experiencia_id = $experiencia_id; // Vem da URL
+        $avaliacoesmodel->experiencia_id = $experiencia_id;
         $avaliacoesmodel->user_id = \Yii::$app->request->post('user_id');
         $avaliacoesmodel->turista_id = \Yii::$app->request->post('turista_id');
 
@@ -111,7 +123,7 @@ class AvaliacoesController extends \yii\rest\ActiveController
     }
 
     // Atualizar avaliação específica para uma experiência
-    //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes/{id}
+    //URL: api/avaliacoes/experiencias/{experiencia_id}/avaliacoes/{id}
     public function actionPutavaliacoesexperiencia($experiencia_id, $id)
     {
         $nova_estrela = \Yii::$app->request->post('estrela');
@@ -133,7 +145,7 @@ class AvaliacoesController extends \yii\rest\ActiveController
     }
 
     // Apagar avaliação específica para uma experiência
-    //URL: api/avaliacoes/experiencias/{id_experiencia}/avaliacoes/{id}
+    //URL: api/avaliacoes/experiencias/{experiencia_id}/avaliacoes/{id}
     public function actionDeleteavaliacoesexperiencia($experiencia_id, $id)
     {
         $avaliacaomodel = new $this->modelClass;

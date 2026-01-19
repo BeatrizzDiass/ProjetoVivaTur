@@ -109,6 +109,7 @@ return [
                         'POST' => 'postavaliacoes',
                         'PUT <id:\d+>' => 'putavaliacoes',
                         'DELETE <id:\d+>' => 'delete',
+                        'GET user/<user_id:\d+>' => 'getavaliacoesuser',
                         'GET experiencias/<experiencia_id:\d+>/avaliacoes' => 'getavaliacoesexperiencia',
                         'POST experiencias/<experiencia_id:\d+>/avaliacoes' => 'postavaliacoesexperiencia',
                         'PUT experiencias/<experiencia_id:\d+>/avaliacoes/<id:\d+>' => 'putavaliacoesexperiencia',
