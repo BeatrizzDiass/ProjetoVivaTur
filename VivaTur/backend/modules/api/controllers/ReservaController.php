@@ -17,14 +17,18 @@ class ReservaController extends ActiveController
     {
         $behaviors = parent::behaviors();
 
+        // ✅ CONFIGURAÇÃO CORRETA
         $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
+            'class' => QueryParamAuth::className(),
+            'tokenParam' => 'access-token', // ← COM HÍFEN, não underscore!
         ];
+
+        // OU, se quiser desabilitar autenticação temporariamente para testar:
+        // unset($behaviors['authenticator']);
 
         return $behaviors;
     }
-
+    
     //criar nova reserva
     //URL: api/reserva/postreserva
     public function actionPostreserva()
