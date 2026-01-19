@@ -23,7 +23,8 @@ class AvaliacoesController extends \yii\rest\ActiveController
             'class' => \yii\filters\auth\QueryParamAuth::class,
             // IMPORTANTE: Use 'access-token' (com hífen) para corresponder à URL
             'tokenParam' => 'access-token',
-            'except' => ['index', 'view', 'getavaliacoesexperiencia'],
+            'except' => ['*'],
+
         ];
 
         return $behaviors;
