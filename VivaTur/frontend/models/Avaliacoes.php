@@ -36,7 +36,7 @@ class Avaliacoes extends \yii\db\ActiveRecord
         return [
             [['estrela', 'experiencia_id', 'turista_id'], 'required'],
             [['estrela', 'experiencia_id', 'turista_id'], 'integer'],
-            [['estrela'], 'in', 'range' => [1, 2, 3, 4, 5]], // Validate 1-5 stars
+            [['estrela'], 'in', 'range' => [1, 2, 3, 4, 5]],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
             [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
         ];

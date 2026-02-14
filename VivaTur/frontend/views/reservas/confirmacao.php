@@ -28,19 +28,19 @@ $this->title = 'Confirmação de Reserva';
                 <h4 class="text-primary mb-3">Detalhes da Reserva</h4>
 
                 <div class="mb-3">
-                    <strong>Experiência:</strong> <?= Html::encode($reserva->experiencia->nome) ?>
+                    <strong>Experiência:</strong> <?= Html::encode($model->experiencia->nome) ?>
                 </div>
 
                 <div class="mb-3">
-                    <strong>Número de Pessoas:</strong> <?= $reserva->numPessoas ?>
+                    <strong>Número de Pessoas:</strong> <?= $model->numPessoas ?>
                 </div>
 
                 <div class="mb-3">
-                    <strong>Data da Reserva:</strong> <?= Yii::$app->formatter->asDatetime($reserva->dataReserva) ?>
+                    <strong>Data da Reserva:</strong> <?= Yii::$app->formatter->asDatetime($model->dataReserva) ?>
                 </div>
 
                 <div class="mb-3">
-                    <strong>Método de Pagamento:</strong> <?= Html::encode($reserva->metodoPagamento->nome) ?>
+                    <strong>Método de Pagamento:</strong> <?= Html::encode($model->metodoPagamento->nome) ?>
                 </div>
 
                 <div class="mb-3">

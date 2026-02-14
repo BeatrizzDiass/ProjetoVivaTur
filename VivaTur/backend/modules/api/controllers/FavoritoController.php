@@ -20,7 +20,7 @@ class FavoritoController extends \yii\rest\ActiveController
     }
 
     // Adicionar uma nova experiência aos favoritos
-    //backend/web/api/favoritos
+    ///api/favoritos
     //URL: 
     public function actionPostfavorito()
     {
@@ -36,8 +36,6 @@ class FavoritoController extends \yii\rest\ActiveController
 
     }
 
-
-
     // Remover uma experiência dos favoritos
     //URL: DELETE /api/favoritos/{id}
     public function actionDelete($id)
@@ -46,5 +44,4 @@ class FavoritoController extends \yii\rest\ActiveController
         $recs = $favoritomodel::deleteAll(['id' => $id]);
         return $recs;
     }
-
 }

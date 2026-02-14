@@ -42,7 +42,7 @@ $this->title = "Experiências Reservadas";
                                     <p class="mb-1"><strong>Status:</strong> <span class="badge bg-success"><?= $reserva->disponivel ?></span></p>
                                 </div>
 
-                                <a href="<?= Url::to(['site/detalhes', 'id' => $reserva->experiencia->id]) ?>"
+                                <a href="<?= Url::to(['experiencias/detalhes', 'id' => $reserva->experiencia->id]) ?>"
                                    class="btn btn-info mt-auto" role="button">Ver detalhes</a>
                             </div>
                         </div>

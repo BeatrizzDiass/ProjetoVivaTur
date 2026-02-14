@@ -29,8 +29,7 @@ class User extends \yii\db\ActiveRecord
 
     public $password;
 
-    public $role; // Propriedade para armazenar o role selecionado no formulário
-
+    public $role;
 
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
@@ -163,15 +162,13 @@ class User extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($insert) {
-                // Garante que a Auth Key seja gerada na criação
+                //gera a auth_key quando se cria um user
                 $this->auth_key = Yii::$app->security->generateRandomString();
-                // Garante que o token de verificação de email seja gerado na criação
+                //token de verificação
                 $this->generateEmailVerificationToken();
             }
 
-            // GERAÇÃO DA PASSWORD HASH:
-            // Verifica se o campo de senha foi preenchido.
-            // O campo 'password' não existe no banco, mas pode ser usado no formulário.
+            //gerar hash da password
             if (!empty($this->password)) {
                 $this->setPassword($this->password);
             }

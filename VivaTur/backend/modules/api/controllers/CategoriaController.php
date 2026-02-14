@@ -15,7 +15,7 @@ class CategoriaController extends ActiveController
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            'except' => ['index', 'view', 'pesquisarpornome'], // Permite acesso sem autenticação
+            'except' => ['index', 'view', 'pesquisarpornome'], //para os guest
         ];
 
         return $behaviors;

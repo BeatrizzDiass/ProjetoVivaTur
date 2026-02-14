@@ -11,14 +11,6 @@ class AvaliacoesController extends \yii\rest\ActiveController
     {
         $behaviors = parent::behaviors();
 
-        // FORÇAR RESPOSTA EM JSON
-        $behaviors['contentNegotiator'] = [
-            'class' => \yii\filters\ContentNegotiator::class,
-            'formats' => [
-                'application/json' => \yii\web\Response::FORMAT_JSON,
-            ],
-        ];
-
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\QueryParamAuth::class,
             'tokenParam' => 'access-token',
@@ -28,7 +20,7 @@ class AvaliacoesController extends \yii\rest\ActiveController
         return $behaviors;
     }
 
-    // CRUD para Avaliacoes
+    // CRUD para Avaliações
     //URL: /api/avaliacoes
     public function actionPostavaliacoes()
     {
@@ -73,7 +65,6 @@ class AvaliacoesController extends \yii\rest\ActiveController
         return $recs;
     }
 
-    // ===== NOVO: Obter avaliações de um utilizador específico =====
     //URL: /api/avaliacoes/user/{user_id}
     public function actionGetavaliacoesuser($user_id)
     {
@@ -81,14 +72,14 @@ class AvaliacoesController extends \yii\rest\ActiveController
 
         $avaliacoes = $avaliacoesmodel::find()
             ->where(['user_id' => $user_id])
-            ->orderBy(['id' => SORT_DESC]) // Mais recentes primeiro
+            ->orderBy(['id' => SORT_DESC])
             ->all();
 
         return $avaliacoes;
     }
 
-    // CRUD para Avaliacoes por Experiencia
-    //URL: api/avaliacoes/experiencias/{experiencia_id}/avaliacoes
+    // CRUD para avaliações por Experiencia
+    //URL: /api/avaliacoes/experiencias/{experiencia_id}/avaliacoes
     public function actionGetavaliacoesexperiencia($experiencia_id)
     {
         $avaliacoesmodel = $this->modelClass;

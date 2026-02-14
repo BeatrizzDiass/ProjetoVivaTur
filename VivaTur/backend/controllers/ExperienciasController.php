@@ -45,18 +45,18 @@ class ExperienciasController extends Controller
                         'roles' => ['createExperiencias'],
                     ],
 
-                    // Atualizar - CORRIGIDO AQUI
+                    // Atualizar
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['atualizarExperiencias'], // ← Mudou aqui
+                        'roles' => ['atualizarExperiencias'],
                     ],
 
-                    // Eliminar - CORRIGIDO AQUI
+                    // Eliminar
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['eliminarExperiencias'], // ← Mudou aqui
+                        'roles' => ['eliminarExperiencias'],
                     ],
                 ],
             ],
@@ -221,7 +221,6 @@ class ExperienciasController extends Controller
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if ($model->upload()) {
-                // file is uploaded successfully
                 return;
             }
         }

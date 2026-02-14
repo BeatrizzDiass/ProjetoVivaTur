@@ -36,24 +36,11 @@ class Comentarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            // Campos obrigatórios ao criar comentário
-            [['descricao', 'experiencia_id', 'user_id'], 'required'],
-
-            // Campos numéricos
-            [['experiencia_id', 'user_id'], 'integer'],
-
-            // Campos de data
+            [['descricao', 'experiencia_id', 'user_id', 'turista_id'], 'required'],
+            [['experiencia_id', 'user_id', 'turista_id'], 'integer'],
             [['dataCriacao', 'dataResposta'], 'safe'],
-
-            // Campos de texto - NOTE: removido 'max' => 45 porque comentários precisam ser maiores
-            [['descricao'], 'string', 'max' => 500], // Aumentei para 500 caracteres
-
-            // Resposta é opcional (só preenchida pelo gestor)
-            [['resposta'], 'string', 'max' => 500],
-            [['resposta'], 'default', 'value' => null],
-            [['dataResposta'], 'default', 'value' => null],
-
-            // Validações de relacionamento
+            [['descricao', 'resposta'], 'string', 'max' => 500],
+            [['resposta, dataResposta'], 'default', 'value' => null],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -103,54 +90,5 @@ class Comentarios extends \yii\db\ActiveRecord
     public function temResposta()
     {
         return !empty($this->resposta);
-    }
-
-    /**
-     * afterSave: publica notificação MQTT quando um comentário é criado/atualizado
-     */
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        try {
-            $acao = $insert ? 'insert' : 'update';
-            $topic = Yii::$app->params['mqtt']['topics']['comentarios'][$acao] ?? "vivaTur/comentarios/{$acao}";
-
-            Yii::$app->mqtt->publishJson($topic, [
-                'id' => $this->id,
-                'descricao' => $this->descricao,
-                'dataCriacao' => $this->dataCriacao,
-                'experiencia_id' => $this->experiencia_id,
-                'user_id' => $this->user_id,
-                'resposta' => $this->resposta,
-                'dataResposta' => $this->dataResposta,
-                'action' => $acao,
-                'timestamp' => date('Y-m-d H:i:s'),
-            ]);
-        } catch (\Exception $e) {
-            Yii::error("MQTT publish falhou (Comentarios/{$acao}): " . $e->getMessage(), __METHOD__);
-        }
-    }
-
-    /**
-     * afterDelete: publica notificação MQTT quando um comentário é apagado
-     */
-    public function afterDelete()
-    {
-        parent::afterDelete();
-
-        try {
-            $topic = Yii::$app->params['mqtt']['topics']['comentarios']['delete'] ?? 'vivaTur/comentarios/delete';
-
-            Yii::$app->mqtt->publishJson($topic, [
-                'id' => $this->id,
-                'experiencia_id' => $this->experiencia_id,
-                'user_id' => $this->user_id,
-                'action' => 'delete',
-                'timestamp' => date('Y-m-d H:i:s'),
-            ]);
-        } catch (\Exception $e) {
-            Yii::error("MQTT publish falhou (Comentarios/delete): " . $e->getMessage(), __METHOD__);
-        }
     }
 }

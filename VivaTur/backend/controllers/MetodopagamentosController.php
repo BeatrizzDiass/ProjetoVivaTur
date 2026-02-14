@@ -26,7 +26,7 @@ class MetodopagamentosController extends Controller
                     throw new \yii\web\ForbiddenHttpException('Não tem permissão para aceder a esta página.');
                 },
                 'rules' => [
-                    // Visualizar (admin, gestor e turista)
+                    // Visualizar (admin, gestor)
                     [
                         'allow' => true,
                         'actions' => ['index', 'view'],

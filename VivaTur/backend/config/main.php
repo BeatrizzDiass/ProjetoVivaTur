@@ -53,63 +53,63 @@ return [
             'showScriptName' => false,
             'rules' => [
 
-                //Regras de URL para a API RESTful
-
-                // Regras para o controlador de Categoria
+                //Categorias
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/categoria'],
                     'pluralize' => true,
                     'extraPatterns' => [
-                        // Regras personalizadas para pesquisar por nome da categoria
+                        //Pesquisar por nome da categoria
                         'GET nome/<nomecategoria>' => 'pesquisarpornome', //actionPesquisarpornome
                     ],
                 ],
 
-                // Regras para o controlador de Lingua
+                //Linguas
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/lingua'],
                     'pluralize' => true,
                     'extraPatterns' => [
-                        // Regras personalizadas para pesquisar por nome da lingua
+                        // Pesquisar por nome da lingua
                         'GET nome/<nomelingua>' => 'pesquisarpornome', //actionPesquisarpornome
                     ],
                 ],
 
-                // Regras para o controlador de Experiencia
+                //Experiências
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/experiencia'],
                     'pluralize' => true,
                     'extraPatterns' => [
-                        // Regras personalizadas para experiências filtradas por categoria, país e nome
+                        //Filtrar por categoria, país e nome
                         'GET filtradas' => 'getexperienciasfiltradas', //actionGetexperienciasfiltradas
                     ],
                 ],
 
-                // Regras para o controlador de Pais
+                //Paises
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/paises'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                        // Regras personalizadas para pesquisar por nome do país
+                        // Pesquisar por nome do país
                         'GET nome/<nomepais>' => 'pesquisarpornome', //actionPesquisarpornome
                     ],
                 ],
 
-                // Regras para o controlador de Avaliacoes
+                //Avaliações
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/avaliacoes'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                        // Suas regras personalizadas
+                        //criar, editar e eliminar avaliações
                         'POST' => 'postavaliacoes',
                         'PUT <id:\d+>' => 'putavaliacoes',
                         'DELETE <id:\d+>' => 'delete',
+                        //avaliações por utilizador
                         'GET user/<user_id:\d+>' => 'getavaliacoesuser',
+                        //avaliações por experiência
                         'GET experiencias/<experiencia_id:\d+>/avaliacoes' => 'getavaliacoesexperiencia',
                         'POST experiencias/<experiencia_id:\d+>/avaliacoes' => 'postavaliacoesexperiencia',
                         'PUT experiencias/<experiencia_id:\d+>/avaliacoes/<id:\d+>' => 'putavaliacoesexperiencia',
@@ -117,92 +117,102 @@ return [
                     ],
                 ],
 
+                //Comentários
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/comentario'],
                     'pluralize' => true,
                     'extraPatterns' => [
+                        //criar, editar e eliminar comentários
                         'POST' => 'postcomentarios',
                         'PUT <id:\d+>' => 'putcomentario',
                         'DELETE <id:\d+>' => 'delete',
+                        //comentários por experiência
                         'GET experiencia/<experiencia_id:\d+>' => 'getcomentariosexperiencia',
                         'POST experiencia/<experiencia_id:\d+>' => 'postcomentariosexperiencia',
                         'PUT experiencia/<experiencia_id:\d+>/<id:\d+>' => 'putcomentariosexperiencia',
                         'DELETE experiencia/<experiencia_id:\d+>/<id:\d+>' => 'deletecomentariosexperiencia',
+                        //comentários por utilizador
                         'GET user/<user_id:\d+>' => 'getcomentariosuser',
 
                     ],
                 ],
 
-                // Regras para o controlador de Favorito
+                //Favoritos
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/favorito'],
                     'pluralize' => true,
                     'extraPatterns' => [
-                        // Regras personalizadas para operações de favoritos
+                        //criar e eliminar favoritos
                         'POST' => 'postfavorito',  //actionPostfavorito
                         'DELETE <id:\d+>' => 'delete', //actionDelete
                     ],
                 ],
 
-                // Regras para o controlador de MetodoPagamento
+                //Métodos de pagamento
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/metodopagamento'],
                     'pluralize' => true,
                     'extraPatterns' => [
-                        // Regras personalizadas para pesquisar por nome do método de pagamento
+                        // Pesquisar por nome do método de pagamento
                         'GET nome/<metodopagamento>' => 'pesquisarpornome', //actionPesquisarpornome
                     ],
                 ],
 
+                //Turistas
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['turistas' => 'api/turista'], // ✅ Formato correto
-                    'pluralize' => false, // ✅ Desabilitar pluralização automática
+                    'controller' => ['api/turista'],
+                    'pluralize' => true,
                     'extraPatterns' => [],
                 ],
 
-                // Regras para o controlador de Reserva
+                //Reservas
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/reserva'],
                     'pluralize' => false,
                     'extraPatterns' => [
+                        //criar e eliminar reservas
+                        'GET experiencia/<id:\d+>' => 'experiencia',
                         'POST' => 'postreserva',
-                        'GET experiencia/<id:\d+>' => 'experiencia', // Esta deve vir ANTES
                         'DELETE <id:\d+>' => 'delete',
+                        //reservas por utilizador
                         'GET user/<user_id:\d+>' => 'getreservasuser',
                     ],
                 ],
 
+                //Gestores
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/gestor'],
                     'pluralize' => false,
                     'extraPatterns' => [
+                        //gestores
                         'GET gestorbyuser/<user_id:\d+>' => 'gestorbyuser',
                     ],
                 ],
-                // Regras para o controlador de Users
+                //Users
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/users'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                        // Regras personalizadas para operações relacionadas ao usuário autenticado
+                        //obter e atualizar dados do utilizador autenticado
                         'GET me' => 'me', //actionMe
                         'PUT me' => 'putme', //actionPutMe
                     ],
                 ],
 
-                // Regras para o controlador de AuthController
+                //Autenticação
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/auth'],
                     'pluralize' => false,
                     'extraPatterns' => [
+                        //login, registo e recuperação de password
                         'POST login' => 'login',
                         'POST register' => 'register',
                         'POST recover' => 'recover',

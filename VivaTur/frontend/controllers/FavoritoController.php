@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use frontend\models\Favorito;
-use frontend\models\Turistas; // Não esquecer de importar o model Turistas
+use frontend\models\Turistas;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 
@@ -45,7 +45,7 @@ class FavoritoController extends Controller
         }
 
         $favoritos = Favorito::find()
-            ->where(['turista_id' => $turista->id]) // Alterado para turista_id
+            ->where(['turista_id' => $turista->id])
             ->with('experiencia')
             ->all();
 
@@ -59,7 +59,7 @@ class FavoritoController extends Controller
         $turista = Turistas::findOne(['user_id' => Yii::$app->user->id]);
 
         if (!$turista) {
-            Yii::$app->session->setFlash('error', 'Precisa de um perfil de turista para favoritar.');
+            Yii::$app->session->setFlash('error', 'Precisa de um perfil de turista para adicionar aos favoritos.');
             return $this->redirect(Yii::$app->request->referrer ?: ['site/index']);
         }
 
@@ -74,7 +74,8 @@ class FavoritoController extends Controller
         } else {
             $favorito = new Favorito();
             $favorito->experiencia_id = $id_experiencia;
-            $favorito->turista_id = $turista->id; // Alterado para turista_id
+            $favorito->turista_id = $turista->id;
+            $favorito->user_id = Yii::$app->user->id;
 
             if ($favorito->save()) {
                 Yii::$app->session->setFlash('success', 'Adicionado aos favoritos!');

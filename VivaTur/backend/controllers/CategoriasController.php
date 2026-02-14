@@ -53,7 +53,7 @@ class CategoriasController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['eliminarCategorias'],  // ← Nome correto
+                        'roles' => ['eliminarCategorias'],
                     ],
                 ],
             ],

@@ -45,7 +45,7 @@ $this->title = "Experiências que avaliei";
                                         <?php endif; ?>
                                     <?php endfor; ?>
                                 </div>
-                                <a href="<?= Url::to(['site/detalhes', 'id' => $avaliacao->experiencia->id]) ?>"
+                                <a href="<?= Url::to(['experiencias/detalhes', 'id' => $avaliacao->experiencia->id]) ?>"
                                    class="btn btn-info mt-auto" role="button">Ver detalhes</a>
                             </div>
                         </div>

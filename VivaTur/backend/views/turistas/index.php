@@ -29,16 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             [
-    'attribute' => 'user_id',
-    'value' => 'user.username',
-    'label' => 'User'
-],
-
+                'attribute' => 'user_id',
+                'value' => 'user.username',
+                'label' => 'User'
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Turistas $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

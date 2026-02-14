@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\modules\api\controllers;
 
 use Exception;
@@ -17,7 +18,7 @@ class UsersController extends ActiveController
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
+            'except' => ['*'],
         ];
 
         return $behaviors;
@@ -43,10 +44,10 @@ class UsersController extends ActiveController
         $user = \Yii::$app->user->identity;
 
         if ($user === null) {
-            throw new Exception("User nao autenticado.");
+            throw new \yii\web\UnauthorizedHttpException("User não autenticado.");
         }
 
-        // Atualizar campos permitidos
+        // Atualizar campos
         $user->username = \Yii::$app->request->post('username', $user->username);
         $user->email = \Yii::$app->request->post('email', $user->email);
 
@@ -57,10 +58,17 @@ class UsersController extends ActiveController
         }
 
         if ($user->save()) {
-            throw new Exception("Dados do utilizador atualizados com sucesso.");
-        }
-        else {
-            throw new Exception("Erro ao atualizar os dados do utilizador.");
+            return [
+                'success' => true,
+                'message' => 'Dados atualizados com sucesso',
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'email' => $user->email
+                ]
+            ];
+        } else {
+            throw new \yii\web\BadRequestHttpException(json_encode($user->getErrors()));
         }
     }
 }

@@ -100,18 +100,18 @@ $this->beginPage()
                             </a>
                             <div class="dropdown-menu dropdown-menu-end m-0">
                                 <!-- Sempre visível -->
-                                <a href="<?= Url::to(['/site/profile']) ?>" class="dropdown-item">Detalhes da conta</a>
+                                <a href="<?= Url::to(['/user/profile']) ?>" class="dropdown-item">Detalhes da conta</a>
 
                                 <!-- Opções de Turista -->
-                                <a href="<?= Url::to(['/site/experiencias-reservadas']) ?>"
+                                <a href="<?= Url::to(['/reservas/experiencias-reservadas']) ?>"
                                    class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
                                     Experiências Reservadas
                                 </a>
-                                <a href="<?= Url::to(['/site/experiencias-avaliadas']) ?>"
+                                <a href="<?= Url::to(['/avaliacoes/experiencias-avaliadas']) ?>"
                                    class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
                                     Experiências Avaliadas
                                 </a>
-                                <a href="<?= Url::to(['/site/experiencias-comentadas']) ?>"
+                                <a href="<?= Url::to(['/comentarios/experiencias-comentadas']) ?>"
                                    class="dropdown-item <?= !$isTurista ? 'disabled text-muted' : '' ?>">
                                     Experiências Comentadas
                                 </a>
@@ -120,7 +120,7 @@ $this->beginPage()
                                     Favoritos
                                 </a>
 
-                                <a href="<?= Url::to(['site/comentarios']) ?>"
+                                <a href="<?= Url::to(['comentarios/comentarios']) ?>"
                                    class="dropdown-item <?= !$isGestor ? 'disabled text-muted' : '' ?>">
                                     Comentários
                                 </a>

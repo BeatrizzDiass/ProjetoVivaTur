@@ -28,7 +28,7 @@ class GestoresController extends Controller
                     );
                 },
                 'rules' => [
-                    // Admin tem acesso total a tudo
+                    // Admin tem acesso total
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete', 'experiencias'],

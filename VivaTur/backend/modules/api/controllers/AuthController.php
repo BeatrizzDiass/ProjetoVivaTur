@@ -15,19 +15,16 @@ class AuthController extends Controller
 public function behaviors()
 {
     $behaviors = parent::behaviors();
-    // Remove ou ajusta o authenticator para a action 'login'
-    $behaviors['authenticator']['except'] = ['login']; 
+    $behaviors['authenticator']['except'] = ['login'];
     return $behaviors;
 }
 
     public $enableCsrfValidation = false;
 
-    /* ================= LOGIN ================= */
     // POST /api/auth/login
 
 	public function actionLogin()
 	{
-		// bodyParams permite ler o JSON que vem do Android
 		$params = \Yii::$app->request->bodyParams;
 		$username = $params['username'] ?? \Yii::$app->request->post('username');
 		$password = $params['password'] ?? \Yii::$app->request->post('password');
@@ -45,11 +42,8 @@ public function behaviors()
 			throw new UnauthorizedHttpException('Credenciais inválidas.');
 		}
 
-		// ALTERAÇÃO CRÍTICA: Mudar access_token para auth_key
-		// O auth_key é o campo padrão do Yii2 que o Site e a App podem partilhar
 		$user->auth_key = \Yii::$app->security->generateRandomString(64);
 
-		// Workaround: update direto na BD sem triggerar afterSave (evita erro MQTT)
 		\Yii::$app->db->createCommand()->update('user', [
 			'auth_key' => $user->auth_key
 		], ['id' => $user->id])->execute();
@@ -63,7 +57,6 @@ public function behaviors()
 		];
 	}
 
-    /* ================= REGISTER ================= */
     // POST /api/auth/register
     public function actionRegister()
     {
@@ -102,7 +95,6 @@ public function behaviors()
         ];
     }
 
-    /* ================= RECOVER ================= */
     // POST /api/auth/recover
     public function actionRecover()
     {
@@ -124,7 +116,6 @@ public function behaviors()
             throw new ServerErrorHttpException('Erro ao gerar token de recuperação.');
         }
 
-        // Aqui futuramente envias email
         return [
             'message' => 'Instruções de recuperação enviadas para o email.',
         ];

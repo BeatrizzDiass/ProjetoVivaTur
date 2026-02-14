@@ -48,20 +48,16 @@ if (!Yii::$app->user->isGuest) {
             <div>
                 <p><b style="color: #28a745; font-weight: bold; font-size: 25px;"><?= $experiencia->precoPessoa ?>€</b> por pessoa</p>
             </div>
-            <!-- Detalhes do lado direito -->
 
-                <p class="descricao"><?= $experiencia->descricao ?></p>
+            <p class="descricao"><?= $experiencia->descricao ?></p>
 
             <div class="row mb-3">
-                <!-- Duração -->
                 <div class="col-md-6">
                     <div class="d-flex align-items-center h-100" style="border: 1px solid #ccc; padding: 10px;">
                         <i class="bi bi-clock me-2"></i>
                         <span><b>Duração:</b> <?= $experiencia->duracao ?></span>
                     </div>
                 </div>
-
-                <!-- Local -->
                 <div class="col-md-6">
                     <div class="d-flex align-items-center h-100" style="border: 1px solid #ccc; padding: 10px;">
                         <i class="bi bi-geo-alt me-2"></i>
@@ -71,7 +67,6 @@ if (!Yii::$app->user->isGuest) {
             </div>
 
             <div class="row mb-3">
-                <!-- Data da experiência -->
                 <div class="col-md-6">
                     <div class="d-flex align-items-center h-100" style="border: 1px solid #ccc; padding: 10px;">
                         <i class="bi bi-calendar me-2"></i>
@@ -79,7 +74,6 @@ if (!Yii::$app->user->isGuest) {
                     </div>
                 </div>
 
-                <!-- Participantes -->
                 <div class="col-md-6">
                     <div class="d-flex align-items-center h-100" style="border: 1px solid #ccc; padding: 10px;">
                         <i class="bi bi-person me-2"></i>
@@ -91,15 +85,12 @@ if (!Yii::$app->user->isGuest) {
             <div class="row">
                 <h4> Horário</h4>
                 <div class="row mb-3">
-                    <!-- Hora de Inicio -->
                     <div class="col-md-6">
                         <div class="d-flex align-items-center h-100" style="border: 1px solid #ccc; padding: 10px;">
                             <i class="bi bi-clock me-2"></i>
                             <span><b>Hora de Início:</b> <?= $experiencia->horaInicio ?></span>
                         </div>
                     </div>
-
-                    <!-- Hora de Fim -->
                     <div class="col-md-6">
                         <div class="d-flex align-items-center h-100" style="border: 1px solid #ccc; padding: 10px;">
                             <i class="bi bi-clock me-2"></i>
@@ -115,15 +106,15 @@ if (!Yii::$app->user->isGuest) {
                 <p><b>Gestor:</b><?= $experiencia->gestor->user->username ?></p>
             </div>
             <div class="d-grid gap-2">
-                <a href="<?= Url::to(['site/reserva', 'id' => $experiencia->id]) ?>" class="btn btn-primary btn-lg rounded-pill py-3">
-                    <i class="bi bi-cart-plus me-2"></i>Reservar Experiência
-                </a>
+<a href="<?= Url::to(['reservas/create', 'experiencia_id' => $experiencia->id]) ?>"
+   class="btn btn-primary btn-lg rounded-pill py-3">
+    <i class="bi bi-cart-plus me-2"></i> Reservar Experiência
+</a>
+
             </div>
             <div class="experiencia-detalhes">
-                <!-- Botão de Favoritos Dinâmico -->
                 <p>
                     <?php if ($isFavorito): ?>
-                        <!-- Botão REMOVER (Vermelho Sólido) -->
                         <?= Html::a('<i class="bi bi-heart-fill me-2"></i>Remover dos Favoritos', ['favorito/create', 'id_experiencia' => $experiencia->id], [
                             'class' => 'btn btn-danger btn-lg rounded-pill py-3 w-100 mt-3',
                             'data' => [
@@ -131,7 +122,6 @@ if (!Yii::$app->user->isGuest) {
                             ],
                         ]) ?>
                     <?php else: ?>
-                        <!-- Botão ADICIONAR (Outline Vermelho) -->
                         <?= Html::a('<i class="bi bi-heart me-2"></i>Adicionar aos Favoritos', ['favorito/create', 'id_experiencia' => $experiencia->id], [
                             'class' => 'btn btn-outline-danger btn-lg rounded-pill py-3 w-100 mt-3',
                             'data' => [
@@ -162,7 +152,7 @@ if (!Yii::$app->user->isGuest) {
                     <?php foreach ($experiencia->comentarios as $comentario): ?>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <!-- Comentário do Cliente -->
+                                <!-- Comentário do Turista -->
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h6 class="mb-0">
                                         <i class="bi bi-person-circle text-primary me-2"></i>
@@ -174,6 +164,50 @@ if (!Yii::$app->user->isGuest) {
                                     </small>
                                 </div>
                                 <p class="mb-0 mt-2"><?= nl2br(htmlspecialchars($comentario->descricao)) ?></p>
+
+                                <!-- Botões de Editar/Remover comentário (apenas para o autor) -->
+                                <?php if (!Yii::$app->user->isGuest && $turista && $comentario->turista_id == $turista->id): ?>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editarComentario<?= $comentario->id ?>">
+                                            <i class="bi bi-pencil me-1"></i>Editar
+                                        </button>
+                                        <?= Html::a('<i class="bi bi-trash me-1"></i>Remover',
+                                            ['comentarios/delete', 'id' => $comentario->id],
+                                            [
+                                                'class' => 'btn btn-sm btn-outline-danger',
+                                                'data' => [
+                                                    'confirm' => 'Tem certeza que deseja remover este comentário?',
+                                                    'method' => 'post',
+                                                ],
+                                            ]) ?>
+                                    </div>
+
+                                    <!-- Modal para Editar Comentário -->
+                                    <div class="modal fade" id="editarComentario<?= $comentario->id ?>" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Editar Comentário</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <?php $form = ActiveForm::begin([
+                                                    'action' => ['comentarios/update', 'id' => $comentario->id],
+                                                    'method' => 'post',
+                                                ]); ?>
+                                                <div class="modal-body">
+                                                    <textarea name="descricao" class="form-control" rows="4" required><?= htmlspecialchars($comentario->descricao) ?></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                                </div>
+                                                <?php ActiveForm::end(); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
 
                                 <!-- Resposta do Gestor -->
                                 <?php if ($comentario->temResposta()): ?>
@@ -190,7 +224,7 @@ if (!Yii::$app->user->isGuest) {
                                         </div>
                                         <p class="mb-0 mt-2"><?= nl2br(htmlspecialchars($comentario->resposta)) ?></p>
 
-                                        <!-- Botões de Editar/Remover (apenas para o gestor) -->
+                                        <!-- Botões de Editar/Remover resposta (apenas para o gestor) -->
                                         <?php if (!Yii::$app->user->isGuest && $experiencia->gestor->user_id == Yii::$app->user->id): ?>
                                             <div class="mt-2">
                                                 <button type="button" class="btn btn-sm btn-outline-primary"
@@ -199,7 +233,7 @@ if (!Yii::$app->user->isGuest) {
                                                     <i class="bi bi-pencil me-1"></i>Editar
                                                 </button>
                                                 <?= Html::a('<i class="bi bi-trash me-1"></i>Remover',
-                                                    ['site/remover-resposta', 'id' => $comentario->id],
+                                                    ['comentarios/remover-resposta', 'id' => $comentario->id],
                                                     [
                                                         'class' => 'btn btn-sm btn-outline-danger',
                                                         'data' => [
@@ -217,8 +251,8 @@ if (!Yii::$app->user->isGuest) {
                                                             <h5 class="modal-title">Editar Resposta</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                         </div>
-                                                        <?php $form = ActiveForm::begin([
-                                                            'action' => ['site/editar-resposta', 'id' => $comentario->id],
+                                                                <?php $form = ActiveForm::begin([
+                                                            'action' => ['comentarios/editar-resposta', 'id' => $comentario->id],
                                                             'method' => 'post',
                                                         ]); ?>
                                                         <div class="modal-body">
@@ -255,7 +289,7 @@ if (!Yii::$app->user->isGuest) {
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <?php $form = ActiveForm::begin([
-                                                    'action' => ['site/responder-comentario', 'id' => $comentario->id],
+                                                    'action' => ['comentarios/responder', 'id' => $comentario->id],
                                                     'method' => 'post',
                                                 ]); ?>
                                                 <div class="modal-body">
@@ -292,7 +326,7 @@ if (!Yii::$app->user->isGuest) {
             <?php endif; ?>
 
             <!-- Formulário para adicionar comentário -->
-            <?php if (!Yii::$app->user->isGuest): ?>
+            <?php if (!Yii::$app->user->isGuest && $turista): ?>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title mb-4">
@@ -301,6 +335,7 @@ if (!Yii::$app->user->isGuest) {
 
                         <?php $form = ActiveForm::begin([
                             'id' => 'comentario-form',
+                            'action' => ['comentarios/create', 'experiencia_id' => $experiencia->id],
                             'options' => ['class' => 'needs-validation'],
                         ]); ?>
 
@@ -361,8 +396,82 @@ if (!Yii::$app->user->isGuest) {
                                             <?php endfor; ?>
                                         </div>
                                     </div>
-
                                 </div>
+
+                                <!-- Botões de Editar/Remover avaliação (apenas para o autor) -->
+                                <?php
+                                if (!Yii::$app->user->isGuest) {
+                                    $turista = \frontend\models\Turistas::findOne(['user_id' => Yii::$app->user->id]);
+                                    if ($turista && $avaliacao->turista_id == $turista->id):
+                                        ?>
+                                        <div class="mt-3">
+                                            <button type="button" class="btn btn-sm btn-outline-warning"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editarAvaliacao<?= $avaliacao->id ?>">
+                                                <i class="bi bi-pencil me-1"></i>Editar
+                                            </button>
+                                            <?= Html::a('<i class="bi bi-trash me-1"></i>Remover',
+                                                ['avaliacoes/delete', 'id' => $avaliacao->id],
+                                                [
+                                                    'class' => 'btn btn-sm btn-outline-danger',
+                                                    'data' => [
+                                                        'confirm' => 'Tem certeza que deseja remover esta avaliação?',
+                                                        'method' => 'post',
+                                                    ],
+                                                ]) ?>
+                                        </div>
+
+                                        <!-- Modal para Editar Avaliação -->
+                                        <div class="modal fade" id="editarAvaliacao<?= $avaliacao->id ?>" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Editar Avaliação</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <?php $form = ActiveForm::begin([
+                                                        'action' => ['avaliacoes/update', 'id' => $avaliacao->id],
+                                                        'method' => 'post',
+                                                    ]); ?>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-bold">Avaliação atual:</label>
+                                                            <div class="p-2 bg-light rounded">
+                                                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                                    <?php if ($i <= $avaliacao->estrela): ?>
+                                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                                    <?php else: ?>
+                                                                        <i class="bi bi-star text-warning"></i>
+                                                                    <?php endif; ?>
+                                                                <?php endfor; ?>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="form-label fw-bold">Nova classificação:</label>
+                                                            <select name="estrela" class="form-control" required>
+                                                                <option value="">Selecione a classificação</option>
+                                                                <option value="1" <?= $avaliacao->estrela == 1 ? 'selected' : '' ?>>1 estrela</option>
+                                                                <option value="2" <?= $avaliacao->estrela == 2 ? 'selected' : '' ?>>2 estrelas</option>
+                                                                <option value="3" <?= $avaliacao->estrela == 3 ? 'selected' : '' ?>>3 estrelas</option>
+                                                                <option value="4" <?= $avaliacao->estrela == 4 ? 'selected' : '' ?>>4 estrelas</option>
+                                                                <option value="5" <?= $avaliacao->estrela == 5 ? 'selected' : '' ?>>5 estrelas</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" class="btn btn-warning">
+                                                            <i class="bi bi-star me-1"></i>Salvar Alterações
+                                                        </button>
+                                                    </div>
+                                                    <?php ActiveForm::end(); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    endif;
+                                }
+                                ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -382,23 +491,24 @@ if (!Yii::$app->user->isGuest) {
                             <i class="bi bi-star me-2"></i>Deixe a sua avaliação
                         </h5>
 
-                        <?php $formAvaliacao = ActiveForm::begin([
-                            'id' => 'avaliacao-form',
-                            'options' => ['class' => 'needs-validation'],
-                        ]); ?>
+                         <?php $formAvaliacao = ActiveForm::begin([
+                                                    'id' => 'avaliacao-form',
+                                                    'action' => ['avaliacoes/create', 'experiencia_id' => $experiencia->id],
+                                                    'method' => 'post',
+                                                    'options' => ['class' => 'needs-validation'],
+                                                ]); ?>
 
                         <!-- Campo de classificação (estrelas) -->
                         <?= $formAvaliacao->field($novaAvaliacao, 'estrela')->dropDownList([
-                            1 => '1 estrela',
-                            2 => '2 estrelas',
-                            3 => '3 estrelas',
-                            4 => '4 estrelas',
-                            5 => '5 estrelas',
+                            1 => '⭐ 1 estrela',
+                            2 => '⭐⭐ 2 estrelas',
+                            3 => '⭐⭐⭐ 3 estrelas',
+                            4 => '⭐⭐⭐⭐ 4 estrelas',
+                            5 => '⭐⭐⭐⭐⭐ 5 estrelas',
                         ], [
                             'prompt' => 'Selecione a classificação',
                             'class' => 'form-control'
                         ])->label('Classificação') ?>
-
 
                         <div class="d-grid mt-3">
                             <?= Html::submitButton('<i class="bi bi-send me-2"></i>Publicar Avaliação', [

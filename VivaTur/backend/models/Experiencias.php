@@ -61,16 +61,13 @@ class Experiencias extends \yii\db\ActiveRecord
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorias::class, 'targetAttribute' => ['categoria_id' => 'id']],
             [['gestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gestores::class, 'targetAttribute' => ['gestor_id' => 'id']],
             [['pais_id'], 'exist', 'skipOnError' => true, 'targetClass' => Paises::class, 'targetAttribute' => ['pais_id' => 'id']],
-            // IMPORTANTE: skipOnEmpty => true permite editar sem reenviar imagem
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'checkExtensionByMimeType' => false],
             [['descricao','imagem'], 'string', 'max' => 255],
-
             ['numMinParticipante', 'compare',
                 'compareAttribute' => 'numMaxParticipante',
                 'operator' => '<=',
                 'message' => 'O número mínimo de participantes não pode ser maior que o número máximo.'
             ],
-
             [['horaInicio', 'dataDisponivel'], 'validarHorario'],
         ];
     }
@@ -177,7 +174,6 @@ class Experiencias extends \yii\db\ActiveRecord
 
             $intervalo = $inicio->diff($fim);
 
-            // Formatar como "Xh Ym" ou apenas horas/minutos se um deles for 0
             $horas = $intervalo->h;
             $minutos = $intervalo->i;
 
@@ -191,7 +187,6 @@ class Experiencias extends \yii\db\ActiveRecord
         }
     }
 
-// Adicionar no beforeSave para calcular automaticamente
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -200,55 +195,6 @@ class Experiencias extends \yii\db\ActiveRecord
         }
         return false;
     }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        // Notificações MQTT (slides: afterSave/afterDelete)
-        try {
-            $baseTopic = Yii::$app->params['mqtt']['topics']['experiencias'] ?? 'vivaTur/experiencias';
-            $action = $insert ? 'INSERT' : 'UPDATE';
-
-            $payload = [
-                'entity' => 'experiencia',
-                'action' => $action,
-                'id' => (int) $this->id,
-                'ts' => time(),
-                // dados mínimos para o cliente decidir se precisa de sincronizar via REST
-                'data' => $this->toArray(),
-                'changed' => array_keys((array) $changedAttributes),
-            ];
-
-            Yii::$app->mqtt->publishJson($baseTopic . '/' . strtolower($action), $payload);
-        } catch (\Throwable $e) {
-            Yii::warning('Falha ao publicar notificação MQTT (experiencias afterSave): ' . $e->getMessage(), __METHOD__);
-        }
-    }
-
-    public function afterDelete()
-    {
-        // guardar estado antes do parent (por segurança)
-        $snapshot = $this->toArray();
-
-        parent::afterDelete();
-
-        try {
-            $baseTopic = Yii::$app->params['mqtt']['topics']['experiencias'] ?? 'vivaTur/experiencias';
-            $payload = [
-                'entity' => 'experiencia',
-                'action' => 'DELETE',
-                'id' => (int) ($snapshot['id'] ?? 0),
-                'ts' => time(),
-                'data' => $snapshot,
-            ];
-
-            Yii::$app->mqtt->publishJson($baseTopic . '/delete', $payload);
-        } catch (\Throwable $e) {
-            Yii::warning('Falha ao publicar notificação MQTT (experiencias afterDelete): ' . $e->getMessage(), __METHOD__);
-        }
-    }
-
     public function validarHorario($attribute, $params)
     {
         $query = self::find()
@@ -263,7 +209,7 @@ class Experiencias extends \yii\db\ActiveRecord
         }
 
         if ($query->exists()) {
-            $this->addError($attribute, 'Já existe uma experiência agendada para este horário, data e local.');
+            $this->addError($attribute, 'Já existe uma experiência agendada para este horário.');
         }
     }
 
@@ -357,7 +303,6 @@ class Experiencias extends \yii\db\ActiveRecord
     {
         $fields = parent::fields();
 
-        // Substitui o campo 'imagem' para usar o getter que adiciona a extensão
         $fields['imagem'] = function($model) {
             return $model->imagemUrl;
         };

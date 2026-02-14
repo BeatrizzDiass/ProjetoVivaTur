@@ -7,14 +7,6 @@ class ComentarioController extends \yii\rest\ActiveController
 {
     public $modelClass = 'common\models\Comentarios';
 
-    // Adicione este método para debug
-    public function beforeAction($action)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        error_log("Action chamada: " . $action->id);
-        error_log("URL completa: " . \Yii::$app->request->url);
-        return parent::beforeAction($action);
-    }
 
     public function behaviors()
     {
@@ -45,7 +37,7 @@ class ComentarioController extends \yii\rest\ActiveController
     {
         $comentariosmodel = new $this->modelClass;
 
-        $comentariosmodel->id = 0; // Defina como 0 para auto-incremento
+        $comentariosmodel->id = 0;
         $comentariosmodel->descricao = \Yii::$app->request->post('descricao');
         $comentariosmodel->dataCriacao = \Yii::$app->request->post('dataCriacao');
         $comentariosmodel->experiencia_id = \Yii::$app->request->post('experiencia_id');
@@ -58,24 +50,21 @@ class ComentarioController extends \yii\rest\ActiveController
 
     }
 
-    // ===== NOVO: Obter comentários de um utilizador específico =====
-// URL: /api/comentario/user/{user_id}
+    // URL: /api/comentario/user/{user_id}
     public function actionGetcomentariosuser($user_id)
     {
         $comentariosmodel = $this->modelClass;
 
         $comentarios = $comentariosmodel::find()
             ->where(['user_id' => $user_id])
-            ->orderBy(['id' => SORT_DESC]) // Mais recentes primeiro
             ->all();
 
         return $comentarios;
     }
 
 
-
     // Ver um comentário específico
-// URL: api/comentarios/{id}
+    // URL: api/comentarios/{id}
     public function actionView($id)
     {
         $comentario = $this->modelClass::findOne($id);
@@ -135,10 +124,9 @@ class ComentarioController extends \yii\rest\ActiveController
         $comentariosmodel = new $this->modelClass;
 
         try {
-            // Log dos dados recebidos
-            \Yii::info('POST data: ' . json_encode(\Yii::$app->request->post()), 'comentario');
 
             // Preencher os campos
+            $comentariosmodel->id = 0;
             $comentariosmodel->descricao = \Yii::$app->request->post('descricao');
             $comentariosmodel->dataCriacao = \Yii::$app->request->post('dataCriacao') ?: date('Y-m-d H:i:s');
             $comentariosmodel->experiencia_id = $experiencia_id;
@@ -151,7 +139,7 @@ class ComentarioController extends \yii\rest\ActiveController
                 throw new \yii\web\UnprocessableEntityHttpException(json_encode($comentariosmodel->errors));
             }
 
-            $comentariosmodel->save(false); // false = skip validation
+            $comentariosmodel->save(false);
 
             return $comentariosmodel;
 
@@ -169,6 +157,7 @@ class ComentarioController extends \yii\rest\ActiveController
         $novo_comentario =\Yii::$app->request->post('descricao');
         $comentariomodel = new $this->modelClass;
         $recs = $comentariomodel::findOne(['id' => $id, 'experiencia_id' => $experiencia_id]);
+
         if ($recs) {
             $recs->descricao = $novo_comentario;
             $recs->save();
@@ -187,8 +176,4 @@ class ComentarioController extends \yii\rest\ActiveController
         $recs = $comentariomodel::deleteAll(['id' => $id, 'experiencia_id' => $experiencia_id]);
         return $recs;
     }
-
-
-
-
 }
