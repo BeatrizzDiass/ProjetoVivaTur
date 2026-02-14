@@ -12,7 +12,6 @@ public $modelClass = 'common\models\Linguas';
 
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::class,
-            // 'only' => ['index'],
         ];
 
         return $behaviors;

@@ -5,6 +5,8 @@ use backend\models\Gestores;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use backend\models\Paises;
+
 
 /** @var yii\web\View $this */
 /** @var backend\models\Experiencias $model */
@@ -37,7 +39,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 
-    <!-- MOSTRAR IMAGEM ATUAL -->
+    <!--    mostrar imagem-->
     <?php if (!$model->isNewRecord && $model->imagem): ?>
         <div class="form-group">
             <label>Imagem Atual:</label><br>
@@ -67,7 +69,7 @@ use yii\widgets\ActiveForm;
     )->label('Gestor') ?>
 
     <?= $form->field($model, 'pais_id')->dropDownList(
-        ArrayHelper::map(\backend\models\Paises::find()->all(), 'id', 'nome'),
+        ArrayHelper::map(Paises::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona um país']
     )->label('País') ?>
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use frontend\models\Gestores;
 
 $backendUrl = str_replace('frontend/web', 'backend/web', Url::base(true)) . '/uploads/';
 
@@ -46,7 +47,7 @@ $this->title = "Experiências Respondidas";
                                     "<?= substr($comentario->resposta, 0, 60) ?><?= strlen($comentario->resposta) > 60 ? '...' : '' ?>"
                                 </p>
 
-                                <a href="<?= Url::to(['site/detalhes', 'id' => $comentario->experiencia->id]) ?>"
+                                <a href="<?= Url::to(['experiencias/detalhes', 'id' => $comentario->experiencia->id]) ?>"
                                    class="btn btn-info mt-auto" role="button">Ver detalhes</a>
                             </div>
                         </div>

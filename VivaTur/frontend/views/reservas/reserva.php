@@ -1,13 +1,17 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+/** @var yii\web\View $this */
+/** @var frontend\models\Reservas $model */
+/** @var frontend\models\Experiencias $experiencia */
+/** @var array $metodoPagamento */
 
 $this->title = 'Reservar Experiência' . ' - ' . $experiencia->nome;
 
 // Registrar o arquivo JavaScript customizado
 $this->registerJsFile('@web/js/reserva.js', ['depends' => [\yii\web\JqueryAsset::class]]);
 
-// Calcular vagas disponíveis - CORRIGIDO
+// Calcular vagas disponíveis
 $vagasDisponiveis = $experiencia->getVagasDisponiveis();
 ?>
 
@@ -35,11 +39,12 @@ $vagasDisponiveis = $experiencia->getVagasDisponiveis();
             <strong>Experiência esgotada!</strong> Não há mais vagas disponíveis para esta experiência.
         </div>
     <?php else: ?>
-
-        <?php $form = ActiveForm::begin([
-            'id' => 'reserva-form',
-            'method' => 'post',
-        ]); ?>
+                        <?php $form = ActiveForm::begin([
+                            'id' => 'avaliacao-form',
+                            'action' => ['reservas/create', 'experiencia_id' => $experiencia->id],
+                            'method' => 'post',
+                            'options' => ['class' => 'needs-validation'],
+                        ]); ?>
 
         <div class="quantidade-pessoas mb-4">
             <label class="form-label">Quantidade de pessoas</label>
@@ -47,12 +52,12 @@ $vagasDisponiveis = $experiencia->getVagasDisponiveis();
             <div class="contador d-flex align-items-center gap-2">
                 <button type="button" id="menos" class="btn btn-outline-primary">-</button>
 
-                <?= $form->field($reserva, 'numPessoas')->textInput([
+                <?= $form->field($model, 'numPessoas')->textInput([
                     'id' => 'quantidade',
                     'type' => 'number',
                     'class' => 'form-control text-center',
                     'min' => 1,
-                    'max' => $vagasDisponiveis, // Usar vagas disponíveis em vez do máximo
+                    'max' => $vagasDisponiveis,
                     'style' => 'width: 100px;',
                     'data-preco' => $experiencia->precoPessoa
                 ])->label(false) ?>
@@ -82,7 +87,7 @@ $vagasDisponiveis = $experiencia->getVagasDisponiveis();
 
         <div class="mb-4">
             <h3>Métodos de Pagamento</h3>
-            <?= $form->field($reserva, 'metodoPagamento_id')->dropDownList(
+            <?= $form->field($model, 'metodoPagamento_id')->dropDownList(
                 \yii\helpers\ArrayHelper::map($metodoPagamento, 'id', 'nome'),
                 [
                     'prompt' => 'Selecione um método de pagamento',

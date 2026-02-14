@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'turista_id',
                 'label' => 'Turista',
                 'value' => function($model) {
-                    // Checks if 'turista' exists AND if 'user' exists
                     return $model->turista->user->username ?? 'Utilizador não encontrado';
                 },
             ],

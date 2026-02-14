@@ -17,14 +17,10 @@ class ReservaController extends ActiveController
     {
         $behaviors = parent::behaviors();
 
-        // ✅ CONFIGURAÇÃO CORRETA
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
             'except' => ['*'], // Permite acesso sem autenticação
         ];
-
-        // OU, se quiser desabilitar autenticação temporariamente para testar:
-        // unset($behaviors['authenticator']);
 
         return $behaviors;
     }
@@ -74,35 +70,25 @@ class ReservaController extends ActiveController
     {
         $model = new Reservas();
 
-        // Receber dados do POST
         $data = Yii::$app->request->post();
 
-        // Log para debug
-        Yii::info('Dados recebidos: ' . json_encode($data), 'reserva-create');
-
-        // IMPORTANTE: Usar '' como segundo parâmetro para carregar sem prefixo
         if ($model->load($data, '')) {
             if ($model->save()) {
-                Yii::info('Reserva criada com sucesso: ID ' . $model->id, 'reserva-create');
                 return $model;
             } else {
-                // Log dos erros
-                Yii::error('Erros de validação: ' . json_encode($model->errors), 'reserva-create');
                 throw new \yii\web\ServerErrorHttpException(json_encode($model->errors));
             }
         }
 
-        Yii::error('Load falhou. Dados recebidos: ' . json_encode($data), 'reserva-create');
         throw new \yii\web\BadRequestHttpException('Não foi possível carregar os dados');
     }
 
     public function actionGetreservasuser($user_id)
     {
-        $reservaModel = $this->modelClass;
+        $reservamodel = $this->modelClass;
 
-        $reservas = $reservaModel::find()
+        $reservas = $reservamodel::find()
             ->where(['user_id' => $user_id])
-            ->orderBy(['id' => SORT_DESC]) // Mais recentes primeiro
             ->all();
 
         return $reservas;

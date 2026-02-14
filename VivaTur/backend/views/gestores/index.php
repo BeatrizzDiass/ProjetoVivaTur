@@ -28,24 +28,23 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'user_id',
                 'label' => 'User',
-                'value' => function($model) {
-                    // Checks if 'turista' exists AND if 'user' exists
+                'value' => function ($model) {
                     return $model->turista->user->username ?? 'Utilizador não encontrado';
                 },
             ],
 
             [
-            'label' => 'Experiências',
-            'format' => 'raw',
-            'value' => function($model) {
-                $count = $model->getExperiencias()->count();
-                return Html::a(
-                    $count . ' experiência(s)', 
-                    ['experiencias', 'id' => $model->id],
-                    ['class' => 'btn btn-info btn-sm']
-                );
-            }
-        ],
+                'label' => 'Experiências',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $count = $model->getExperiencias()->count();
+                    return Html::a(
+                        $count . ' experiência(s)',
+                        ['experiencias', 'id' => $model->id],
+                        ['class' => 'btn btn-info btn-sm']
+                    );
+                }
+            ],
         ],
     ]); ?>
 

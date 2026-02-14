@@ -84,7 +84,7 @@ $this->title = "Index";
                                     <?= Html::encode(mb_substr($experiencia->descricao ?? 'Sem descrição', 0, 45)) ?>
                                     <?= strlen($experiencia->descricao) > 45 ? '...' : '' ?>
                                 </p>
-                                <a href="<?= Url::to(['site/detalhes', 'id' => $experiencia->id]) ?>"
+                                <a href="<?= Url::to(['experiencias/detalhes', 'id' => $experiencia->id]) ?>"
                                    class="btn btn-primary rounded-pill"
                                    onclick="console.log('Clicou no ID: <?= $experiencia->id ?>'); return true;">
                                     <i class="bi bi-eye me-2"></i>Ver Detalhes

@@ -126,6 +126,7 @@ class VivaturController extends Controller
         $coment->descricao = 'Comentário de teste MQTT ' . date('His');
         $coment->dataCriacao = date('Y-m-d H:i:s');
         $coment->experiencia_id = $expAux->id;
+        $coment->user_id = $user->id;  // ← ADICIONA ESTA LINHA
         $coment->turista_id = $turista->id;
         $coment->save(false);
         $this->stdout("Criado comentário ID={$coment->id}\n", Console::FG_GREEN);
@@ -149,6 +150,7 @@ class VivaturController extends Controller
         // INSERT favorito
         $fav = new Favoritos();
         $fav->experiencia_id = $expAux->id;
+        $fav->user_id = $user->id;
         $fav->turista_id = $turista->id;
         $fav->save(false);
         $this->stdout("Criado favorito ID={$fav->id}\n", Console::FG_GREEN);
@@ -167,6 +169,7 @@ class VivaturController extends Controller
         $aval = new Avaliacoes();
         $aval->estrela = 4;
         $aval->experiencia_id = $expAux->id;
+        $aval->user_id = $user->id;
         $aval->turista_id = $turista->id;
         $aval->save(false);
         $this->stdout("Criada avaliação ID={$aval->id}\n", Console::FG_GREEN);
@@ -198,6 +201,7 @@ class VivaturController extends Controller
         $reserva->numPessoas = 2;
         $reserva->disponivel = 3;
         $reserva->experiencia_id = $expAux->id;
+        $reserva->user_id = $user->id;  // ← ADICIONA ESTA LINHA
         $reserva->turista_id = $turista->id;
         $reserva->metodoPagamento_id = $metodoPag->id;
         $reserva->save(false);

@@ -48,7 +48,7 @@ class SiteController extends Controller
 
                         'actions' => ['index', 'logout', 'users', 'experiencia', 'categorias', 'idioma', 'paises', 'avaliacoes', 'pagamento', 'comentarios', 'calendar'],
                         'allow' => true,
-                        'roles' => ['admin', 'gestor'],  // Apenas admin e gestor
+                        'roles' => ['admin', 'gestor'],  //admin e gestor
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
@@ -160,7 +160,6 @@ class SiteController extends Controller
             if (!in_array('admin', $userRoles) && !in_array('gestor', $userRoles)) {
                 Yii::$app->user->logout();
                 Yii::$app->session->setFlash('error', 'Acesso negado! Esta área é apenas para administradores e gestores de experiências');
-                // MUDANÇA AQUI: em vez de refresh(), renderiza o login novamente
                 $model->password = '';
                 return $this->render('login', [
                     'model' => $model,
@@ -186,7 +185,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        // Apaga todos os cookies do backend, mas preserva a sessão
+        // Apaga todos os cookies
         $cookies = Yii::$app->response->cookies;
         $requestCookies = Yii::$app->request->cookies;
 
@@ -282,7 +281,7 @@ class SiteController extends Controller
             ->select(['id', 'nome', 'dataDisponivel', 'horaInicio', 'horaFim', 'local'])
             ->all();
 
-        // Formatar para o FullCalendar
+        //FullCalendar
         $eventos = [];
         foreach ($experiencias as $exp) {
             $eventos[] = [

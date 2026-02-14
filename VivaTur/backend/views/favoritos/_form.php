@@ -4,6 +4,8 @@ use backend\models\Turistas;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\Experiencias;
+
 
 /** @var yii\web\View $this */
 /** @var backend\models\Favoritos $model */
@@ -15,7 +17,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'experiencia_id')->dropDownList(
-        ArrayHelper::map(\backend\models\Experiencias::find()->all(), 'id', 'nome'),
+        ArrayHelper::map(Experiencias::find()->all(), 'id', 'nome'),
         ['prompt' => 'Seleciona uma experiencia']
     )->label('Experiência') ?>
 

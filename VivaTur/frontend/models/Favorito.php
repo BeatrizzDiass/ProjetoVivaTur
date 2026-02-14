@@ -33,7 +33,6 @@ class Favorito extends \yii\db\ActiveRecord
             [['experiencia_id', 'turista_id'], 'required'],
             [['experiencia_id', 'turista_id'], 'integer'],
             [['experiencia_id'], 'exist', 'skipOnError' => true, 'targetClass' => Experiencias::class, 'targetAttribute' => ['experiencia_id' => 'id']],
-            // Alterado para validar contra a tabela de Turistas
             [['turista_id'], 'exist', 'skipOnError' => true, 'targetClass' => Turistas::class, 'targetAttribute' => ['turista_id' => 'id']],
         ];
     }

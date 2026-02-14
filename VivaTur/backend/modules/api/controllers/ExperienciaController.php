@@ -26,13 +26,13 @@ class ExperienciaController extends \yii\rest\ActiveController
     // ?nome=surf
     // ?categoria_id=3
     // ?pais_id=1
-    // ?nome=surf&categoria_id=3&pais_id=1 (combinados!)
+    // ?nome=surf&categoria_id=3&pais_id=1
     public function actionGetexperienciasfiltradas()
     {
         $modelClass = $this->modelClass;
         $query = $modelClass::find();
 
-        // andFilterWhere ignora valores vazios/null automaticamente
+        // andFilterWhere ignora valores vazios/null
         $query->andFilterWhere(['like', 'nome', Yii::$app->request->get('nome')])
             ->andFilterWhere(['categoria_id' => Yii::$app->request->get('categoria_id')])
             ->andFilterWhere(['pais_id' => Yii::$app->request->get('pais_id')]);
